@@ -5,21 +5,28 @@ let tableListDataSource = [];
 for (let i = 0; i < 46; i += 1) {
   tableListDataSource.push({
     key: i,
-    disabled: i % 6 === 0,
     href: 'https://ant.design',
     avatar: [
       'https://gw.alipayobjects.com/zos/rmsportal/eeHMaZBwmTvLdIwMfBpg.png',
       'https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png',
     ][i % 2],
-    name: `TradeCode ${i}`,
-    title: `一个任务名称 ${i}`,
-    owner: '曲丽丽',
-    desc: '这是一段描述',
-    callNo: Math.floor(Math.random() * 1000),
-    status: Math.floor(Math.random() * 10) % 4,
-    updatedAt: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
-    createdAt: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
-    progress: Math.ceil(Math.random() * 100),
+    accountTo: `to ${i}`,
+    accountOut: `out ${i}`,
+    bankTo: Math.floor(Math.random() * 10) % 4,
+    bankOut: Math.floor(Math.random() * 10) % 4,
+    operator: '曲丽丽',
+    count: Math.floor(Math.random() * 100000),
+    time: new Date(`2019-03-${Math.floor(i / 2) + 1}`),
+    progress:
+      i % 6 === 0
+        ? {
+            percent: 100,
+            process: 0,
+          }
+        : {
+            percent: Math.ceil(Math.random() * 100),
+            process: (Math.floor(Math.random() * 10) % 3) + 1,
+          },
   });
 }
 
@@ -54,8 +61,38 @@ function getRule(req, res, u) {
     dataSource = filterDataSource;
   }
 
-  if (params.name) {
-    dataSource = dataSource.filter(data => data.name.indexOf(params.name) > -1);
+  // Mock 转入账户
+  if (params.accountTo) {
+    dataSource = dataSource.filter(data => data.accountTo === params.accountTo);
+  }
+
+  // Mock 转出账户
+  if (params.accountOut) {
+    dataSource = dataSource.filter(data => data.accountOut === params.accountOut);
+  }
+
+  // Mock 转入银行
+  if (params.bankTo) {
+    const bankTo = params.bankTo.split(',');
+    let filterDataSource = [];
+    bankTo.forEach(bt => {
+      filterDataSource = filterDataSource.concat(
+        dataSource.filter(data => data.bankTo === Number(bt))
+      );
+    });
+    dataSource = filterDataSource;
+  }
+
+  // Mock 转出银行
+  if (params.bankOut) {
+    const bankOut = params.bankOut.split(',');
+    let filterDataSource = [];
+    bankOut.forEach(bo => {
+      filterDataSource = filterDataSource.concat(
+        dataSource.filter(data => data.bankOut === Number(bo))
+      );
+    });
+    dataSource = filterDataSource;
   }
 
   let pageSize = 10;

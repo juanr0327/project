@@ -13,14 +13,12 @@ import {
   Button,
   Dropdown,
   Menu,
-  InputNumber,
   DatePicker,
   Modal,
   message,
-  Badge,
-  Divider,
   Steps,
   Radio,
+  Progress,
 } from 'antd';
 import StandardTable from '@/components/StandardTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
@@ -36,8 +34,9 @@ const getValue = obj =>
   Object.keys(obj)
     .map(key => obj[key])
     .join(',');
-const statusMap = ['default', 'processing', 'success', 'error'];
-const status = ['关闭', '运行中', '已上线', '异常'];
+const bankMap = ['jsyh', 'nyyh', 'zgyh', 'gsyh', 'zsyh']; // eslint-disable-line no-unused-vars
+const bank = ['建设银行', '农业银行', '中国银行', '工商银行', '招商银行'];
+const transferProcess = ['success', 'exception', 'active', 'normal'];
 
 const CreateForm = Form.create()(props => {
   const { modalVisible, form, handleAdd, handleModalVisible } = props;
@@ -291,60 +290,95 @@ class TableList extends PureComponent {
 
   columns = [
     {
-      title: '规则名称',
-      dataIndex: 'name',
-      render: text => <a onClick={() => this.previewItem(text)}>{text}</a>,
+      title: '转入账户',
+      dataIndex: 'accountTo',
     },
     {
-      title: '描述',
-      dataIndex: 'desc',
+      title: '转出账户',
+      dataIndex: 'accountOut',
     },
     {
-      title: '服务调用次数',
-      dataIndex: 'callNo',
+      title: '转入银行',
+      dataIndex: 'bankTo',
+      filters: [
+        {
+          text: bank[0],
+          value: 0,
+        },
+        {
+          text: bank[1],
+          value: 1,
+        },
+        {
+          text: bank[2],
+          value: 2,
+        },
+        {
+          text: bank[3],
+          value: 3,
+        },
+      ],
+      render: val => bank[val],
+    },
+    {
+      title: '转出银行',
+      dataIndex: 'bankOut',
+      filters: [
+        {
+          text: bank[0],
+          value: 0,
+        },
+        {
+          text: bank[1],
+          value: 1,
+        },
+        {
+          text: bank[2],
+          value: 2,
+        },
+        {
+          text: bank[3],
+          value: 3,
+        },
+      ],
+      render: val => bank[val],
+    },
+    {
+      title: '金额',
+      dataIndex: 'count',
       sorter: true,
-      render: val => `${val} 万`,
+      render: val => `¥ ${val}`.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
       // mark to display a total number
       needTotal: true,
     },
     {
-      title: '状态',
-      dataIndex: 'status',
-      filters: [
-        {
-          text: status[0],
-          value: 0,
-        },
-        {
-          text: status[1],
-          value: 1,
-        },
-        {
-          text: status[2],
-          value: 2,
-        },
-        {
-          text: status[3],
-          value: 3,
-        },
-      ],
-      render(val) {
-        return <Badge status={statusMap[val]} text={status[val]} />;
-      },
+      title: '转账进度',
+      dataIndex: 'progress',
+      render: val => (
+        <Progress
+          percent={val.percent}
+          status={transferProcess[val.process]}
+          strokeWidth={6}
+          style={{ width: 120 }}
+        />
+      ),
     },
     {
-      title: '上次调度时间',
-      dataIndex: 'updatedAt',
+      title: '时间',
+      dataIndex: 'time',
       sorter: true,
       render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
+    },
+    {
+      title: '操作员',
+      dataIndex: 'operator',
+      render: val => <a onClick={() => message.success(val)}>{val}</a>,
     },
     {
       title: '操作',
       render: (text, record) => (
         <Fragment>
-          <a onClick={() => this.handleUpdateModalVisible(true, record)}>配置</a>
-          <Divider type="vertical" />
-          <a href="">订阅警报</a>
+          <a onClick={() => this.handleUpdateModalVisible(true, record)}>查看详情</a>
         </Fragment>
       ),
     },
@@ -513,18 +547,13 @@ class TableList extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
-            <FormItem label="规则名称">
-              {getFieldDecorator('name')(<Input placeholder="请输入" />)}
+            <FormItem label="转入账户">
+              {getFieldDecorator('accountTo')(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
-            <FormItem label="使用状态">
-              {getFieldDecorator('status')(
-                <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">关闭</Option>
-                  <Option value="1">运行中</Option>
-                </Select>
-              )}
+            <FormItem label="转出账户">
+              {getFieldDecorator('accountOut')(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
@@ -553,50 +582,51 @@ class TableList extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
-            <FormItem label="规则名称">
-              {getFieldDecorator('name')(<Input placeholder="请输入" />)}
+            <FormItem label="转入账户">
+              {getFieldDecorator('accountTo')(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
-            <FormItem label="使用状态">
-              {getFieldDecorator('status')(
-                <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">关闭</Option>
-                  <Option value="1">运行中</Option>
-                </Select>
-              )}
+            <FormItem label="转出账户">
+              {getFieldDecorator('accountOut')(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
-            <FormItem label="调用次数">
-              {getFieldDecorator('number')(<InputNumber style={{ width: '100%' }} />)}
+            <FormItem label="操作员">
+              {getFieldDecorator('operator')(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
         </Row>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
-            <FormItem label="更新日期">
-              {getFieldDecorator('date')(
-                <DatePicker style={{ width: '100%' }} placeholder="请输入更新日期" />
+            <FormItem label="时间">
+              {getFieldDecorator('time')(
+                <DatePicker style={{ width: '100%' }} placeholder="请输入时间" />
               )}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
-            <FormItem label="使用状态">
-              {getFieldDecorator('status3')(
+            <FormItem label="转出银行">
+              {getFieldDecorator('bankOut')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">关闭</Option>
-                  <Option value="1">运行中</Option>
+                  <Option value="0">建设银行</Option>
+                  <Option value="1">农业银行</Option>
+                  <Option value="2">中国银行</Option>
+                  <Option value="3">工商银行</Option>
+                  <Option value="4">招商银行</Option>
                 </Select>
               )}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
-            <FormItem label="使用状态">
-              {getFieldDecorator('status4')(
+            <FormItem label="转入银行">
+              {getFieldDecorator('bankTo')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">关闭</Option>
-                  <Option value="1">运行中</Option>
+                  <Option value="0">建设银行</Option>
+                  <Option value="1">农业银行</Option>
+                  <Option value="2">中国银行</Option>
+                  <Option value="3">工商银行</Option>
+                  <Option value="4">招商银行</Option>
                 </Select>
               )}
             </FormItem>
@@ -646,7 +676,7 @@ class TableList extends PureComponent {
       handleUpdate: this.handleUpdate,
     };
     return (
-      <PageHeaderWrapper title="查询表格">
+      <PageHeaderWrapper title="转账记录查询">
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>{this.renderForm()}</div>
