@@ -134,33 +134,24 @@ class UpdateForm extends PureComponent {
     const { form } = this.props;
     if (currentStep === 1) {
       return [
-        <FormItem key="target" {...this.formLayout} label="监控对象">
+        <FormItem key="target" {...this.formLayout} label="分配电脑">
           {form.getFieldDecorator('target', {
             initialValue: formVals.target,
           })(
             <Select style={{ width: '100%' }}>
-              <Option value="0">表一</Option>
-              <Option value="1">表二</Option>
+              <Option value="0">电脑一</Option>
+              <Option value="1">电脑二</Option>
             </Select>
           )}
         </FormItem>,
-        <FormItem key="template" {...this.formLayout} label="规则模板">
-          {form.getFieldDecorator('template', {
-            initialValue: formVals.template,
-          })(
-            <Select style={{ width: '100%' }}>
-              <Option value="0">规则模板一</Option>
-              <Option value="1">规则模板二</Option>
-            </Select>
-          )}
-        </FormItem>,
-        <FormItem key="type" {...this.formLayout} label="规则类型">
+      
+        <FormItem key="type" {...this.formLayout} label="转账类型">
           {form.getFieldDecorator('type', {
             initialValue: formVals.type,
           })(
             <RadioGroup>
-              <Radio value="0">强</Radio>
-              <Radio value="1">弱</Radio>
+              <Radio value="0">网页端</Radio>
+              <Radio value="1">手机端</Radio>
             </RadioGroup>
           )}
         </FormItem>,
@@ -180,26 +171,29 @@ class UpdateForm extends PureComponent {
             />
           )}
         </FormItem>,
-        <FormItem key="frequency" {...this.formLayout} label="调度周期">
-          {form.getFieldDecorator('frequency', {
-            initialValue: formVals.frequency,
-          })(
-            <Select style={{ width: '100%' }}>
-              <Option value="month">月</Option>
-              <Option value="week">周</Option>
-            </Select>
-          )}
-        </FormItem>,
+        
       ];
     }
     return [
-      <FormItem key="name" {...this.formLayout} label="规则名称">
+      <FormItem key="name" {...this.formLayout} label="任务名称">
         {form.getFieldDecorator('name', {
-          rules: [{ required: true, message: '请输入规则名称！' }],
+          rules: [{ required: true, message: '请输入任务名称！' }],
           initialValue: formVals.name,
         })(<Input placeholder="请输入" />)}
       </FormItem>,
-      <FormItem key="desc" {...this.formLayout} label="规则描述">
+      <FormItem key="bankout" {...this.formLayout} label="转出银行">
+      {form.getFieldDecorator('bankout', {
+        rules: [{ required: true, message: '请输入转出银行名称！' }],
+        initialValue: formVals.bankout,
+      })(<Input placeholder="请输入" />)}
+    </FormItem>,
+    <FormItem key="accountOut" {...this.formLayout} label="转出账户">
+    {form.getFieldDecorator('accountOut', {
+      rules: [{ required: true, message: '请输入转出账户名称！' }],
+      initialValue: formVals.accountOut,
+    })(<Input placeholder="请输入" />)}
+  </FormItem>,
+      <FormItem key="desc" {...this.formLayout} label="描述">
         {form.getFieldDecorator('desc', {
           rules: [{ required: true, message: '请输入至少五个字符的规则描述！', min: 5 }],
           initialValue: formVals.desc,
@@ -263,8 +257,8 @@ class UpdateForm extends PureComponent {
       >
         <Steps style={{ marginBottom: 28 }} size="small" current={currentStep}>
           <Step title="基本信息" />
-          <Step title="配置规则属性" />
-          <Step title="设定调度周期" />
+          <Step title="配置" />
+          <Step title="设定任务开始时间" />
         </Steps>
         {this.renderContent(currentStep, formVals)}
       </Modal>
@@ -317,6 +311,10 @@ class TableList extends PureComponent {
           text: bank[3],
           value: 3,
         },
+        {
+          text: bank[4],
+          value: 4,
+        },
       ],
       render: val => bank[val],
     },
@@ -339,6 +337,10 @@ class TableList extends PureComponent {
         {
           text: bank[3],
           value: 3,
+        },
+        {
+          text: bank[4],
+          value: 4,
         },
       ],
       render: val => bank[val],
@@ -627,6 +629,21 @@ class TableList extends PureComponent {
                   <Option value="2">中国银行</Option>
                   <Option value="3">工商银行</Option>
                   <Option value="4">招商银行</Option>
+                </Select>
+              )}
+            </FormItem>
+          </Col>
+        </Row>
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+         
+          <Col md={8} sm={24}>
+            <FormItem label="转账进度">
+              {getFieldDecorator('progress')(
+                <Select placeholder="请选择" style={{ width: '100%' }}>
+                  <Option value="0">已完成</Option>
+                  <Option value="1">进行中</Option>
+                  <Option value="2">未进行</Option>
+                  <Option value="2">异常</Option>
                 </Select>
               )}
             </FormItem>
