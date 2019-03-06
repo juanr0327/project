@@ -2,15 +2,59 @@ import { routerRedux } from 'dva/router';
 import { message } from 'antd';
 import { fakeSubmitForm } from '@/services/api';
 
+export const parseAmount = (amount) => {
+  return `￥${amount}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+}
+
+export const fakeAccount = [{
+  value: '建设银行',
+  label: '建设银行',
+  children: [{
+    value: '5212261614003383141',
+    label: '5212261614003383141',
+
+  }],
+}, {
+  value: '农业银行',
+  label: '农业银行',
+  children: [{
+    value: '6212261614003383140',
+    label: '6212261614003383140',
+  }],
+}, {
+  value: '中国银行',
+  label: '中国银行',
+  children: [{
+    value: '6212261614003383141',
+    label: '6212261614003383141',
+  }],
+}, {
+  value: '招商银行',
+  label: '招商银行',
+  children: [{
+    value: '6212261614003383145',
+    label: '6212261614003383145',
+  }],
+}, {
+  value: '工商银行',
+  label: '工商银行',
+  children: [{
+    value: '6212261614003383143',
+    label: '6212261614003383143',
+
+  }],
+}
+];
+
 export default {
   namespace: 'form',
 
   state: {
     step: {
-      payAccount: '',
-      receiverAccount: ' ',
-      time: ' ',
-      amount: ' ',
+      payAccount: ['', ''],
+      receiverAccount: ['', ''],
+      time: '',
+      amount: '',
     },
   },
 

@@ -3,7 +3,10 @@ import { connect } from 'dva';
 import { Button, Row, Col } from 'antd';
 import router from 'umi/router';
 import Result from '@/components/Result';
+import moment from 'moment';
+
 import styles from './style.less';
+import { parseAmount } from '../models/form';
 
 @connect(({ form }) => ({
   data: form.step,
@@ -21,7 +24,7 @@ class Step3 extends React.PureComponent {
             付款账户：
           </Col>
           <Col xs={24} sm={16}>
-            {data.payAccount}
+            {data.payAccount.join(' / ')}
           </Col>
         </Row>
         <Row>
@@ -29,7 +32,7 @@ class Step3 extends React.PureComponent {
             收款账户：
           </Col>
           <Col xs={24} sm={16}>
-            {data.receiverAccount}
+            {data.receiverAccount.join(' / ')}
           </Col>
         </Row>
         <Row>
@@ -37,7 +40,7 @@ class Step3 extends React.PureComponent {
             转款时间：
           </Col>
           <Col xs={24} sm={16}>
-            {data.time}
+            {moment(data.time).format('YYYY-MM-DD HH:mm:ss')}
           </Col>
         </Row>
         <Row>
@@ -45,7 +48,7 @@ class Step3 extends React.PureComponent {
             转账金额：
           </Col>
           <Col xs={24} sm={16}>
-            <span className={styles.money}>{data.amount}</span> 元
+            <span className={styles.money}>{parseAmount(data.amount)}</span>
           </Col>
         </Row>
       </div>

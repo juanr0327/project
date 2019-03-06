@@ -1,9 +1,10 @@
 import React, { Fragment } from 'react';
 import { connect } from 'dva';
-import { Form, Input, Button, Select, DatePicker,Divider } from 'antd';
+import { Form, Input, Button, Select, DatePicker, Divider } from 'antd';
 import router from 'umi/router';
 import styles from './style.less';
 import { Cascader } from 'antd';
+import { fakeAccount } from '../models/form';
 
 const { Option } = Select;
 
@@ -15,45 +16,6 @@ const formItemLayout = {
     span: 19,
   },
 };
-const options = [{
-  value: '建设银行',
-  label: '建设银行',
-  children: [{
-    value: '5212261614003383141',
-    label: '5212261614003383141',
-   
-  }],
-}, {
-  value: '农业银行',
-  label: '农业银行',
-  children: [{
-    value: '6212261614003383140',
-    label: '6212261614003383140',
-  }],
-}, {
-  value: '中国银行',
-  label: '中国银行',
-  children: [{
-    value: '6212261614003383141',
-    label: '6212261614003383141',
-  }],
-}, {
-  value: '招商银行',
-  label: '招商银行',
-  children: [{
-    value: '6212261614003383145',
-    label: '6212261614003383145',
-  }],
-}, {
-  value: '工商银行',
-  label: '工商银行',
-  children: [{
-    value: '6212261614003383143',
-    label: '6212261614003383143',
-    
-  }],
-}
-];
 function onChange(value) {
   console.log(value);
 }
@@ -81,26 +43,21 @@ class Step1 extends React.PureComponent {
         <Form layout="horizontal" className={styles.stepForm} hideRequiredMark>
           <Form.Item {...formItemLayout} label="付款账户">
             {getFieldDecorator('payAccount', {
-              initialValue: data.payAccount,
               rules: [{ required: true, message: '请选择付款账户' }],
             })(
-              <Cascader options={options} onChange={onChange} placeholder="Please select" />
+              <Cascader options={fakeAccount} onChange={onChange} placeholder="请选择" expandTrigger="hover" />
             )}
           </Form.Item>
           <Form.Item {...formItemLayout} label="收款账户">
             {getFieldDecorator('receiverAccount', {
-                initialValue: data.receiverAccount,
-                rules: [
-                  { required: true, message: '请输入收款人账户' },
-                ],
-              })(
-                <Cascader options={options} onChange={onChange} placeholder="Please select" />
-              )}
+              rules: [{ required: true, message: '请选择收款人账户' }],
+            })(
+              <Cascader options={fakeAccount} onChange={onChange} placeholder="请选择" expandTrigger="hover" />
+            )}
           </Form.Item>
-         
+
           <Form.Item {...formItemLayout} label="转账金额">
             {getFieldDecorator('amount', {
-              initialValue: data.amount,
               rules: [
                 { required: true, message: '请输入转账金额' },
                 {
@@ -110,8 +67,8 @@ class Step1 extends React.PureComponent {
               ],
             })(<Input prefix="￥" placeholder="请输入金额" />)}
           </Form.Item>
-          <Form.Item key="time" {...this.formLayout} label="开始时间">
-            {form.getFieldDecorator('time', {
+          <Form.Item {...formItemLayout} label="开始时间">
+            {getFieldDecorator('time', {
               rules: [{ required: true, message: '请选择开始时间！' }],
             })(
               <DatePicker
@@ -120,18 +77,9 @@ class Step1 extends React.PureComponent {
                 format="YYYY-MM-DD HH:mm:ss"
                 placeholder="选择开始时间"
               />
-          )}
+            )}
           </Form.Item>
-          <Form.Item
-            wrapperCol={{
-              xs: { span: 24, offset: 0 },
-              sm: {
-                span: formItemLayout.wrapperCol.span,
-                offset: formItemLayout.labelCol.span,
-              },
-            }}
-            label=""
-          >
+          <Form.Item wrapperCol={{ offset: 5 }}>
             <Button type="primary" onClick={onValidateForm}>
               下一步
             </Button>
