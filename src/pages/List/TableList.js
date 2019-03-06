@@ -182,17 +182,17 @@ class UpdateForm extends PureComponent {
         })(<Input placeholder="请输入" />)}
       </FormItem>,
       <FormItem key="bankout" {...this.formLayout} label="转出银行">
-      {form.getFieldDecorator('bankout', {
+        {form.getFieldDecorator('bankout', {
         rules: [{ required: true, message: '请输入转出银行名称！' }],
         initialValue: formVals.bankout,
       })(<Input placeholder="请输入" />)}
-    </FormItem>,
-    <FormItem key="accountOut" {...this.formLayout} label="转出账户">
-    {form.getFieldDecorator('accountOut', {
-      rules: [{ required: true, message: '请输入转出账户名称！' }],
-      initialValue: formVals.accountOut,
-    })(<Input placeholder="请输入" />)}
-  </FormItem>,
+      </FormItem>,
+      <FormItem key="accountOut" {...this.formLayout} label="转出账户">
+        {form.getFieldDecorator('accountOut', {
+        rules: [{ required: true, message: '请输入转出账户名称！' }],
+        initialValue: formVals.accountOut,
+      })(<Input placeholder="请输入" />)}
+      </FormItem>,
       <FormItem key="desc" {...this.formLayout} label="描述">
         {form.getFieldDecorator('desc', {
           rules: [{ required: true, message: '请输入至少五个字符的规则描述！', min: 5 }],

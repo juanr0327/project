@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react';
 import { connect } from 'dva';
-import { Form, Input, Button, Select, Divider } from 'antd';
+import { Form, Input, Button, Select, DatePicker,Divider } from 'antd';
 import router from 'umi/router';
 import styles from './style.less';
+import { Cascader } from 'antd';
 
 const { Option } = Select;
 
@@ -14,7 +15,48 @@ const formItemLayout = {
     span: 19,
   },
 };
-
+const options = [{
+  value: '建设银行',
+  label: '建设银行',
+  children: [{
+    value: '5212261614003383141',
+    label: '5212261614003383141',
+   
+  }],
+}, {
+  value: '农业银行',
+  label: '农业银行',
+  children: [{
+    value: '6212261614003383140',
+    label: '6212261614003383140',
+  }],
+}, {
+  value: '中国银行',
+  label: '中国银行',
+  children: [{
+    value: '6212261614003383141',
+    label: '6212261614003383141',
+  }],
+}, {
+  value: '招商银行',
+  label: '招商银行',
+  children: [{
+    value: '6212261614003383145',
+    label: '6212261614003383145',
+  }],
+}, {
+  value: '工商银行',
+  label: '工商银行',
+  children: [{
+    value: '6212261614003383143',
+    label: '6212261614003383143',
+    
+  }],
+}
+];
+function onChange(value) {
+  console.log(value);
+}
 @connect(({ form }) => ({
   data: form.step,
 }))
@@ -42,32 +84,20 @@ class Step1 extends React.PureComponent {
               initialValue: data.payAccount,
               rules: [{ required: true, message: '请选择付款账户' }],
             })(
-              <Select placeholder="test@example.com">
-                <Option value="ant-design@alipay.com">ant-design@alipay.com</Option>
-              </Select>
+              <Cascader options={options} onChange={onChange} placeholder="Please select" />
             )}
           </Form.Item>
           <Form.Item {...formItemLayout} label="收款账户">
-            <Input.Group compact>
-              <Select defaultValue="alipay" style={{ width: 100 }}>
-                <Option value="alipay">支付宝</Option>
-                <Option value="bank">银行账户</Option>
-              </Select>
-              {getFieldDecorator('receiverAccount', {
+            {getFieldDecorator('receiverAccount', {
                 initialValue: data.receiverAccount,
                 rules: [
                   { required: true, message: '请输入收款人账户' },
-                  { type: 'email', message: '账户名应为邮箱格式' },
                 ],
-              })(<Input style={{ width: 'calc(100% - 100px)' }} placeholder="test@example.com" />)}
-            </Input.Group>
+              })(
+                <Cascader options={options} onChange={onChange} placeholder="Please select" />
+              )}
           </Form.Item>
-          <Form.Item {...formItemLayout} label="收款人姓名">
-            {getFieldDecorator('receiverName', {
-              initialValue: data.receiverName,
-              rules: [{ required: true, message: '请输入收款人姓名' }],
-            })(<Input placeholder="请输入收款人姓名" />)}
-          </Form.Item>
+         
           <Form.Item {...formItemLayout} label="转账金额">
             {getFieldDecorator('amount', {
               initialValue: data.amount,
@@ -79,6 +109,18 @@ class Step1 extends React.PureComponent {
                 },
               ],
             })(<Input prefix="￥" placeholder="请输入金额" />)}
+          </Form.Item>
+          <Form.Item key="time" {...this.formLayout} label="开始时间">
+            {form.getFieldDecorator('time', {
+              rules: [{ required: true, message: '请选择开始时间！' }],
+            })(
+              <DatePicker
+                style={{ width: '100%' }}
+                showTime
+                format="YYYY-MM-DD HH:mm:ss"
+                placeholder="选择开始时间"
+              />
+          )}
           </Form.Item>
           <Form.Item
             wrapperCol={{

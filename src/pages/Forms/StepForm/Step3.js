@@ -34,10 +34,10 @@ class Step3 extends React.PureComponent {
         </Row>
         <Row>
           <Col xs={24} sm={8} className={styles.label}>
-            收款人姓名：
+            转款时间：
           </Col>
           <Col xs={24} sm={16}>
-            {data.receiverName}
+            {data.time}
           </Col>
         </Row>
         <Row>

@@ -24,6 +24,7 @@ export default class StepForm extends PureComponent {
 
   render() {
     const { location, children } = this.props;
+    console.log(children);
     return (
       <PageHeaderWrapper
         title="分步表单"

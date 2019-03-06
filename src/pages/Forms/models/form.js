@@ -7,10 +7,10 @@ export default {
 
   state: {
     step: {
-      payAccount: 'ant-design@alipay.com',
-      receiverAccount: 'test@example.com',
-      receiverName: 'Alex',
-      amount: '500',
+      payAccount: '',
+      receiverAccount: ' ',
+      time: ' ',
+      amount: ' ',
     },
   },
 
@@ -35,6 +35,7 @@ export default {
 
   reducers: {
     saveStepFormData(state, { payload }) {
+      console.log(payload);
       return {
         ...state,
         step: {

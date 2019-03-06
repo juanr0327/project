@@ -54,12 +54,13 @@ class Step2 extends React.PureComponent {
         <Form.Item {...formItemLayout} className={styles.stepFormText} label="收款账户">
           {data.receiverAccount}
         </Form.Item>
-        <Form.Item {...formItemLayout} className={styles.stepFormText} label="收款人姓名">
-          {data.receiverName}
-        </Form.Item>
+        
         <Form.Item {...formItemLayout} className={styles.stepFormText} label="转账金额">
           <span className={styles.money}>{data.amount}</span>
           <span className={styles.uppercase}>（{digitUppercase(data.amount)}）</span>
+        </Form.Item>
+        <Form.Item {...formItemLayout} className={styles.stepFormText} label="转账时间">
+          {data.time}
         </Form.Item>
         <Divider style={{ margin: '24px 0' }} />
         <Form.Item {...formItemLayout} label="支付密码" required={false}>
