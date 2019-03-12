@@ -131,7 +131,8 @@ class UpdateForm extends PureComponent {
   };
 
   renderContent = (currentStep, formVals) => {
-    const { form } = this.props;
+    const { form, values } = this.props;
+
     if (currentStep === 1) {
       return [
         <FormItem key="target" {...this.formLayout} label="分配电脑">
@@ -144,7 +145,7 @@ class UpdateForm extends PureComponent {
             </Select>
           )}
         </FormItem>,
-      
+
         <FormItem key="type" {...this.formLayout} label="转账类型">
           {form.getFieldDecorator('type', {
             initialValue: formVals.type,
@@ -171,27 +172,18 @@ class UpdateForm extends PureComponent {
             />
           )}
         </FormItem>,
-        
       ];
     }
+
     return [
-      <FormItem key="name" {...this.formLayout} label="任务名称">
-        {form.getFieldDecorator('name', {
-          rules: [{ required: true, message: '请输入任务名称！' }],
-          initialValue: formVals.name,
-        })(<Input placeholder="请输入" />)}
+      <FormItem key="time" {...this.formLayout} label="任务时间">
+        {moment(values.time).format('YYYY-MM-DD HH:mm:ss')}
       </FormItem>,
-      <FormItem key="bankout" {...this.formLayout} label="转出银行">
-        {form.getFieldDecorator('bankout', {
-        rules: [{ required: true, message: '请输入转出银行名称！' }],
-        initialValue: formVals.bankout,
-      })(<Input placeholder="请输入" />)}
+      <FormItem key="bankOut" {...this.formLayout} label="转出银行">
+        {values.bankOut}
       </FormItem>,
       <FormItem key="accountOut" {...this.formLayout} label="转出账户">
-        {form.getFieldDecorator('accountOut', {
-        rules: [{ required: true, message: '请输入转出账户名称！' }],
-        initialValue: formVals.accountOut,
-      })(<Input placeholder="请输入" />)}
+        {values.accountOut}
       </FormItem>,
       <FormItem key="desc" {...this.formLayout} label="描述">
         {form.getFieldDecorator('desc', {
@@ -635,7 +627,6 @@ class TableList extends PureComponent {
           </Col>
         </Row>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-         
           <Col md={8} sm={24}>
             <FormItem label="转账进度">
               {getFieldDecorator('progress')(
