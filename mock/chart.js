@@ -141,7 +141,7 @@ const radarOriginData = [
     hot: 7,
   },
   {
-    name: '团队',
+    name: '',
     ref: 3,
     koubei: 9,
     output: 6,

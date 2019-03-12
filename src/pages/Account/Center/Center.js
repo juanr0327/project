@@ -97,26 +97,11 @@ class Center extends PureComponent {
         key: 'articles',
         tab: (
           <span>
-            文章 <span style={{ fontSize: 14 }}>(8)</span>
+            日志 <span style={{ fontSize: 14 }}>(8)</span>
           </span>
         ),
       },
-      {
-        key: 'applications',
-        tab: (
-          <span>
-            应用 <span style={{ fontSize: 14 }}>(8)</span>
-          </span>
-        ),
-      },
-      {
-        key: 'projects',
-        tab: (
-          <span>
-            项目 <span style={{ fontSize: 14 }}>(8)</span>
-          </span>
-        ),
-      },
+
     ];
 
     return (
@@ -175,11 +160,11 @@ class Center extends PureComponent {
                   </div>
                   <Divider style={{ marginTop: 16 }} dashed />
                   <div className={styles.team}>
-                    <div className={styles.teamTitle}>团队</div>
+                    <div className={styles.teamTitle}>银行卡管理</div>
                     <Spin spinning={projectLoading}>
                       <Row gutter={36}>
                         {notice.map(item => (
-                          <Col key={item.id} lg={24} xl={12}>
+                          <Col key={item.id} lg={80} xl={20}>
                             <Link to={item.href}>
                               <Avatar size="small" src={item.logo} />
                               {item.member}

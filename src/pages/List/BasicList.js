@@ -264,7 +264,7 @@ class BasicList extends PureComponent {
                 <Info title="本周任务平均处理时间" value="32分钟" bordered />
               </Col>
               <Col sm={8} xs={24}>
-                <Info title="本周完成任务数" value="24个任务" />
+                <Info title="" value="24个任务" />
               </Col>
             </Row>
           </Card>
@@ -272,7 +272,7 @@ class BasicList extends PureComponent {
           <Card
             className={styles.listCard}
             bordered={false}
-            title="标准列表"
+            title="转账查看-list"
             style={{ marginTop: 24 }}
             bodyStyle={{ padding: '0 32px 40px 32px' }}
             extra={extraContent}

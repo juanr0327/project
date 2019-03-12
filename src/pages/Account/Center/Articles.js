@@ -35,16 +35,11 @@ class Center extends PureComponent {
             ]}
           >
             <List.Item.Meta
-              title={
-                <a className={styles.listItemMetaTitle} href={item.href}>
-                  {item.title}
-                </a>
-              }
+              title=''
               description={
                 <span>
-                  <Tag>Ant Design</Tag>
-                  <Tag>设计语言</Tag>
-                  <Tag>蚂蚁金服</Tag>
+                  <Tag>工作日志</Tag>
+                
                 </span>
               }
             />

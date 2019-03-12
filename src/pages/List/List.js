@@ -32,7 +32,7 @@ class SearchList extends Component {
     const tabList = [
       {
         key: 'articles',
-        tab: '文章',
+        tab: '',
       },
       {
         key: 'projects',
