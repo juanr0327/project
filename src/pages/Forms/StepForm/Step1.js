@@ -1,12 +1,9 @@
 import React, { Fragment } from 'react';
 import { connect } from 'dva';
-import { Form, Input, Button, Select, DatePicker, Divider } from 'antd';
+import { Form, Input, Button, DatePicker, Divider, Cascader } from 'antd';
 import router from 'umi/router';
 import styles from './style.less';
-import { Cascader } from 'antd';
 import { fakeAccount } from '../models/form';
-
-const { Option } = Select;
 
 const formItemLayout = {
   labelCol: {
@@ -25,7 +22,7 @@ function onChange(value) {
 @Form.create()
 class Step1 extends React.PureComponent {
   render() {
-    const { form, dispatch, data } = this.props;
+    const { form, dispatch } = this.props;
     const { getFieldDecorator, validateFields } = form;
     const onValidateForm = () => {
       validateFields((err, values) => {
@@ -45,14 +42,24 @@ class Step1 extends React.PureComponent {
             {getFieldDecorator('payAccount', {
               rules: [{ required: true, message: '请选择付款账户' }],
             })(
-              <Cascader options={fakeAccount} onChange={onChange} placeholder="请选择" expandTrigger="hover" />
+              <Cascader
+                options={fakeAccount}
+                onChange={onChange}
+                placeholder="请选择"
+                expandTrigger="hover"
+              />
             )}
           </Form.Item>
           <Form.Item {...formItemLayout} label="收款账户">
             {getFieldDecorator('receiverAccount', {
               rules: [{ required: true, message: '请选择收款人账户' }],
             })(
-              <Cascader options={fakeAccount} onChange={onChange} placeholder="请选择" expandTrigger="hover" />
+              <Cascader
+                options={fakeAccount}
+                onChange={onChange}
+                placeholder="请选择"
+                expandTrigger="hover"
+              />
             )}
           </Form.Item>
 

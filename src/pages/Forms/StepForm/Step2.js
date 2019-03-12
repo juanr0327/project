@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Form, Input, Button, Alert, Divider, Row, Col, message } from 'antd';
+import { Form, Input, Button, Divider, Row, Col, message } from 'antd';
 import router from 'umi/router';
 import { digitUppercase } from '@/utils/utils';
-import styles from './style.less';
 import moment from 'moment';
-import { parseAmount } from "../models/form";
+import { parseAmount } from '../models/form';
+import styles from './style.less';
 
 const formItemLayout = {
   labelCol: {
@@ -30,10 +30,12 @@ class Step2 extends React.PureComponent {
       router.push('/form/step-form/info');
     };
 
-    const LineInfo = (props) => <Row>
-      <Col span={5}>{`${props.label}: `}</Col>
-      <Col span={19}>{props.value}</Col>
-    </Row>
+    const LineInfo = props => (
+      <Row>
+        <Col span={5}>{`${props.label}: `}</Col>
+        <Col span={19}>{props.value}</Col>
+      </Row>
+    );
 
     const onValidateForm = e => {
       e.preventDefault();
@@ -41,8 +43,8 @@ class Step2 extends React.PureComponent {
         if (!err) {
           // 密码验证(默认123456) 向后端请求
           if (values.password !== '123456') {
-            message.error("密码错误，请确认！")
-            return
+            message.error('密码错误，请确认！');
+            return;
           }
 
           dispatch({
@@ -58,7 +60,8 @@ class Step2 extends React.PureComponent {
       <Form layout="horizontal" className={styles.stepForm}>
         <LineInfo label="付款账户" value={data.payAccount.join(' / ')} />
         <LineInfo label="收款账户" value={data.receiverAccount.join(' / ')} />
-        <LineInfo label="转账金额"
+        <LineInfo
+          label="转账金额"
           value={`${parseAmount(data.amount)} / ${digitUppercase(data.amount)}`}
         />
         <LineInfo label="转账时间" value={moment(data.time).format('YYYY-MM-DD HH:mm:ss')} />
