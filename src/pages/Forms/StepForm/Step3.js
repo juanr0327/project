@@ -4,7 +4,7 @@ import { Button, Row, Col } from 'antd';
 import router from 'umi/router';
 import Result from '@/components/Result';
 import moment from 'moment';
-
+import axios from 'axios';
 import styles from './style.less';
 import { parseAmount } from '../models/form';
 
@@ -12,6 +12,21 @@ import { parseAmount } from '../models/form';
   data: form.step,
 }))
 class Step3 extends React.PureComponent {
+ 
+  componentDidMount() {
+    this.getData();
+  }
+
+  getData() {
+    const url = 'api/createorder';
+    axios.get(url).then( res => {
+      console.log(res);
+        this.setState({
+          data:res.data,
+        })
+    })
+  }
+ 
   render() {
     const { data } = this.props;
     const onFinish = () => {
@@ -72,6 +87,7 @@ class Step3 extends React.PureComponent {
       />
     );
   }
+
 }
 
 export default Step3;

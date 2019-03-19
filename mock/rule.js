@@ -17,16 +17,8 @@ for (let i = 0; i < 46; i += 1) {
     operator: '曲丽丽',
     count: Math.floor(Math.random() * 100000),
     time: new Date(`2019-03-${Math.floor(i / 2) + 1}`),
-    progress:
-      i % 6 === 0
-        ? {
-            percent: 100,
-            process: 0,
-          }
-        : {
-            percent: Math.ceil(Math.random() * 100),
-            process: (Math.floor(Math.random() * 10) % 3) + 1,
-          },
+    progress:Math.floor(Math.random() * 10) % 3,
+      
   });
 }
 
@@ -87,14 +79,24 @@ function getRule(req, res, u) {
   if (params.bankOut) {
     const bankOut = params.bankOut.split(',');
     let filterDataSource = [];
-    bankOut.forEach(bo => {
+    bankOut.forEach(pa => {
       filterDataSource = filterDataSource.concat(
-        dataSource.filter(data => data.bankOut === Number(bo))
+        dataSource.filter(data => data.bankOut === Number(pa))
       );
     });
     dataSource = filterDataSource;
   }
-
+  // Mock 转账状态
+  if (params.progress) {
+    const progress = params.progress.split(',');
+    let filterDataSource = [];
+    progress.forEach(bo => {
+      filterDataSource = filterDataSource.concat(
+        dataSource.filter(data => data.progress === Number(bo))
+      );
+    });
+    dataSource = filterDataSource;
+  }
   let pageSize = 10;
   if (params.pageSize) {
     pageSize = params.pageSize * 1;

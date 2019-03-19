@@ -50,11 +50,7 @@ export default [
         icon: 'form',
         name: 'form',
         routes: [
-          {
-            path: '/form/basic-form',
-            name: 'basicform',
-            component: './Forms/BasicForm',
-          },
+
           {
             path: '/form/step-form',
             name: 'stepform',
@@ -82,12 +78,7 @@ export default [
               },
             ],
           },
-          {
-            path: '/form/advanced-form',
-            name: 'advancedform',
-            authority: ['admin'],
-            component: './Forms/AdvancedForm',
-          },
+
         ],
       },
       // list
@@ -101,37 +92,44 @@ export default [
             name: 'searchtable',
             component: './List/TableList',
           },
+
+         
+  
+        ],
+      },
+      // Card
+      {
+        path: '/card',
+        icon: 'table',
+        name: 'card',
+        routes: [
+          
           {
-            path: '/list/basic-list',
-            name: 'basiclist',
-            component: './List/BasicList',
-          },
-          {
-            path: '/list/card-list',
+            path: '/card/card-list',
             name: 'cardlist',
             component: './List/CardList',
           },
           {
-            path: '/list/search',
+            path: '/card/search',
             name: 'searchlist',
             component: './List/List',
             routes: [
               {
-                path: '/list/search',
+                path: '/card/search',
                 redirect: '/list/search/articles',
               },
               {
-                path: '/list/search/articles',
+                path: '/card/search/articles',
                 name: 'articles',
                 component: './List/Articles',
               },
               {
-                path: '/list/search/projects',
+                path: '/card/search/projects',
                 name: 'projects',
                 component: './List/Projects',
               },
               {
-                path: '/list/search/applications',
+                path: '/card/search/applications',
                 name: 'applications',
                 component: './List/Applications',
               },
@@ -164,49 +162,7 @@ export default [
           },
         ],
       },
-      {
-        name: 'result',
-        icon: 'check-circle-o',
-        path: '/result',
-        routes: [
-          // result
-          {
-            path: '/result/success',
-            name: 'success',
-            component: './Result/Success',
-          },
-          { path: '/result/fail', name: 'fail', component: './Result/Error' },
-        ],
-      },
-      {
-        name: 'exception',
-        icon: 'warning',
-        path: '/exception',
-        routes: [
-          // exception
-          {
-            path: '/exception/403',
-            name: 'not-permission',
-            component: './Exception/403',
-          },
-          {
-            path: '/exception/404',
-            name: 'not-find',
-            component: './Exception/404',
-          },
-          {
-            path: '/exception/500',
-            name: 'server-error',
-            component: './Exception/500',
-          },
-          {
-            path: '/exception/trigger',
-            name: 'trigger',
-            hideInMenu: true,
-            component: './Exception/TriggerException',
-          },
-        ],
-      },
+
       {
         name: 'account',
         icon: 'user',

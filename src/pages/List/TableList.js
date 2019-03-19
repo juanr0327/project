@@ -36,7 +36,9 @@ const getValue = obj =>
     .join(',');
 const bankMap = ['jsyh', 'nyyh', 'zgyh', 'gsyh', 'zsyh']; // eslint-disable-line no-unused-vars
 const bank = ['建设银行', '农业银行', '中国银行', '工商银行', '招商银行'];
-const transferProcess = ['success', 'exception', 'active', 'normal'];
+const transferProcess = ['success', 'exception', 'active', 'normal','error'];
+const statesMap = ['completed','ongoing','notstart'];
+const states=['已完成','进行中','未进行','异常'];
 
 const CreateForm = Form.create()(props => {
   const { modalVisible, form, handleAdd, handleModalVisible } = props;
@@ -180,7 +182,7 @@ class UpdateForm extends PureComponent {
         {moment(values.time).format('YYYY-MM-DD HH:mm:ss')}
       </FormItem>,
       <FormItem key="bankOut" {...this.formLayout} label="转出银行">
-        {values.bankOut}
+        {bank[values.bankOut]}
       </FormItem>,
       <FormItem key="accountOut" {...this.formLayout} label="转出账户">
         {values.accountOut}
@@ -348,14 +350,26 @@ class TableList extends PureComponent {
     {
       title: '转账进度',
       dataIndex: 'progress',
-      render: val => (
-        <Progress
-          percent={val.percent}
-          status={transferProcess[val.process]}
-          strokeWidth={6}
-          style={{ width: 120 }}
-        />
-      ),
+      filters: [
+        {
+          text: states[0],
+          value: 0,
+        },
+        {
+          text: states[1],
+          value: 1,
+        },
+        {
+          text: states[2],
+          value: 2,
+        },
+        {
+          text: states[3],
+          value: 3,
+        },
+     
+      ],
+      render: val => states[val],
     },
     {
       title: '时间',
@@ -634,7 +648,7 @@ class TableList extends PureComponent {
                   <Option value="0">已完成</Option>
                   <Option value="1">进行中</Option>
                   <Option value="2">未进行</Option>
-                  <Option value="2">异常</Option>
+                  <Option value="3">异常</Option>
                 </Select>
               )}
             </FormItem>
