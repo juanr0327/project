@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
@@ -36,9 +37,9 @@ const getValue = obj =>
     .join(',');
 const bankMap = ['jsyh', 'nyyh', 'zgyh', 'gsyh', 'zsyh']; // eslint-disable-line no-unused-vars
 const bank = ['建设银行', '农业银行', '中国银行', '工商银行', '招商银行'];
-const transferProcess = ['success', 'exception', 'active', 'normal','error'];
-const statesMap = ['completed','ongoing','notstart'];
-const states=['已完成','进行中','未进行','异常'];
+const transferProcess = ['success', 'exception', 'active', 'normal', 'error'];
+const statesMap = ['completed', 'ongoing', 'notstart'];
+const states = ['已完成', '进行中', '未进行', '异常'];
 
 const CreateForm = Form.create()(props => {
   const { modalVisible, form, handleAdd, handleModalVisible } = props;
@@ -367,7 +368,6 @@ class TableList extends PureComponent {
           text: states[3],
           value: 3,
         },
-     
       ],
       render: val => states[val],
     },

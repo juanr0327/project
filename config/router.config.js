@@ -50,7 +50,6 @@ export default [
         icon: 'form',
         name: 'form',
         routes: [
-
           {
             path: '/form/step-form',
             name: 'stepform',
@@ -78,7 +77,6 @@ export default [
               },
             ],
           },
-
         ],
       },
       // list
@@ -92,9 +90,6 @@ export default [
             name: 'searchtable',
             component: './List/TableList',
           },
-
-         
-  
         ],
       },
       // Card
@@ -103,7 +98,6 @@ export default [
         icon: 'table',
         name: 'card',
         routes: [
-          
           {
             path: '/card/card-list',
             name: 'cardlist',
