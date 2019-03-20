@@ -32,7 +32,7 @@ const searchData = [];
 for (let i = 0; i < 50; i += 1) {
   searchData.push({
     index: i + 1,
-    keyword: `搜索关键词-${i}`,
+    keyword: `银行卡-${i}`,
     count: Math.floor(Math.random() * 1000),
     range: Math.floor(Math.random() * 100),
     status: Math.floor((Math.random() * 10) % 2),
@@ -40,77 +40,71 @@ for (let i = 0; i < 50; i += 1) {
 }
 const salesTypeData = [
   {
-    x: '家用电器',
+    x: '中国银行',
     y: 4544,
   },
   {
-    x: '食用酒水',
+    x: '工商银行',
     y: 3321,
   },
   {
-    x: '个护健康',
+    x: '建设银行',
     y: 3113,
   },
   {
-    x: '服饰箱包',
+    x: '招商银行',
     y: 2341,
   },
   {
-    x: '母婴产品',
+    x: '农业银行',
     y: 1231,
   },
-  {
-    x: '其他',
-    y: 1231,
-  },
+  
 ];
 
 const salesTypeDataOnline = [
   {
-    x: '家用电器',
+    x: '中国银行',
     y: 244,
   },
   {
-    x: '食用酒水',
+    x: '工商银行',
     y: 321,
   },
   {
-    x: '个护健康',
+    x: '建设银行',
     y: 311,
   },
   {
-    x: '服饰箱包',
+    x: '招商银行',
     y: 41,
   },
   {
-    x: '母婴产品',
+    x: '农业银行',
     y: 121,
   },
-  {
-    x: '其他',
-    y: 111,
-  },
+  
 ];
 
 const salesTypeDataOffline = [
   {
-    x: '家用电器',
+    x: '中国银行',
     y: 99,
   },
   {
-    x: '食用酒水',
+    x: '工商银行',
     y: 188,
   },
   {
-    x: '个护健康',
+    x: '建设银行',
     y: 344,
   },
   {
-    x: '服饰箱包',
+    x: '招商银行',
     y: 255,
   },
   {
-    x: '其他',
+    x: '农业银行',
     y: 65,
   },
 ];
@@ -118,7 +112,7 @@ const salesTypeDataOffline = [
 const offlineData = [];
 for (let i = 0; i < 10; i += 1) {
   offlineData.push({
-    name: `Stores ${i}`,
+    name: `operator ${i}`,
     cvr: Math.ceil(Math.random() * 9) / 10,
   });
 }

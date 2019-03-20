@@ -87,9 +87,9 @@ const TopSearch = memo(({ loading, visitData2, searchData, dropdownGroup }) => (
               </Tooltip>
             </span>
           }
-          total={2.7}
+          total={27}
           status="down"
-          subTotal={26.2}
+          subTotal={2}
           gap={8}
         />
         <MiniArea line height={45} data={visitData2} />

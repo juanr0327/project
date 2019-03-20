@@ -21,7 +21,7 @@ ReactDOM.render(
   <TimelineChart
     height={200}
     data={chartData}
-    titleMap={{ y1: '客流量', y2: '支付笔数' }}
+    titleMap={{ y1: '转账额', y2: '转账笔数' }}
   />
 , mountNode);
 ````
