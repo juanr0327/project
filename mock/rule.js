@@ -17,8 +17,7 @@ for (let i = 0; i < 46; i += 1) {
     operator: '曲丽丽',
     count: Math.floor(Math.random() * 100000),
     time: new Date(`2019-03-${Math.floor(i / 2) + 1}`),
-    progress:Math.floor(Math.random() * 10) % 3,
-      
+    progress: Math.floor(Math.random() * 10) % 3,
   });
 }
 
@@ -165,6 +164,6 @@ function postRule(req, res, u, b) {
 }
 
 export default {
-  'GET /api/rule': getRule,
+  'GET /api/rule': getRule, // api 其实是被代理到getRule这个函数来处理了
   'POST /api/rule': postRule,
 };

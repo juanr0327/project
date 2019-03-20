@@ -1,8 +1,10 @@
 import { stringify } from 'qs';
 import request from '@/utils/request';
-import axios from 'axios';
 
-export const createorder = () => axios.get('/api/createorder')
+// export const createorder = () => axios.get('/api/createorder')
+export async function createorder() {
+  return request('/server/api/createorder');
+}
 
 export async function queryProjectNotice() {
   return request('/api/project/notice');
