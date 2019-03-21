@@ -1,6 +1,6 @@
 import { routerRedux } from 'dva/router';
 import { message } from 'antd';
-import { fakeSubmitForm } from '@/services/api';
+import { fakeSubmitForm ,fakeSubmitFormserver} from '@/services/api';
 
 export const parseAmount = (amount) => {
   return `￥${amount}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
@@ -75,6 +75,14 @@ export default {
       yield call(fakeSubmitForm, payload);
       message.success('提交成功');
     },
+    *fetch({ payload }, { call, put }) {
+      const response = yield call(fakeSubmitFormserver, payload);
+      yield put({
+        type: 'save',
+        payload: response,
+      });
+    },
+   
   },
 
   reducers: {
@@ -89,4 +97,5 @@ export default {
       };
     },
   },
+  
 };

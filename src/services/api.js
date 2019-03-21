@@ -6,6 +6,7 @@ export async function createorder() {
   return request('/server/api/createorder');
 }
 
+
 export async function queryProjectNotice() {
   return request('/api/project/notice');
 }
@@ -54,7 +55,12 @@ export async function fakeSubmitForm(params) {
     body: params,
   });
 }
-
+export async function fakeSubmitFormsever(params) {
+  return request('server/api/forms', {
+    method: 'POST',
+    body: params,
+  });
+}
 export async function fakeChartData() {
   return request('/api/fake_chart_data');
 }

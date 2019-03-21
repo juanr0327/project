@@ -11,10 +11,17 @@ import { parseAmount } from '../models/form';
 @connect(({ form }) => ({
   data: form.step,
 }))
+@connect(({ form, loading }) => ({
+  form,
+  loading: loading.models.form,
+}))
 class Step3 extends React.PureComponent {
  
   componentDidMount() {
-    this.getData();
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'form/fetch',
+    });
   }
 
   getData() {
