@@ -90,6 +90,11 @@ export default [
             name: 'searchtable',
             component: './List/TableList',
           },
+          {
+            path: '/list/mock',
+            name: 'mockpage',
+            component: './List/MockList',
+          },
         ],
       },
       // Card
