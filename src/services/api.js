@@ -2,8 +2,20 @@ import { stringify } from 'qs';
 import request from '@/utils/request';
 
 // export const createorder = () => axios.get('/api/createorder')
-export async function createorder() {
-  return request('/server/api/createorder');
+
+// mock get request
+export async function getMockList() {
+  return request('/server/api/info/counselingFilters');
+}
+
+// mock post request, 第一个参数query表示查询参数，第二个表示请求body里的数据
+export async function getMockListUsingPost(query, data) {
+  return request(`/server/api/query/counselorList?${stringify(query)}`, {
+    method: 'POST',
+    body: {
+      ...data,
+    },
+  });
 }
 
 

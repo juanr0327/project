@@ -16,6 +16,7 @@ export default {
   'menu.form.advancedform': '高级表单',
   'menu.list': '转账历史',
   'menu.list.searchtable': '转账查询-table',
+  'menu.list.mockpage': 'Mock页面',
   'menu.card': '银行卡管理',
   'menu.card.cardlist': '银行卡列表',
   'menu.card.searchlist': '搜索列表',
