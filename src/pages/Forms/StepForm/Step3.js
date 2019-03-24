@@ -8,13 +8,12 @@ import axios from 'axios';
 import styles from './style.less';
 import { parseAmount } from '../models/form';
 
-@connect(({ form }) => ({
-  data: form.step,
-}))
-@connect(({ form, loading }) => ({
+@connect(({ form ,loading}) => ({
   form,
   loading: loading.models.form,
+  data: form.step,
 }))
+
 class Step3 extends React.PureComponent {
  
   componentDidMount() {

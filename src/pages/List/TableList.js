@@ -396,7 +396,17 @@ class TableList extends PureComponent {
     const { dispatch } = this.props;
     dispatch({
       type: 'rule/fetch',
+      payload: {
+        query: {
+          pageNum: 1,
+          pageSize: 10,
+        },
+        data: {
+          city: 8,
+        },
+      },
     });
+    
   }
 
   handleStandardTableChange = (pagination, filtersArg, sorter) => {
