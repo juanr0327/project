@@ -1,7 +1,5 @@
 import { routerRedux } from 'dva/router';
 import { message } from 'antd';
-import moment from 'moment';
-import { fakeSubmitForm ,fakeSubmitFormserver} from '@/services/api';
 
 export const parseAmount = (amount) => {
   return `￥${amount}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
@@ -72,22 +70,14 @@ export default {
       });
       yield put(routerRedux.push('/form/step-form/result'));
     },
-    *submitAdvancedForm({ payload }, { call ,put}) {
-      const response = yield call(fakeSubmitForm, payload);
-     
-      yield put({
-        type: 'save',
-        payload: response,
-      });
-      message.success('提交成功');
-    },
+  
  
    
   },
 
   reducers: {
     saveStepFormData(state, { payload }) {
-      console.log(payload);
+     
       return {
         ...state,
         step: {

@@ -18,6 +18,10 @@ export async function getMockListUsingPost(query, data) {
   });
 }
 
+// 历史转账记录
+export async function getRecordHistory() {
+  return request('/server/api/recordHistory');
+}
 
 export async function queryProjectNotice() {
   return request('/api/project/notice');

@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-unused-vars */
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
@@ -262,8 +263,8 @@ class UpdateForm extends PureComponent {
 }
 
 /* eslint react/no-multi-comp:0 */
-@connect(({ rule, loading }) => ({
-  rule,
+@connect(({ record, loading }) => ({
+  record, // 把record数据传进来
   loading: loading.models.rule,
 }))
 @Form.create()
@@ -277,6 +278,7 @@ class TableList extends PureComponent {
     stepFormValues: {},
   };
 
+  // 还需要修改这里，dataIndex和你后端接口的字段名一致
   columns = [
     {
       title: '转入账户',
@@ -395,18 +397,8 @@ class TableList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'rule/fetch',
-      payload: {
-        query: {
-          pageNum: 1,
-          pageSize: 10,
-        },
-        data: {
-          city: 8,
-        },
-      },
+      type: 'record/fetchRecordHistory', // 对应models/record.js下的 namespace + effects函数
     });
-    
   }
 
   handleStandardTableChange = (pagination, filtersArg, sorter) => {
@@ -688,9 +680,13 @@ class TableList extends PureComponent {
 
   render() {
     const {
-      rule: { data },
+      record: { items },
       loading,
     } = this.props;
+
+    // 先看看数据有没有传过来
+    console.log(this.props.record);
+
     const { selectedRows, modalVisible, updateModalVisible, stepFormValues } = this.state;
     const menu = (
       <Menu onClick={this.handleMenuClick} selectedKeys={[]}>
@@ -730,7 +726,7 @@ class TableList extends PureComponent {
             <StandardTable
               selectedRows={selectedRows}
               loading={loading}
-              data={data}
+              data={items}
               columns={this.columns}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}
