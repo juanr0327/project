@@ -28,7 +28,7 @@ export async function queryActivities() {
 }
 
 export async function queryRule(params) {
-  return request(`/api/rule?${stringify(params)}`);
+  return request(`/api/history?${stringify(params)}`);
 }
 
 export async function removeRule(params) {
@@ -62,7 +62,7 @@ export async function updateRule(params = {}) {
 }
 
 export async function fakeSubmitForm(params) {
-  return request('/api/forms', {
+  return request('/api/createorder', {
     method: 'POST',
     body: params,
   });

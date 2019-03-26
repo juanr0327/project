@@ -19,25 +19,11 @@ class Step3 extends React.PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'form/fetch',
+      type: 'form/submitAdvancedForm',
     });
   }
 
-  getData() {
-    const url = 'api/createorder';
-    const { data } = this.props;
-    axios.get(url).then( res => {
-      console.log(data.payAccount.join(' / '));
-      console.log(data.receiverAccount.join(' / '));
-      console.log(moment(data.time).format('YYYY-MM-DD HH:mm:ss'));
-      console.log(data.amount);
-      
-      //上面的数据存入数据库
-        this.setState({
-          data:res.data,
-        })
-    })
-  }
+ 
  
   render() {
     const { data } = this.props;
