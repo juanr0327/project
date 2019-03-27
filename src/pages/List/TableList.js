@@ -164,8 +164,8 @@ class UpdateForm extends PureComponent {
     }
     if (currentStep === 2) {
       return [
-        <FormItem key="time" {...this.formLayout} label="开始时间">
-          {form.getFieldDecorator('time', {
+        <FormItem key="od_time" {...this.formLayout} label="开始时间">
+          {form.getFieldDecorator('od_time', {
             rules: [{ required: true, message: '请选择开始时间！' }],
           })(
             <DatePicker
@@ -180,13 +180,13 @@ class UpdateForm extends PureComponent {
     }
 
     return [
-      <FormItem key="time" {...this.formLayout} label="任务时间">
+      <FormItem key="od_time" {...this.formLayout} label="任务时间">
         {moment(values.time).format('YYYY-MM-DD HH:mm:ss')}
       </FormItem>,
-      <FormItem key="bankOut" {...this.formLayout} label="转出银行">
+      <FormItem key="bankout" {...this.formLayout} label="转出银行">
         {bank[values.bankOut]}
       </FormItem>,
-      <FormItem key="accountOut" {...this.formLayout} label="转出账户">
+      <FormItem key="accountout" {...this.formLayout} label="转出账户">
         {values.accountOut}
       </FormItem>,
       <FormItem key="desc" {...this.formLayout} label="描述">
@@ -282,15 +282,15 @@ class TableList extends PureComponent {
   columns = [
     {
       title: '转入账户',
-      dataIndex: 'accountTo',
+      dataIndex: 'accountto',
     },
     {
       title: '转出账户',
-      dataIndex: 'accountOut',
+      dataIndex: 'accountout',
     },
     {
       title: '转入银行',
-      dataIndex: 'bankTo',
+      dataIndex: 'bankto',
       filters: [
         {
           text: bank[0],
@@ -317,7 +317,7 @@ class TableList extends PureComponent {
     },
     {
       title: '转出银行',
-      dataIndex: 'bankOut',
+      dataIndex: 'bankout',
       filters: [
         {
           text: bank[0],
@@ -344,7 +344,7 @@ class TableList extends PureComponent {
     },
     {
       title: '金额',
-      dataIndex: 'count',
+      dataIndex: 'od_money',
       sorter: true,
       render: val => `¥ ${val}`.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
       // mark to display a total number
@@ -352,7 +352,7 @@ class TableList extends PureComponent {
     },
     {
       title: '转账进度',
-      dataIndex: 'progress',
+      dataIndex: 'od_state',
       filters: [
         {
           text: states[0],
@@ -375,13 +375,13 @@ class TableList extends PureComponent {
     },
     {
       title: '时间',
-      dataIndex: 'time',
+      dataIndex: 'od_time',
       sorter: true,
       render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
     },
     {
       title: '操作员',
-      dataIndex: 'operator',
+      dataIndex: 'op_name',
       render: val => <a onClick={() => message.success(val)}>{val}</a>,
     },
     {
@@ -558,12 +558,12 @@ class TableList extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
             <FormItem label="转入账户">
-              {getFieldDecorator('accountTo')(<Input placeholder="请输入" />)}
+              {getFieldDecorator('accountto')(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
             <FormItem label="转出账户">
-              {getFieldDecorator('accountOut')(<Input placeholder="请输入" />)}
+              {getFieldDecorator('accountout')(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
@@ -593,31 +593,31 @@ class TableList extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
             <FormItem label="转入账户">
-              {getFieldDecorator('accountTo')(<Input placeholder="请输入" />)}
+              {getFieldDecorator('accountto')(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
             <FormItem label="转出账户">
-              {getFieldDecorator('accountOut')(<Input placeholder="请输入" />)}
+              {getFieldDecorator('accountout')(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
             <FormItem label="操作员">
-              {getFieldDecorator('operator')(<Input placeholder="请输入" />)}
+              {getFieldDecorator('op_name')(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
         </Row>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
             <FormItem label="时间">
-              {getFieldDecorator('time')(
+              {getFieldDecorator('od_time')(
                 <DatePicker style={{ width: '100%' }} placeholder="请输入时间" />
               )}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
             <FormItem label="转出银行">
-              {getFieldDecorator('bankOut')(
+              {getFieldDecorator('bankout')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
                   <Option value="0">建设银行</Option>
                   <Option value="1">农业银行</Option>
@@ -630,7 +630,7 @@ class TableList extends PureComponent {
           </Col>
           <Col md={8} sm={24}>
             <FormItem label="转入银行">
-              {getFieldDecorator('bankTo')(
+              {getFieldDecorator('bankto')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
                   <Option value="0">建设银行</Option>
                   <Option value="1">农业银行</Option>
@@ -645,7 +645,7 @@ class TableList extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
             <FormItem label="转账进度">
-              {getFieldDecorator('progress')(
+              {getFieldDecorator('od_state')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
                   <Option value="0">已完成</Option>
                   <Option value="1">进行中</Option>
