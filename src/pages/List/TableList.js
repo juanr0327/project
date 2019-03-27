@@ -680,7 +680,7 @@ class TableList extends PureComponent {
 
   render() {
     const {
-      record: { items },
+      record: { result },
       loading,
     } = this.props;
 
@@ -726,7 +726,7 @@ class TableList extends PureComponent {
             <StandardTable
               selectedRows={selectedRows}
               loading={loading}
-              data={items}
+              data={result}
               columns={this.columns}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}
