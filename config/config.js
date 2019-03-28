@@ -81,11 +81,12 @@ export default {
   },
   proxy: {
     '/server/api/': {
-      target: 'http://localhost:3000',
+       target: 'http://localhost:3000',
+      //target: "",
       changeOrigin: true,
       pathRewrite: { '^/server': '' },
     },
-  },
+  }, 
   ignoreMomentLocale: true,
   lessLoaderOptions: {
     javascriptEnabled: true,

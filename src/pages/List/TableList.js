@@ -39,7 +39,7 @@ const getValue = obj =>
 const bankMap = ['jsyh', 'nyyh', 'zgyh', 'gsyh', 'zsyh']; // eslint-disable-line no-unused-vars
 const bank = ['建设银行', '农业银行', '中国银行', '工商银行', '招商银行'];
 const transferProcess = ['success', 'exception', 'active', 'normal', 'error'];
-const statesMap = ['completed', 'ongoing', 'notstart'];
+const statesMap = ['completed', 'ongoing', 'notstart','error'];
 const states = ['已完成', '进行中', '未进行', '异常'];
 
 const CreateForm = Form.create()(props => {
