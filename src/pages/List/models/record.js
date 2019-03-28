@@ -1,5 +1,20 @@
 import { getRecordHistory } from '@/services/api';
 
+export const bankMap = {
+  jsyh: '建设银行',
+  zsyh: '招商银行',
+  gsyh: '工商银行',
+  zgyh: '中国银行',
+  nyyh: '农业银行',
+};
+
+export const statusMap = {
+  completed: '已完成',
+  ongoing: '进行中',
+  notstart: '未进行',
+  error: '异常',
+};
+
 export default {
   namespace: 'record',
 

@@ -26,6 +26,7 @@ import StandardTable from '@/components/StandardTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from './TableList.less';
+import { bankMap, statusMap } from './models/record';
 
 const FormItem = Form.Item;
 const { Step } = Steps;
@@ -36,11 +37,8 @@ const getValue = obj =>
   Object.keys(obj)
     .map(key => obj[key])
     .join(',');
-const bankMap = ['jsyh', 'nyyh', 'zgyh', 'gsyh', 'zsyh']; // eslint-disable-line no-unused-vars
-const bank = ['建设银行', '农业银行', '中国银行', '工商银行', '招商银行'];
+
 const transferProcess = ['success', 'exception', 'active', 'normal', 'error'];
-const statesMap = ['completed', 'ongoing', 'notstart','error'];
-const states = ['已完成', '进行中', '未进行', '异常'];
 
 const CreateForm = Form.create()(props => {
   const { modalVisible, form, handleAdd, handleModalVisible } = props;
@@ -184,7 +182,7 @@ class UpdateForm extends PureComponent {
         {moment(values.time).format('YYYY-MM-DD HH:mm:ss')}
       </FormItem>,
       <FormItem key="bankout" {...this.formLayout} label="转出银行">
-        {bank[values.bankOut]}
+        {bankMap[values.bankOut]}
       </FormItem>,
       <FormItem key="accountout" {...this.formLayout} label="转出账户">
         {values.accountOut}
@@ -291,56 +289,14 @@ class TableList extends PureComponent {
     {
       title: '转入银行',
       dataIndex: 'bankto',
-      filters: [
-        {
-          text: bank[0],
-          value: 0,
-        },
-        {
-          text: bank[1],
-          value: 1,
-        },
-        {
-          text: bank[2],
-          value: 2,
-        },
-        {
-          text: bank[3],
-          value: 3,
-        },
-        {
-          text: bank[4],
-          value: 4,
-        },
-      ],
-      render: val => bank[val],
+      filters: Object.keys(bankMap).map(b => ({ text: bankMap[b], value: b })),
+      render: val => bankMap[val],
     },
     {
       title: '转出银行',
       dataIndex: 'bankout',
-      filters: [
-        {
-          text: bank[0],
-          value: 0,
-        },
-        {
-          text: bank[1],
-          value: 1,
-        },
-        {
-          text: bank[2],
-          value: 2,
-        },
-        {
-          text: bank[3],
-          value: 3,
-        },
-        {
-          text: bank[4],
-          value: 4,
-        },
-      ],
-      render: val => bank[val],
+      filters: Object.keys(bankMap).map(b => ({ text: bankMap[b], value: b })),
+      render: val => bankMap[val],
     },
     {
       title: '金额',
@@ -353,25 +309,8 @@ class TableList extends PureComponent {
     {
       title: '转账进度',
       dataIndex: 'od_state',
-      filters: [
-        {
-          text: states[0],
-          value: 0,
-        },
-        {
-          text: states[1],
-          value: 1,
-        },
-        {
-          text: states[2],
-          value: 2,
-        },
-        {
-          text: states[3],
-          value: 3,
-        },
-      ],
-      render: val => states[val],
+      filters: Object.keys(statusMap).map(s => ({ text: statusMap[s], value: s })),
+      render: val => statusMap[val],
     },
     {
       title: '时间',
@@ -683,9 +622,6 @@ class TableList extends PureComponent {
       record: { result },
       loading,
     } = this.props;
-
-    // 先看看数据有没有传过来
-    console.log(this.props.record);
 
     const { selectedRows, modalVisible, updateModalVisible, stepFormValues } = this.state;
     const menu = (
