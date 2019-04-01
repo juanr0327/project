@@ -23,6 +23,26 @@ export async function getRecordHistory() {
   return request('/server/api/recordHistory');
 }
 
+// 银行卡列表
+export async function getCard() {
+  return request('/server/api/Cardlist');
+}
+// add
+export async function addRecordHistory() {
+  return request('/server/api/recordHistory');
+}
+// add
+export async function addCard() {
+  return request('/server/api/Cardlist');
+}
+export async function removeRecordHistory() {
+  return request('/server/api/recordHistory');
+}
+
+export async function updateRecordHistory() {
+  return request('/server/api/recordHistory');
+}
+
 export async function queryProjectNotice() {
   return request('/api/project/notice');
 }

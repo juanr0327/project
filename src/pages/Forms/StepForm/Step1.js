@@ -14,7 +14,7 @@ const formItemLayout = {
   },
 };
 function onChange(value) {
-  console.log(value);
+  //console.log(value);
 }
 @connect(({ form }) => ({
   data: form.step,

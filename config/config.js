@@ -81,8 +81,8 @@ export default {
   },
   proxy: {
     '/server/api/': {
-      // target: 'http://localhost:3000',
-      target: 'http://ff173aa4.ngrok.io',
+       target: 'http://localhost:3000',
+      //target: 'http://ff173aa4.ngrok.io',
       changeOrigin: true,
       pathRewrite: { '^/server': '' },
     },

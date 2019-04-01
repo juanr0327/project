@@ -13,7 +13,8 @@ export default {
     // 无需payload的话，用_省略该参数
     *fetchMockList(_, { call, put }) {
       /**
-       * yeild call, 第一个参数为调用的函数，第二个参数为该函数的参数(如果有多个参数，则 call(func, arg1, arg2...) )
+       * yeild call, 第一个参数为调用的函数，第二个参数为该函数的参数
+       * (如果有多个参数，则 call(func, arg1, arg2...) )
        * response为后端的返回
        *  */
       const response = yield call(getMockList);

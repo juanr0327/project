@@ -7,15 +7,15 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from './CardList.less';
 
-@connect(({ list, loading }) => ({
-  list,
+@connect(({ cardlist, loading }) => ({
+  cardlist,
   loading: loading.models.list,
 }))
 class CardList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'list/fetch',
+      type: 'cardlist/fetchCard',
       payload: {
         count: 8,
       },

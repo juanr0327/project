@@ -1,4 +1,5 @@
-import { getRecordHistory } from '@/services/api';
+import { getRecordHistory,addRecordHistory ,removeRecordHistory,updateRecordHistory} from '@/services/api';
+import { parse } from 'url';
 
 export const bankMap = {
   jsyh: '建设银行',
@@ -14,6 +15,8 @@ export const statusMap = {
   notstart: '未进行',
   error: '异常',
 };
+
+const tableListDataSource = [];
 
 export default {
   namespace: 'record',
@@ -43,6 +46,30 @@ export default {
         payload: data, // data就是你的数据，下面👇通过action.payload拿到
       });
     },
+    *add({ payload, callback }, { call, put }) {
+      const data = yield call(addRecordHistory, payload);
+      yield put({
+        type: 'saveHistoryRecord',
+        payload: data,
+      });
+      if (callback) callback();
+    },
+    *remove({ payload, callback }, { call, put }) {
+      const data = yield call(removeRecordHistory, payload);
+      yield put({
+        type: 'saveHistoryRecord',
+        payload: data,
+      });
+      if (callback) callback();
+    },
+    *update({ payload, callback }, { call, put }) {
+      const data = yield call(updateRecordHistory, payload);
+      yield put({
+        type: 'saveHistoryRecord',
+        payload: data,
+      });
+      if (callback) callback();
+    },
   },
 
   // 用来把数据合并到最上面的state里面
@@ -65,3 +92,95 @@ export default {
     },
   },
 };
+
+function getRule(req, res, u) {
+  let url = u;
+  if (!url || Object.prototype.toString.call(url) !== '[object String]') {
+    url = req.url; // eslint-disable-line
+  }
+
+  const params = parse(url, true).query;
+
+  let dataSource = tableListDataSource;
+
+  if (params.sorter) {
+    const s = params.sorter.split('_');
+    dataSource = dataSource.sort((prev, next) => {
+      if (s[1] === 'descend') {
+        return next[s[0]] - prev[s[0]];
+      }
+      return prev[s[0]] - next[s[0]];
+    });
+  }
+
+  if (params.status) {
+    const status = params.status.split(',');
+    let filterDataSource = [];
+    status.forEach(s => {
+      filterDataSource = filterDataSource.concat(
+        dataSource.filter(data => parseInt(data.status, 10) === parseInt(s[0], 10))
+      );
+    });
+    dataSource = filterDataSource;
+  }
+
+  // Mock 转入账户
+  if (params.accountTo) {
+    dataSource = dataSource.filter(data => data.accountTo === params.accountTo);
+  }
+
+  // Mock 转出账户
+  if (params.accountOut) {
+    dataSource = dataSource.filter(data => data.accountOut === params.accountOut);
+  }
+
+  // Mock 转入银行
+  if (params.bankTo) {
+    const bankTo = params.bankTo.split(',');
+    let filterDataSource = [];
+    bankTo.forEach(bt => {
+      filterDataSource = filterDataSource.concat(
+        dataSource.filter(data => data.bankTo === Number(bt))
+      );
+    });
+    dataSource = filterDataSource;
+  }
+
+  // Mock 转出银行
+  if (params.bankOut) {
+    const bankOut = params.bankOut.split(',');
+    let filterDataSource = [];
+    bankOut.forEach(pa => {
+      filterDataSource = filterDataSource.concat(
+        dataSource.filter(data => data.bankOut === Number(pa))
+      );
+    });
+    dataSource = filterDataSource;
+  }
+  // Mock 转账状态
+  if (params.progress) {
+    const progress = params.progress.split(',');
+    let filterDataSource = [];
+    progress.forEach(bo => {
+      filterDataSource = filterDataSource.concat(
+        dataSource.filter(data => data.progress === Number(bo))
+      );
+    });
+    dataSource = filterDataSource;
+  }
+  let pageSize = 10;
+  if (params.pageSize) {
+    pageSize = params.pageSize * 1;
+  }
+
+  const result = {
+    list: dataSource,
+    pagination: {
+      total: dataSource.length,
+      pageSize,
+      current: parseInt(params.currentPage, 10) || 1,
+    },
+  };
+
+  return res.json(result);
+}
