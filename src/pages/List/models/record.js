@@ -35,12 +35,13 @@ export default {
 
   effects: {
     // 无需payload的话，用_省略该参数
-    *fetchRecordHistory(_, { call, put }) {
+    *fetchRecordHistory({ payload}, { call, put }) {
       /**
        * yeild call, 第一个参数为调用的函数，第二个参数为该函数的参数(如果有多个参数，则 call(func, arg1, arg2...) )
        * response为后端的返回
        *  */
-      const data = yield call(getRecordHistory);
+      const data = yield call(getRecordHistory,payload);
+      
       yield put({
         type: 'saveHistoryRecord', // 这个名字和下面的reducers是一一对应的，你就看成拿到数据后会调用下面的函数
         payload: data, // data就是你的数据，下面👇通过action.payload拿到

@@ -77,6 +77,8 @@ function fakeList(count) {
       updatedAt: new Date(new Date().getTime() - 1000 * 60 * 60 * 2 * i),
       createdAt: new Date(new Date().getTime() - 1000 * 60 * 60 * 2 * i),
       subDescription: desc[i % 5],
+      card_id:'123456',
+      op_name:'wangxiaoming',
       description:
         '卡号：*********;管理员：***',
       activeUser: Math.ceil(Math.random() * 100000) + 100000,

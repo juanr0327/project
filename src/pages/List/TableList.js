@@ -337,6 +337,7 @@ class TableList extends PureComponent {
     const { dispatch } = this.props;
     dispatch({
       type: 'record/fetchRecordHistory', // 对应models/record.js下的 namespace + effects函数
+
     });
   }
 
@@ -361,7 +362,7 @@ class TableList extends PureComponent {
     }
 
     dispatch({
-      type: 'rule/fetch',
+      type: 'record/fetchRecordHistory',
       payload: params,
     });
   };
@@ -377,7 +378,7 @@ class TableList extends PureComponent {
       formValues: {},
     });
     dispatch({
-      type: 'rule/fetch',
+      type: 'record/fetchRecordHistory',
       payload: {},
     });
   };
@@ -431,13 +432,13 @@ class TableList extends PureComponent {
         ...fieldsValue,
         updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
       };
-
       this.setState({
         formValues: values,
       });
-
+      values['od_time'] = values['od_time'].startOf('day').format('YYYY-MM-DD HH:mm:ss');
+      console.log('aaaaaaaaaa',values)
       dispatch({
-        type: 'rule/fetch',
+        type: 'record/fetchRecordHistory',
         payload: values,
       });
     });
@@ -558,11 +559,11 @@ class TableList extends PureComponent {
             <FormItem label="转出银行">
               {getFieldDecorator('bankout')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">建设银行</Option>
-                  <Option value="1">农业银行</Option>
-                  <Option value="2">中国银行</Option>
-                  <Option value="3">工商银行</Option>
-                  <Option value="4">招商银行</Option>
+                  <Option value="jsyh">建设银行</Option>
+                  <Option value="nyyh">农业银行</Option>
+                  <Option value="zgyh">中国银行</Option>
+                  <Option value="gsyh">工商银行</Option>
+                  <Option value="zsyh">招商银行</Option>
                 </Select>
               )}
             </FormItem>
@@ -571,11 +572,11 @@ class TableList extends PureComponent {
             <FormItem label="转入银行">
               {getFieldDecorator('bankto')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">建设银行</Option>
-                  <Option value="1">农业银行</Option>
-                  <Option value="2">中国银行</Option>
-                  <Option value="3">工商银行</Option>
-                  <Option value="4">招商银行</Option>
+                  <Option value="jsyh">建设银行</Option>
+                  <Option value="nyyh">农业银行</Option>
+                  <Option value="zgyh">中国银行</Option>
+                  <Option value="gsyh">工商银行</Option>
+                  <Option value="zsyh">招商银行</Option>
                 </Select>
               )}
             </FormItem>
@@ -586,10 +587,10 @@ class TableList extends PureComponent {
             <FormItem label="转账进度">
               {getFieldDecorator('od_state')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">已完成</Option>
-                  <Option value="1">进行中</Option>
-                  <Option value="2">未进行</Option>
-                  <Option value="3">异常</Option>
+                  <Option value="completed">已完成</Option>
+                  <Option value="ongoing">进行中</Option>
+                  <Option value="notstart">未进行</Option>
+                  <Option value="error">异常</Option>
                 </Select>
               )}
             </FormItem>

@@ -16,7 +16,11 @@ export default {
   state: {
     result: {
       list: [],
-     
+      pagination: {
+        total: 0,
+        pageSize: 10,
+        current: 1,
+      },
     },
   },
 

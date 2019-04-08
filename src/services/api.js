@@ -19,8 +19,8 @@ export async function getMockListUsingPost(query, data) {
 }
 
 // 历史转账记录
-export async function getRecordHistory() {
-  return request('/server/api/recordHistory');
+export async function getRecordHistory(params) {
+  return request(`/server/api/recordHistory?${stringify(params)}`);
 }
 
 // 银行卡列表
@@ -52,7 +52,7 @@ export async function queryActivities() {
 }
 
 export async function queryRule(params) {
-  return request(`/api/history?${stringify(params)}`);
+  return request(`server/api/recordHistory?${stringify(params)}`);
 }
 
 export async function removeRule(params) {
@@ -86,7 +86,7 @@ export async function updateRule(params = {}) {
 }
 
 export async function fakeSubmitForm(params) {
-  return request('/api/createorder', {
+  return request('server/api/createorder', {
     method: 'POST',
     body: params,
   });
@@ -113,13 +113,13 @@ export async function queryAdvancedProfile() {
   return request('/api/profile/advanced');
 }
 
-export async function queryFakeList(params) {
-  return request(`/api/fake_list?${stringify(params)}`);
-}
+export async function queryList(params) {
+  return request(`http://localhost:3000/api/recordCard`);
+} 
 
-export async function removeFakeList(params) {
+export async function removeList(params) {
   const { count = 5, ...restParams } = params;
-  return request(`/api/fake_list?count=${count}`, {
+  return request(`server/api/cardlist?count=${count}`, {
     method: 'POST',
     body: {
       ...restParams,
@@ -128,9 +128,9 @@ export async function removeFakeList(params) {
   });
 }
 
-export async function addFakeList(params) {
+export async function addList(params) {
   const { count = 5, ...restParams } = params;
-  return request(`/api/fake_list?count=${count}`, {
+  return request(`server/api/cardlist?count=${count}`, {
     method: 'POST',
     body: {
       ...restParams,
@@ -139,9 +139,9 @@ export async function addFakeList(params) {
   });
 }
 
-export async function updateFakeList(params) {
+export async function updateList(params) {
   const { count = 5, ...restParams } = params;
-  return request(`/api/fake_list?count=${count}`, {
+  return request(`server/api/cardlist?count=${count}`, {
     method: 'POST',
     body: {
       ...restParams,

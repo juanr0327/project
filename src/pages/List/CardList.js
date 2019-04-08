@@ -7,15 +7,15 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from './CardList.less';
 
-@connect(({ cardlist, loading }) => ({
-  cardlist,
+@connect(({ list, loading }) => ({
+  list,
   loading: loading.models.list,
 }))
 class CardList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'cardlist/fetchCard',
+      type: 'list/fetch',
       payload: {
         count: 8,
       },
@@ -76,7 +76,7 @@ class CardList extends PureComponent {
                       title={<a>{item.title}</a>}
                       description={
                         <Ellipsis className={styles.item} lines={3}>
-                          {item.description}
+                          卡号：{item.card_id},管理员：{item.op_name}
                         </Ellipsis>
                       }
                     />
