@@ -52,7 +52,7 @@ export async function queryActivities() {
 }
 
 export async function queryRule(params) {
-  return request(`server/api/recordHistory?${stringify(params)}`);
+  return request(`/server/api/recordHistory?${stringify(params)}`);
 }
 
 export async function removeRule(params) {
@@ -86,13 +86,13 @@ export async function updateRule(params = {}) {
 }
 
 export async function fakeSubmitForm(params) {
-  return request('server/api/createorder', {
+  return request('/server/api/createorder', {
     method: 'POST',
     body: params,
   });
 }
 export async function fakeSubmitFormsever(params) {
-  return request('server/api/forms', {
+  return request('/server/api/forms', {
     method: 'POST',
     body: params,
   });
@@ -114,12 +114,12 @@ export async function queryAdvancedProfile() {
 }
 
 export async function queryList(params) {
-  return request(`http://localhost:3000/api/recordCard`);
-} 
+  return request(`/server/api/recordCard`);
+}
 
 export async function removeList(params) {
   const { count = 5, ...restParams } = params;
-  return request(`server/api/cardlist?count=${count}`, {
+  return request(`/server/api/cardlist?count=${count}`, {
     method: 'POST',
     body: {
       ...restParams,
@@ -130,7 +130,7 @@ export async function removeList(params) {
 
 export async function addList(params) {
   const { count = 5, ...restParams } = params;
-  return request(`server/api/cardlist?count=${count}`, {
+  return request(`/server/api/cardlist?count=${count}`, {
     method: 'POST',
     body: {
       ...restParams,
@@ -141,7 +141,7 @@ export async function addList(params) {
 
 export async function updateList(params) {
   const { count = 5, ...restParams } = params;
-  return request(`server/api/cardlist?count=${count}`, {
+  return request(`/server/api/cardlist?count=${count}`, {
     method: 'POST',
     body: {
       ...restParams,
