@@ -28,12 +28,10 @@ function fakeList(count) {
       title: titles[i % 8],
       avatar: avatars[i % 8],
       status: ['active', 'exception', 'normal'][i % 3],
-      card_id:'123456',
-      op_name:'wangxiaoming',
-      description:
-        '卡号：*********;管理员：***',
-      content:
-        '银行卡管理',
+      card_id: '123456',
+      op_name: 'wangxiaoming',
+      description: '卡号：*********;管理员：***',
+      content: '银行卡管理',
     });
   }
 
@@ -94,7 +92,6 @@ export default {
   effects: {
     *fetch({ payload }, { call, put }) {
       const data = yield call(queryList, payload);
-      console.log('响应对象data',data)
       yield put({
         type: 'queryList',
         payload: Array.isArray(data) ? data : [],
@@ -124,7 +121,6 @@ export default {
 
   reducers: {
     queryList(state, action) {
-      console.log('action',action)
       return {
         ...state,
         list: action.payload,
