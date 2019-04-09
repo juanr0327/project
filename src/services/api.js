@@ -85,10 +85,8 @@ export async function updateRule(params = {}) {
   });
 }
 
-export async function submitOrder(params) {
+export async function submitOrder() {
   return request('/server/api/createorder', {
-    method: 'POST',
-    body: params,
   });
 }
 
@@ -121,7 +119,7 @@ export async function queryAdvancedProfile() {
   return request('/api/profile/advanced');
 }
 
-export async function queryList(params) {
+export async function queryList() {
   return request(`/server/api/recordCard`);
 }
 
@@ -158,17 +156,13 @@ export async function updateList(params) {
   });
 }
 
-export async function AccountLogin(params) {
+export async function AccountLogin() {
   return request('/server/api/login/account', {
-    method: 'POST',
-    body: params,
   });
 }
 
-export async function Register(params) {
+export async function Register() {
   return request('/server/api/register', {
-    method: 'POST',
-    body: params,
   });
 }
 

@@ -18,7 +18,7 @@ class Step3 extends React.PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'form/submitAdvancedForm',
+      type: 'form/submitorder',
     });
   }
 

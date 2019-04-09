@@ -72,7 +72,7 @@ export default {
   },
 
   effects: {
-    *submitAdvancedForm({ payload }, { call, put }) {
+    *submitorder({ payload }, { call, put }) {
       /**
        * yeild call, 第一个参数为调用的函数，第二个参数为该函数的参数(如果有多个参数，则 call(func, arg1, arg2...) )
        * response为后端的返回
