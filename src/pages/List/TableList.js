@@ -435,7 +435,8 @@ class TableList extends PureComponent {
       this.setState({
         formValues: values,
       });
-      values['od_time'] = values['od_time'].startOf('day').format('YYYY-MM-DD HH:mm:ss');
+      values['od_starttime'] = values['od_starttime'].startOf('day').format('YYYY-MM-DD HH:mm:ss');
+      values['od_endtime'] = values['od_endtime'].endOf('day').format('YYYY-MM-DD HH:mm:ss');
       console.log('aaaaaaaaaa',values)
       dispatch({
         type: 'record/fetchRecordHistory',
@@ -549,12 +550,35 @@ class TableList extends PureComponent {
         </Row>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
-            <FormItem label="时间">
-              {getFieldDecorator('od_time')(
+            <FormItem label="开始时间">
+              {getFieldDecorator('od_starttime')(
                 <DatePicker style={{ width: '100%' }} placeholder="请输入时间" />
               )}
             </FormItem>
           </Col>
+          <Col md={8} sm={24}>
+            <FormItem label="结束时间">
+              {getFieldDecorator('od_endtime')(
+                <DatePicker style={{ width: '100%' }} placeholder="请输入时间" />
+              )}
+            </FormItem>
+          </Col>
+          <Col md={8} sm={24}>
+            <FormItem label="转账进度">
+              {getFieldDecorator('od_state')(
+                <Select placeholder="请选择" style={{ width: '100%' }}>
+                  <Option value="completed">已完成</Option>
+                  <Option value="ongoing">进行中</Option>
+                  <Option value="notstart">未进行</Option>
+                  <Option value="error">异常</Option>
+                </Select>
+              )}
+            </FormItem>
+          </Col>
+          
+          
+        </Row>
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
             <FormItem label="转出银行">
               {getFieldDecorator('bankout')(
@@ -581,20 +605,7 @@ class TableList extends PureComponent {
               )}
             </FormItem>
           </Col>
-        </Row>
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-          <Col md={8} sm={24}>
-            <FormItem label="转账进度">
-              {getFieldDecorator('od_state')(
-                <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="completed">已完成</Option>
-                  <Option value="ongoing">进行中</Option>
-                  <Option value="notstart">未进行</Option>
-                  <Option value="error">异常</Option>
-                </Select>
-              )}
-            </FormItem>
-          </Col>
+          
         </Row>
         <div style={{ overflow: 'hidden' }}>
           <div style={{ marginBottom: 24 }}>

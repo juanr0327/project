@@ -4,7 +4,6 @@ import { Button, Row, Col } from 'antd';
 import router from 'umi/router';
 import Result from '@/components/Result';
 import moment from 'moment';
-import axios from 'axios';
 import styles from './style.less';
 import { parseAmount } from '../models/form';
 

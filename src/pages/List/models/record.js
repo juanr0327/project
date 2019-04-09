@@ -16,7 +16,6 @@ export const statusMap = {
   error: '异常',
 };
 
-const tableListDataSource = [];
 
 export default {
   namespace: 'record',
@@ -93,95 +92,3 @@ export default {
     },
   },
 };
-
-function getRule(req, res, u) {
-  let url = u;
-  if (!url || Object.prototype.toString.call(url) !== '[object String]') {
-    url = req.url; // eslint-disable-line
-  }
-
-  const params = parse(url, true).query;
-
-  let dataSource = tableListDataSource;
-
-  if (params.sorter) {
-    const s = params.sorter.split('_');
-    dataSource = dataSource.sort((prev, next) => {
-      if (s[1] === 'descend') {
-        return next[s[0]] - prev[s[0]];
-      }
-      return prev[s[0]] - next[s[0]];
-    });
-  }
-
-  if (params.status) {
-    const status = params.status.split(',');
-    let filterDataSource = [];
-    status.forEach(s => {
-      filterDataSource = filterDataSource.concat(
-        dataSource.filter(data => parseInt(data.status, 10) === parseInt(s[0], 10))
-      );
-    });
-    dataSource = filterDataSource;
-  }
-
-  // Mock 转入账户
-  if (params.accountTo) {
-    dataSource = dataSource.filter(data => data.accountTo === params.accountTo);
-  }
-
-  // Mock 转出账户
-  if (params.accountOut) {
-    dataSource = dataSource.filter(data => data.accountOut === params.accountOut);
-  }
-
-  // Mock 转入银行
-  if (params.bankTo) {
-    const bankTo = params.bankTo.split(',');
-    let filterDataSource = [];
-    bankTo.forEach(bt => {
-      filterDataSource = filterDataSource.concat(
-        dataSource.filter(data => data.bankTo === Number(bt))
-      );
-    });
-    dataSource = filterDataSource;
-  }
-
-  // Mock 转出银行
-  if (params.bankOut) {
-    const bankOut = params.bankOut.split(',');
-    let filterDataSource = [];
-    bankOut.forEach(pa => {
-      filterDataSource = filterDataSource.concat(
-        dataSource.filter(data => data.bankOut === Number(pa))
-      );
-    });
-    dataSource = filterDataSource;
-  }
-  // Mock 转账状态
-  if (params.progress) {
-    const progress = params.progress.split(',');
-    let filterDataSource = [];
-    progress.forEach(bo => {
-      filterDataSource = filterDataSource.concat(
-        dataSource.filter(data => data.progress === Number(bo))
-      );
-    });
-    dataSource = filterDataSource;
-  }
-  let pageSize = 10;
-  if (params.pageSize) {
-    pageSize = params.pageSize * 1;
-  }
-
-  const result = {
-    list: dataSource,
-    pagination: {
-      total: dataSource.length,
-      pageSize,
-      current: parseInt(params.currentPage, 10) || 1,
-    },
-  };
-
-  return res.json(result);
-}

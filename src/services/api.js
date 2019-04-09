@@ -85,7 +85,7 @@ export async function updateRule(params = {}) {
   });
 }
 
-export async function fakeSubmitForm(params) {
+export async function submitOrder(params) {
   return request('server/api/createorder', {
     method: 'POST',
     body: params,
@@ -150,15 +150,15 @@ export async function updateList(params) {
   });
 }
 
-export async function fakeAccountLogin(params) {
-  return request('/api/login/account', {
+export async function AccountLogin(params) {
+  return request('server/api/login/account', {
     method: 'POST',
     body: params,
   });
 }
 
-export async function fakeRegister(params) {
-  return request('/api/register', {
+export async function Register(params) {
+  return request('server/api/register', {
     method: 'POST',
     body: params,
   });

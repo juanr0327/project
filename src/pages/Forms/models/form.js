@@ -1,5 +1,6 @@
 import { routerRedux } from 'dva/router';
 import { message } from 'antd';
+import { submitOrder } from '@/services/api';
 
 export const parseAmount = (amount) => {
   return `￥${amount}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
@@ -58,6 +59,18 @@ export default {
   },
 
   effects: {
+    *submitAdvancedForm({ payload}, { call, put }) {
+      /**
+       * yeild call, 第一个参数为调用的函数，第二个参数为该函数的参数(如果有多个参数，则 call(func, arg1, arg2...) )
+       * response为后端的返回
+       *  */
+      const data = yield call(submitOrder,payload);
+      
+      yield put({
+        type: 'saveorder', // 这个名字和下面的reducers是一一对应的，你就看成拿到数据后会调用下面的函数
+        payload: data, // data就是你的数据，下面👇通过action.payload拿到
+      });
+    },
     *submitRegularForm({ payload }, { call }) {
       yield call(fakeSubmitForm, payload);
       message.success('提交成功');
@@ -76,6 +89,12 @@ export default {
   },
 
   reducers: {
+    saveorder(state, action) {
+      return {
+        ...state,
+        data: action.payload,
+      };
+    },
     saveStepFormData(state, { payload }) {
      
       return {
