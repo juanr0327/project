@@ -85,15 +85,20 @@ export async function updateRule(params = {}) {
   });
 }
 
-<<<<<<< HEAD
 export async function submitOrder(params) {
   return request('server/api/createorder', {
-=======
->>>>>>> b047ac5ee1d485acd08ab4e42c944330c8c23125
     method: 'POST',
     body: params,
   });
 }
+
+export async function fakeSubmitForm(params) {
+  return request('/api/forms', {
+    method: 'POST',
+    body: params,
+  });
+}
+
 export async function fakeSubmitFormsever(params) {
   return request('/server/api/forms', {
     method: 'POST',
