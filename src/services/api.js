@@ -119,7 +119,11 @@ export async function queryAdvancedProfile() {
   return request('/api/profile/advanced');
 }
 
-export async function queryList() {
+export async function queryFakeList(params) {
+  return request(`/api/fake_list?${stringify(params)}`);
+}
+
+export async function queryList(params) {
   return request(`/server/api/recordCard`);
 }
 
@@ -156,8 +160,10 @@ export async function updateList(params) {
   });
 }
 
-export async function AccountLogin() {
-  return request('/server/api/login/account', {
+export async function AccountLogin(params) {
+  return request('/api/login/account', {
+    method: 'POST',
+    body: params,
   });
 }
 

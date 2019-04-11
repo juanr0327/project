@@ -212,6 +212,22 @@ export default [
         ],
       },
       {
+        // admin
+        path: '/admin',
+        icon: 'robot',
+        name: 'admin',
+        Routes: ['src/pages/Authorized'],
+        authority: ['admin'],
+        routes: [
+          {
+            path: '/admin/card-list',
+            name: 'card-list',
+            component: './Admin/CardList',
+            hideChildrenInMenu: true,
+          },
+        ],
+      },
+      {
         component: '404',
       },
     ],

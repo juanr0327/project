@@ -1,4 +1,4 @@
-import { queryList, removeList, addList, updateList } from '@/services/api';
+import { queryList, removeList, addList, updateList, queryFakeList } from '@/services/api';
 
 const titles = [
   '招商银行',
@@ -26,7 +26,7 @@ export default {
 
   effects: {
     *fetch({ payload }, { call, put }) {
-      const data = yield call(queryList, payload);
+      const data = yield call(queryFakeList, payload);
       yield put({
         type: 'queryList',
         payload: Array.isArray(data) ? data : [],
