@@ -90,11 +90,7 @@ export default [
             name: 'searchtable',
             component: './List/TableList',
           },
-          {
-            path: '/list/mock',
-            name: 'mockpage',
-            component: './List/MockList',
-          },
+         
         ],
       },
       // Card
@@ -122,11 +118,7 @@ export default [
                 name: 'articles',
                 component: './List/Articles',
               },
-              {
-                path: '/card/search/projects',
-                name: 'projects',
-                component: './List/Projects',
-              },
+              
               {
                 path: '/card/search/applications',
                 name: 'applications',

@@ -327,8 +327,8 @@ class TableList extends PureComponent {
       title: '操作',
       render: (text, record) => (
         <Fragment>
-          <a onClick={() => this.handleUpdateModalVisible(true, record)}>查看详情</a>
-        </Fragment>
+          <a onClick={() => this.handleUpdateModalVisible(true, record)}>配置/   </a>
+          <a onClick={() => this.handleUpdateModalVisible(true, record)}> 详情</a> </Fragment>//**********页面跳转 */
       ),
     },
   ];
