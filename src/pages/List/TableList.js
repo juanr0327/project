@@ -327,8 +327,9 @@ class TableList extends PureComponent {
       title: '操作',
       render: (text, record) => (
         <Fragment>
-          <a onClick={() => this.handleUpdateModalVisible(true, record)}>配置/   </a>
-          <a onClick={() => this.handleUpdateModalVisible(true, record)}> 详情</a> </Fragment>//**********页面跳转 */
+          <a onClick={() => this.handleUpdateModalVisible(true, record)}>配置/ </a>
+          <a onClick={() => this.handleUpdateModalVisible(true, record)}> 详情</a>{' '}
+        </Fragment> //**********页面跳转 */
       ),
     },
   ];
@@ -337,7 +338,6 @@ class TableList extends PureComponent {
     const { dispatch } = this.props;
     dispatch({
       type: 'record/fetchRecordHistory', // 对应models/record.js下的 namespace + effects函数
-
     });
   }
 
@@ -435,9 +435,13 @@ class TableList extends PureComponent {
       this.setState({
         formValues: values,
       });
-      values['od_starttime'] = values['od_starttime'].startOf('day').format('YYYY-MM-DD HH:mm:ss');
-      values['od_endtime'] = values['od_endtime'].endOf('day').format('YYYY-MM-DD HH:mm:ss');
-      console.log('aaaaaaaaaa',values)
+      values['od_starttime'] = values['od_starttime']
+        ? values['od_starttime'].startOf('day').format('YYYY-MM-DD HH:mm:ss')
+        : '';
+      values['od_endtime'] = values['od_endtime']
+        ? values['od_endtime'].endOf('day').format('YYYY-MM-DD HH:mm:ss')
+        : '';
+      console.log('aaaaaaaaaa', values);
       dispatch({
         type: 'record/fetchRecordHistory',
         payload: values,
@@ -575,8 +579,6 @@ class TableList extends PureComponent {
               )}
             </FormItem>
           </Col>
-          
-          
         </Row>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
@@ -605,7 +607,6 @@ class TableList extends PureComponent {
               )}
             </FormItem>
           </Col>
-          
         </Row>
         <div style={{ overflow: 'hidden' }}>
           <div style={{ marginBottom: 24 }}>
@@ -657,9 +658,9 @@ class TableList extends PureComponent {
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>{this.renderForm()}</div>
             <div className={styles.tableListOperator}>
-              <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
+              {/* <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
                 新建
-              </Button>
+              </Button> */}
               {selectedRows.length > 0 && (
                 <span>
                   <Button>批量操作</Button>
