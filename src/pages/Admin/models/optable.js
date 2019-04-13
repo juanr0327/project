@@ -16,7 +16,14 @@ export const avatarsMap = {
   jsyh: 'https://raw.githubusercontent.com/cellier/bank-icon-cn/master/JPG/%E4%B8%AD%E5%9B%BD%E5%BB%BA%E8%AE%BE%E9%93%B6%E8%A1%8C.jpg', // 建设
  
 };
-
+export const photoMap = {
+    0: `G:\\study\\my_project\\project-master\\src\\assets\\20180213062635_48051.jpg`, 
+    1: 'G:\\study\\my_project\\project-master\\src\\assets\\20180213062641_19995.jpg', 
+    2: 'G:\\study\\my_project\\project-master\\src\\assets\\20180213062640_77463.jpg', 
+    3: 'G:\\study\\my_project\\project-master\\src\\assets\\20180213062641_35687.jpg', 
+    4: 'G:\\study\\my_project\\project-master\\src\\assets\\20180222061143_79523.jpg', 
+   
+  };
 export default {
   namespace: 'list',
 

@@ -4,7 +4,7 @@ import { Card, Button, Icon, List } from 'antd';
 
 import Ellipsis from '@/components/Ellipsis';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-
+import { avatarsMap } from '../../models/list';
 import styles from './CardList.less';
 
 @connect(({ list, loading }) => ({
@@ -30,7 +30,9 @@ class CardList extends PureComponent {
 
     const content = (
       <div className={styles.pageHeaderContent}>
-        <p>银行卡管理</p>
+        <p>
+         银行卡管理
+        </p>
         <div className={styles.contentLink}>
           <a>
             <img alt="" src="https://gw.alipayobjects.com/zos/rmsportal/MjEImQtenlyueSmVEfUD.svg" />{' '}
@@ -58,7 +60,7 @@ class CardList extends PureComponent {
     );
 
     return (
-      <PageHeaderWrapper title="卡片列表" content={content} extraContent={extraContent}>
+      <PageHeaderWrapper title="银行卡列表" content={content} extraContent={extraContent}>
         <div className={styles.cardList}>
           <List
             rowKey="id"
@@ -70,11 +72,13 @@ class CardList extends PureComponent {
                 <List.Item key={item.id}>
                   <Card hoverable className={styles.card} actions={[<a>操作一</a>, <a>操作二</a>]}>
                     <Card.Meta
-                      avatar={<img alt="" className={styles.cardAvatar} src={item.avatar} />}
+                      avatar={<img alt="" className={styles.cardAvatar} src={avatarsMap[item.bank] }/>}
+                   
                       title={<a>{item.title}</a>}
                       description={
                         <Ellipsis className={styles.item} lines={3}>
-                          卡号：{item.card_id},管理员：{item.op_name}
+                          <p>卡号：{item.card_id}</p>
+                          <p>管理员：{item.op_name}</p>
                         </Ellipsis>
                       }
                     />

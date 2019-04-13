@@ -32,11 +32,11 @@ export default [
             name: 'analysis',
             component: './Dashboard/Analysis',
           },
-          {
-            path: '/dashboard/monitor',
-            name: 'monitor',
-            component: './Dashboard/Monitor',
-          },
+         // {
+           // path: '/dashboard/monitor',
+          //  name: 'monitor',
+         //   component: './Dashboard/Monitor',
+         // },
           {
             path: '/dashboard/workplace',
             name: 'workplace',
@@ -49,6 +49,7 @@ export default [
         path: '/form',
         icon: 'form',
         name: 'form',
+        authority: ['user'],
         routes: [
           {
             path: '/form/step-form',
@@ -98,34 +99,14 @@ export default [
         path: '/card',
         icon: 'table',
         name: 'card',
+        authority: ['user'],
         routes: [
           {
             path: '/card/card-list',
             name: 'cardlist',
             component: './List/CardList',
           },
-          {
-            path: '/card/search',
-            name: 'searchlist',
-            component: './List/List',
-            routes: [
-              {
-                path: '/card/search',
-                redirect: '/list/search/articles',
-              },
-              {
-                path: '/card/search/articles',
-                name: 'articles',
-                component: './List/Articles',
-              },
-              
-              {
-                path: '/card/search/applications',
-                name: 'applications',
-                component: './List/Applications',
-              },
-            ],
-          },
+    
         ],
       },
       {
@@ -154,6 +135,29 @@ export default [
         ],
       },
 
+      
+      {
+        // admin
+        path: '/admin',
+        icon: 'robot',
+        name: 'admin',
+        Routes: ['src/pages/Authorized'],
+        authority: ['admin'],
+        routes: [
+          {
+            path: '/admin/card-list',
+            name: 'card-list',
+            component: './Admin/CardList',
+            hideChildrenInMenu: true,
+          },
+          {
+            path: '/admin/operator-table',
+            name: 'operator-table',
+            component: './Admin/Table',
+            hideChildrenInMenu: true,
+          },
+        ],
+      },
       {
         name: 'account',
         icon: 'user',
@@ -208,22 +212,6 @@ export default [
                 component: './Account/Settings/NotificationView',
               },
             ],
-          },
-        ],
-      },
-      {
-        // admin
-        path: '/admin',
-        icon: 'robot',
-        name: 'admin',
-        Routes: ['src/pages/Authorized'],
-        authority: ['admin'],
-        routes: [
-          {
-            path: '/admin/card-list',
-            name: 'card-list',
-            component: './Admin/CardList',
-            hideChildrenInMenu: true,
           },
         ],
       },
