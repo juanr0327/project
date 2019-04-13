@@ -79,7 +79,7 @@ class CardList extends PureComponent {
                         <Ellipsis className={styles.item} lines={3}>
                        
                           <p>卡号：{item.card_id}</p>
-                          管理员：{item.op_name}
+                          <p>管理员：{item.op_name}</p>
                         </Ellipsis>
                       }
                     />
