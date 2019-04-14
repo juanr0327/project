@@ -48,7 +48,7 @@ class BasicList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'list/fetch',
+      type: 'list/fakefetch',
       payload: {
         count: 5,
       },
@@ -164,18 +164,19 @@ class BasicList extends PureComponent {
       total: 50,
     };
 
-    const ListContent = ({ data: { owner, createdAt, percent, status } }) => (
+    const ListContent = ({ data: { owner, ordernum, percent, status } }) => (
       <div className={styles.listContent}>
         <div className={styles.listContentItem}>
-          <span>Owner</span>
+          <span>姓名</span>
           <p>{owner}</p>
         </div>
         <div className={styles.listContentItem}>
-          <span>开始时间</span>
-          <p>{moment(createdAt).format('YYYY-MM-DD HH:mm')}</p>
+          <span>任务量</span>
+          <p>{ordernum}</p>
         </div>
         <div className={styles.listContentItem}>
-          <Progress percent={percent} status={status} strokeWidth={6} style={{ width: 180 }} />
+          <span>任务完成度</span>
+          <p><Progress percent={percent} status={status} strokeWidth={6} style={{ width: 180 }} /></p>
         </div>
       </div>
     );
@@ -311,9 +312,9 @@ class BasicList extends PureComponent {
                   ]}
                 >
                   <List.Item.Meta
-                    avatar={<Avatar src={item.logo} shape="square" size="large" />}
-                    title={<a href={item.href}>{item.title}</a>}
-                    description={item.subDescription}
+                    avatar={<Avatar src={item.photo} shape="square" size="large" />}
+                    title={<a href={item.href}>{item.ID}</a>}
+                    description={item.tel+item.email}
                   />
                   <ListContent data={item} />
                 </List.Item>

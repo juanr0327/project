@@ -1,5 +1,6 @@
 import mockjs from 'mockjs';
 
+
 const titles = [
   '招商银行',
   '中国银行',
@@ -9,6 +10,14 @@ const titles = [
   '招商银行',
   '中国银行',
   '中国农业银行',
+];
+export const photos = [
+   'https://img.52z.com/upload/news/image/20180213/20180213062640_77463.jpg', 
+   'https://img.52z.com/upload/news/image/20180213/20180213062640_13061.jpg',
+   'https://img.52z.com/upload/news/image/20180213/20180213062635_29121.jpg',
+   'https://img.52z.com/upload/news/image/20180213/20180213062638_50905.jpg',
+   'https://img.52z.com/upload/news/image/20180213/20180213062639_27250.jpg',
+   'https://img.52z.com/upload/news/image/20180213/20180213062641_19995.jpg',
 ];
 const avatars = [
   'https://raw.githubusercontent.com/cellier/bank-icon-cn/master/JPG/%E6%8B%9B%E5%95%86%E9%93%B6%E8%A1%8C.jpg', // 招商
@@ -47,7 +56,18 @@ const desc = [
   '城镇中有那么多的酒馆，她却偏偏走进了我的酒馆',
   '那时候我只会想自己想要什么，从不想自己拥有什么',
 ];
-
+const tel=[
+  '电话：17856564125 ',
+  '电话：12586541235',
+  '电话：17865884125',
+  '电话：14522553335',
+];
+const emails=[
+  '邮箱：85365235@163.com',
+  '邮箱：uibikb2@163.com',
+  '邮箱：iubjonu@163.com',
+  '邮箱：joiniunbik@163.com',
+]
 const user = [
   '付小小',
   '曲丽丽',
@@ -66,8 +86,11 @@ function fakeList(count) {
   for (let i = 0; i < count; i += 1) {
     list.push({
       id: `fake-list-${i}`,
+      photo: photos[i % 5],
       owner: user[i % 10],
       title: titles[i % 8],
+      ID:`操作员${i}号`,
+      ordernum:Math.ceil(Math.random() * 50) + 10,
       avatar: avatars[i % 8],
       cover: parseInt(i / 4, 10) % 2 === 0 ? covers[i % 4] : covers[3 - (i % 4)],
       status: ['active', 'exception', 'normal'][i % 3],
@@ -77,6 +100,8 @@ function fakeList(count) {
       updatedAt: new Date(new Date().getTime() - 1000 * 60 * 60 * 2 * i),
       createdAt: new Date(new Date().getTime() - 1000 * 60 * 60 * 2 * i),
       subDescription: desc[i % 5],
+      tel:tel[i%3],
+      email:emails[i%3],
       card_id:'123456',
       op_name:'wangxiaoming',
       description:

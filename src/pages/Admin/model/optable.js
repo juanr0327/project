@@ -1,12 +1,6 @@
 import { queryList, removeList, addList, updateList, queryFakeList } from '@/services/api';
 
-const titles = [
-  '招商银行',
-  '中国银行',
-  '中国农业银行',
-  '中国工商银行',
-  '中国建设银行',
-];
+
 
 export const avatarsMap = {
   zsyh: 'https://raw.githubusercontent.com/cellier/bank-icon-cn/master/JPG/%E6%8B%9B%E5%95%86%E9%93%B6%E8%A1%8C.jpg', // 招商
