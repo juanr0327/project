@@ -4,7 +4,7 @@ import { Form, Input, Button, DatePicker, Divider, Cascader } from 'antd';
 import router from 'umi/router';
 import styles from './style.less';
 import { fakeAccount } from '../models/form';
-
+import moment from 'moment';
 const formItemLayout = {
   labelCol: {
     span: 5,
@@ -15,6 +15,41 @@ const formItemLayout = {
 };
 function onChange(value) {
   //console.log(value);
+}
+function range(start, end) {
+  const result = [];
+  for (let i = start; i < end; i++) {
+    result.push(i);
+  }
+  return result;
+}
+
+function disabledDate(current) {
+  // Can not select days before today 
+  return current && current < moment().startOf('day');
+}
+
+function disabledDateTime() {
+  return {
+    disabledHours: () => range(0, 24).splice(4, 20),
+    disabledMinutes: () => range(30, 60),
+    disabledSeconds: () => [55, 56],
+  };
+}
+
+function disabledRangeTime(_, type) {
+  if (type === 'start') {
+    return {
+      disabledHours: () => range(0, 60).splice(4, 20),
+      disabledMinutes: () => range(30, 60),
+      disabledSeconds: () => [55, 56],
+    };
+  }
+  return {
+    disabledHours: () => range(0, 60).splice(20, 4),
+    disabledMinutes: () => range(0, 31),
+    disabledSeconds: () => [55, 56],
+  };
 }
 @connect(({ form }) => ({
   data: form.step,
@@ -79,6 +114,8 @@ class Step1 extends React.PureComponent {
               rules: [{ required: true, message: '请选择开始时间！' }],
             })(
               <DatePicker
+                disabledDate={disabledDate}
+                disabledTime={disabledDateTime}
                 style={{ width: '100%' }}
                 showTime
                 format="YYYY-MM-DD HH:mm:ss"

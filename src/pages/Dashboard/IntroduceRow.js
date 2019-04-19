@@ -66,7 +66,7 @@ const IntroduceRow = memo(({ loading, visitData }) => (
         footer={
           <Field
             label={<FormattedMessage id="app.analysis.day-visits" defaultMessage="Daily Visits" />}
-            value={numeral(1234).format('0,0')}
+            //value={numeral().format('0,0')}
           />
         }
         contentHeight={46}

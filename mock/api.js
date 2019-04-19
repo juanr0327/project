@@ -93,7 +93,7 @@ function fakeList(count) {
       ordernum:Math.ceil(Math.random() * 50) + 10,
       avatar: avatars[i % 8],
       cover: parseInt(i / 4, 10) % 2 === 0 ? covers[i % 4] : covers[3 - (i % 4)],
-      status: ['active', 'exception', 'normal'][i % 3],
+      status: ['active', 'normal'][i % 3],
       percent: Math.ceil(Math.random() * 50) + 50,
       logo: avatars[i % 8],
       href: 'https://ant.design',
@@ -196,7 +196,7 @@ const getNotice = [
     title: titles[1],
     logo: avatars[1],
     description: '描述',
-    updatedAt: new Date('2017-07-24'),
+    updatedAt: new Date('2019-04-15'),
     member: '8212261614003383145',
     href: '',
     memberLink: '',
@@ -206,7 +206,7 @@ const getNotice = [
     title: titles[2],
     logo: avatars[2],
     description: '描述',
-    updatedAt: new Date(),
+    updatedAt: new Date('2019-04-15'),
     member: '7212261614003383145',
     href: '',
     memberLink: '',
@@ -216,7 +216,7 @@ const getNotice = [
     title: titles[3],
     logo: avatars[3],
     description: '描述',
-    updatedAt: new Date('2017-07-23'),
+    updatedAt: new Date('2019-04-15'),
     member: '5212261614003383142',
     href: '',
     memberLink: '',
@@ -226,7 +226,7 @@ const getNotice = [
     title: titles[4],
     logo: avatars[4],
     description: '描述',
-    updatedAt: new Date('2017-07-23'),
+    updatedAt: new Date('2019-04-15'),
     member: '4212261614003383145',
     href: '',
     memberLink: '',
@@ -236,7 +236,7 @@ const getNotice = [
     title: titles[5],
     logo: avatars[5],
     description: '描述',
-    updatedAt: new Date('2017-07-23'),
+    updatedAt: new Date('2019-04-15'),
     member: '5212261614003383145',
     href: '',
     memberLink: '',
@@ -265,7 +265,7 @@ const getActivities = [
     id: 'trend-2',
     updatedAt: new Date(),
     user: {
-      name: '付小小',
+      name: '曲丽丽',
       avatar: avatars2[1],
     },
     group: {
@@ -282,7 +282,7 @@ const getActivities = [
     id: 'trend-3',
     updatedAt: new Date(),
     user: {
-      name: '林东东',
+      name: '曲丽丽',
       avatar: avatars2[2],
     },
     group: {
@@ -299,7 +299,7 @@ const getActivities = [
     id: 'trend-4',
     updatedAt: new Date(),
     user: {
-      name: '周星星',
+      name: '曲丽丽',
       avatar: avatars2[4],
     },
     project: {
@@ -312,7 +312,7 @@ const getActivities = [
     id: 'trend-5',
     updatedAt: new Date(),
     user: {
-      name: '朱偏右',
+      name: '曲丽丽',
       avatar: avatars2[3],
     },
     project: {
@@ -329,7 +329,7 @@ const getActivities = [
     id: 'trend-6',
     updatedAt: new Date(),
     user: {
-      name: '乐哥',
+      name: '曲丽丽',
       avatar: avatars2[5],
     },
     group: {

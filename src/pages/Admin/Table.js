@@ -259,7 +259,7 @@ class BasicList extends PureComponent {
           <Card bordered={false}>
             <Row>
               <Col sm={8} xs={24}>
-                <Info title="我的待办" value="8个任务" bordered />
+                <Info title="待办" value="8个任务" bordered />
               </Col>
               <Col sm={8} xs={24}>
                 <Info title="本周任务平均处理时间" value="32分钟" bordered />

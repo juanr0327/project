@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { connect } from 'dva';
-import { Button, Row, Col } from 'antd';
+import { Button, Row, Col ,DatePicker} from 'antd';
 import router from 'umi/router';
 import Result from '@/components/Result';
 import moment from 'moment';
@@ -16,9 +16,13 @@ import { parseAmount } from '../models/form';
 class Step3 extends React.PureComponent {
  
   componentDidMount() {
-    const { dispatch } = this.props;
+    // console.log('props',this.props)
+    const { dispatch,data } = this.props;
+    data.time = data.time?data.time.format('YYYY-MM-DD HH:mm:ss'):data.time;
+    // console.log('dataaaaaaaaaa',data);
     dispatch({
       type: 'form/submitorder',
+      payload:data,
     });
   }
 
@@ -52,7 +56,10 @@ class Step3 extends React.PureComponent {
             转款时间：
           </Col>
           <Col xs={24} sm={16}>
-            {moment(data.time).format('YYYY-MM-DD HH:mm:ss')}
+        
+
+				{moment(data.time).format('YYYY-MM-DD HH:mm:ss')}
+			
           </Col>
         </Row>
         <Row>

@@ -64,7 +64,7 @@ const basicProgress = [
 const advancedOperation1 = [
   {
     key: 'op1',
-    type: '订购关系生效',
+    type: '转账完成',
     name: '曲丽丽',
     status: 'agree',
     updatedAt: '2017-10-03  19:23:12',
@@ -81,23 +81,23 @@ const advancedOperation1 = [
   {
     key: 'op3',
     type: '部门初审',
-    name: '周毛毛',
+    name: '李彬',
     status: 'agree',
     updatedAt: '2017-10-03  19:23:12',
     memo: '-',
   },
   {
     key: 'op4',
-    type: '提交订单',
-    name: '林东东',
+    type: '提交任务',
+    name: '曲丽丽',
     status: 'agree',
     updatedAt: '2017-10-03  19:23:12',
     memo: '很棒',
   },
   {
     key: 'op5',
-    type: '创建订单',
-    name: '汗牙牙',
+    type: '创建任务',
+    name: '曲丽丽',
     status: 'agree',
     updatedAt: '2017-10-03  19:23:12',
     memo: '-',

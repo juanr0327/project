@@ -45,10 +45,10 @@ ReactDOM.render(
     </Col>
     <Col span={24} style={{ marginTop: 24 }}>
       <ChartCard
-        title="访问量"
+        title=""
         action={<Tooltip title="指标说明"><Icon type="info-circle-o" /></Tooltip>}
-        total={numeral(8846).format('0,0')}
-        footer={<Field label="日访问量" value={numeral(1234).format('0,0')} />}
+        //total={numeral(8846).format('0,0')}
+        footer={<Field label="日" value={numeral(1234).format('0,0')} />}
         contentHeight={46}
       >
         <MiniBar

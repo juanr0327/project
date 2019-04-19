@@ -8,7 +8,7 @@ export const parseAmount = amount => {
 
 export const fakeAccount = [
   {
-    value: '建设银行',
+    value: 'jsyh',
     label: '建设银行',
     children: [
       {
@@ -18,7 +18,7 @@ export const fakeAccount = [
     ],
   },
   {
-    value: '农业银行',
+    value: 'nyyh',
     label: '农业银行',
     children: [
       {
@@ -28,7 +28,7 @@ export const fakeAccount = [
     ],
   },
   {
-    value: '中国银行',
+    value: 'zgyh',
     label: '中国银行',
     children: [
       {
@@ -38,7 +38,7 @@ export const fakeAccount = [
     ],
   },
   {
-    value: '招商银行',
+    value: 'zsyh',
     label: '招商银行',
     children: [
       {
@@ -48,7 +48,7 @@ export const fakeAccount = [
     ],
   },
   {
-    value: '工商银行',
+    value: 'gsyh',
     label: '工商银行',
     children: [
       {
