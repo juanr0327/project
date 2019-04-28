@@ -38,7 +38,8 @@ const CreateForm = Form.create()(props => {
       onCancel={() => handleModalVisible()}
     >
       <Form.Item label="卡号">
-        {getFieldDecorator('card_id', {
+      
+        {getFieldDecorator('cardto_id', {
           rules: [{ required: true, message: '请输入银行卡号！' }],
           })(
             <Input prefix={<Icon type="card_id" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="请输入银行卡号！" />
@@ -48,7 +49,7 @@ const CreateForm = Form.create()(props => {
         label="银行名称"
         hasFeedback
       >
-        {getFieldDecorator('bank', {
+        {getFieldDecorator('银行名称', {
             rules: [
             { required: true, message: '请选择银行' },
             ],
@@ -62,27 +63,15 @@ const CreateForm = Form.create()(props => {
               </Select>
           )}
       </Form.Item>   
-      <Form.Item label="余额">
-        {getFieldDecorator('money', {
-          rules: [{ required: true, message: '请输入银行卡余额！' }],
-          })(
-            <Input prefix={<Icon type="money" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="请输入银行卡余额！" />
-                        )}
-      </Form.Item>
-      <Form.Item label="姓名"> 
+      
+      <Form.Item label="姓名">
         {getFieldDecorator('name', {
           rules: [{ required: true, message: '请输入持卡人姓名！' }],
         })(
           <Input prefix={<Icon type="name" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="请输入持卡人姓名！" />
           )}
       </Form.Item>
-      <Form.Item label="电话">
-        {getFieldDecorator('tel', {
-          rules: [{ required: true, message: '请输入持卡人电话！' }],
-        })(
-          <Input prefix={<Icon type="tel" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="请输入持卡人电话！" />
-          )}
-      </Form.Item>
+  
       <Form.Item            
         label="操作员姓名"
         hasFeedback
@@ -97,70 +86,6 @@ const CreateForm = Form.create()(props => {
                 <Option value="1">王程程</Option>
               </Select>
           )}
-      </Form.Item>                                
-    </Modal>
-  );
-});
-
-const CreateForm2 = Form.create()(props => {
-  console.log(props)
-  const { modalVisible2, form, handleupdate, handleModalVisible2 ,item} = props;
-  const { getFieldDecorator } = form;
-  const okHandle = () => {
-    form.validateFields((err, fieldsValue) => {
-      if (err) return;
-      form.resetFields();
-      handleupdate(fieldsValue);
-    });
-  };
-  return (
-    <Modal
-      destroyOnClose
-      title="修改"
-      visible={modalVisible2}
-      onOk={okHandle}
-      onCancel={() => handleModalVisible2()}
-    >
-      <Form.Item            
-        label="操作员姓名"
-        hasFeedback
-      >
-        {getFieldDecorator('idoperator', {
-            rules: [
-            { required: true, message: '请分配操作员' },
-            ],
-            })(
-              <Select placeholder="请分配操作员" style={{ width: '100%' }}>
-                <Option value="0">曲丽丽</Option>
-                <Option value="1">王程程</Option>
-              </Select>
-          )}
-      </Form.Item>                                
-    </Modal>
-  );
-});
-const CreateForm3 = Form.create()(props => {
-  const { modalVisible3, form, handledelete, handleModalVisible3 } = props;
-  const okHandle = () => {
-    form.validateFields((err, fieldsValue) => {
-      if (err) return;
-      form.resetFields();
-      handledelete(fieldsValue);
-    });
-  };
-  return (
-    <Modal
-      destroyOnClose
-      title="删除"
-      visible={modalVisible3}
-      onOk={okHandle}
-      onCancel={() => handleModalVisible3()}
-    >
-      <Form.Item            
-        label="你确定删除该银行卡吗？"
-        hasFeedback
-      >
-        
       </Form.Item>                                
     </Modal>
   );
@@ -176,13 +101,11 @@ class CardList extends PureComponent {
   handleAdd = fields => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'list/addfetch',
+      type: 'list/addfetch2',
       payload: {
-        card_id: fields.card_id,
+        cardto_id: fields.cardto_id,
         bank: fields.bank,
-        money: fields.money,
         name: fields.name,
-        tel: fields.tel,
         idoperator: fields.idoperator,
       },
     });
@@ -191,41 +114,14 @@ class CardList extends PureComponent {
     this.handleModalVisible();
   };
 
-  handleupdate = fields => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'list/updatefetch',
-      payload: {
-        idoperator: fields.idoperator,
-        card_id: fields.card_id,
-      },
-    });
-
-    message.success('添加成功');
-    this.handleModalVisible2();
-  };
-
-  handledelete = fields => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'list/deletefetch',
-      payload: {
-        card_id: fields.card_id,
-      },
-    });
-
-    message.success('添加成功');
-    this.handleModalVisible2();
-  };
-
-  state = { modalVisible: false,modalVisible2: false, modalVisible3: false}
+  state = { modalVisible: false}
   
  
 
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'list/fetch',
+      type: 'list/fetch2',
       payload: {
         count: 8,
       },
@@ -238,23 +134,6 @@ class CardList extends PureComponent {
     });
   };
 
-  handleModalVisible2 = flag => {
-    this.setState({
-      modalVisible2: !!flag,
-    });
-  };
-
-  handleItem = (item)=>{
-    //在这里取得item
-    console.log(item.card_id)
-    }
-
-  handleModalVisible3 = flag => {
-    this.setState({
-      modalVisible3: !!flag,
-    });
-  };
-
   render() {
     const {
       list: { list },
@@ -262,7 +141,7 @@ class CardList extends PureComponent {
      
     } = this.props;
    
-    const {  modalVisible,modalVisible2,modalVisible3 } = this.state;
+    const {  modalVisible } = this.state;
     const content = (
       <div className={styles.pageHeaderContent}>
         <p>
@@ -297,14 +176,6 @@ class CardList extends PureComponent {
       handleAdd: this.handleAdd,
       handleModalVisible: this.handleModalVisible,
     };
-    const parentMethods2 = {
-      handleupdate: this.handleupdate,
-      handleModalVisible2: this.handleModalVisible2,
-    };
-    const parentMethods3 = {
-      handledelate: this.handledelete,
-      handleModalVisible3: this.handleModalVisible3,
-    };
     return (
       <PageHeaderWrapper title="银行卡列表" content={content} extraContent={extraContent}>
         <div className={styles.cardList}>
@@ -316,34 +187,19 @@ class CardList extends PureComponent {
             renderItem={item =>
               item ? (
                 <List.Item key={item.id}>
-                  <Card hoverable className={styles.card}>
+                  <Card hoverable className={styles.card} actions={[<a>管理</a>, <a>删除</a>]} >
                     <Card.Meta
                       avatar={<img alt="" className={styles.cardAvatar} src={avatarsMap[item.bank]} />}
+                   
                       title={<a>{item.title}</a>}
                       description={
                         <Ellipsis className={styles.item} lines={3}>
-                          <p>卡号：{item.card_id}</p>
+                          <p>卡号：{item.cardto_id}</p>
                           <p>管理员：{item.op_name}</p>
                           
                         </Ellipsis>
                       }
                     />
-                    <Button
-                      type="primary"
-                      className={styles.newButton2}
-                      // eslint-disable-next-line no-shadow
-                      onClick={() =>{
-                      console.log(item.card_id)
-                      this.handleItem(item)
-                      this.handleModalVisible2(true);}}
-                    >
-                      <Icon type="update" /> 管理
-                    </Button>
-                    <CreateForm2 {...parentMethods2} modalVisible2={modalVisible2} />
-                    <Button type="danger" className={styles.newButton2} onClick={() => this.handleModalVisible3(true)}>
-                      <Icon type="delete" /> 删除
-                    </Button>
-                    <CreateForm3 {...parentMethods3} modalVisible3={modalVisible3} />
                   </Card>
                 </List.Item>
               ) : (

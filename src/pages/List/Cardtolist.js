@@ -15,7 +15,7 @@ class CardtoList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'list/fetch',
+      type: 'list/fetch2',
       payload: {
         count: 8,
       },
@@ -77,7 +77,7 @@ class CardtoList extends PureComponent {
                       title={<a>{item.title}</a>}
                       description={
                         <Ellipsis className={styles.item} lines={3}>
-                          <p>卡号：{item.card_id}</p>
+                          <p>卡号：{item.cardto_id}</p>
                           <p>管理员：{item.op_name}</p>
                         </Ellipsis>
                       }

@@ -22,25 +22,59 @@ export async function getMockListUsingPost(query, data) {
 export async function getRecordHistory(params) {
   return request(`/server/api/recordHistory?${stringify(params)}`);
 }
-
-// 银行卡列表
-export async function getCard() {
-  return request('/server/api/Cardlist');
-}
-// add
-export async function addRecordHistory() {
-  return request('/server/api/recordHistory');
-}
-// add
-export async function addCard() {
-  return request('/server/api/Cardlist');
-}
 export async function removeRecordHistory() {
   return request('/server/api/recordHistory');
 }
 
 export async function updateRecordHistory() {
   return request('/server/api/recordHistory');
+}
+// 银行卡列表
+export async function getCard() {
+  return request('/server/api/Cardlist');
+}
+// add card
+export async function addcard(params) {
+  return request(`/server/api/createcard`, {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'post',
+    },
+  });
+}
+
+// add cardto
+export async function addcardto(params) {
+  return request(`/server/api/createcardto`, {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'post',
+    },
+  });
+}
+
+// add card
+export async function updatecard(params) {
+  return request(`/server/api/updatecard`, {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'post',
+    },
+  });
+}
+
+// add cardto
+export async function updatecardto(params) {
+  return request(`/server/api/updatecardto`, {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'post',
+    },
+  });
 }
 
 export async function queryProjectNotice() {
@@ -131,7 +165,9 @@ export async function queryFakeList(params) {
 export async function queryList(params) {
   return request(`/server/api/recordCard`);
 }
-
+export async function queryList2(params) {
+  return request(`/server/api/recordCardto`);
+}
 export async function removeList(params) {
   const { count = 5, ...restParams } = params;
   return request(`/server/api/cardlist?count=${count}`, {

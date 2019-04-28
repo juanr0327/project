@@ -1,4 +1,4 @@
-import { queryList, removeList, addList, updateList, queryFakeList } from '@/services/api';
+import { queryList,queryList2, removeList, addList, updateList, queryFakeList ,addcard,addcardto,updatecard,updatecardto} from '@/services/api';
 
 
 
@@ -21,6 +21,41 @@ export default {
   effects: {
     *fetch({ payload }, { call, put }) {
       const data = yield call(queryList, payload);
+      yield put({
+        type: 'queryList',
+        payload: Array.isArray(data) ? data : [],
+      });
+    },
+    *fetch2({ payload }, { call, put }) {
+      const data = yield call(queryList2, payload);
+      yield put({
+        type: 'queryList',
+        payload: Array.isArray(data) ? data : [],
+      });
+    },
+    *addfetch({ payload }, { call, put }) {
+      const data = yield call(addcard, payload);
+      yield put({
+        type: 'queryList',
+        payload: Array.isArray(data) ? data : [],
+      });
+    },
+    *addfetch2({ payload }, { call, put }) {
+      const data = yield call(addcardto, payload);
+      yield put({
+        type: 'queryList',
+        payload: Array.isArray(data) ? data : [],
+      });
+    },
+    *updatefetch({ payload }, { call, put }) {
+      const data = yield call(updatecard, payload);
+      yield put({
+        type: 'queryList',
+        payload: Array.isArray(data) ? data : [],
+      });
+    },
+    *updatefetch2({ payload }, { call, put }) {
+      const data = yield call(updatecardto, payload);
       yield put({
         type: 'queryList',
         payload: Array.isArray(data) ? data : [],

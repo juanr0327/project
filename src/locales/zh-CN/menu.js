@@ -21,7 +21,8 @@ export default {
   'menu.card2': '银行卡管理（经理）',
   'menu.card2.card2list': '银行卡列表（经理）',
   'menu.card': '银行卡管理',
-  'menu.card.cardlist': '银行卡列表',
+  'menu.card.cardlist': '转出银行卡列表',
+  'menu.card.cardtolist': '转入银行卡列表',
  // 'menu.card.searchlist': '搜索列表',
  // 'menu.card.searchlist.articles': '搜索列表（文章）',
  // 'menu.card.searchlist.projects': '搜索列表（项目）',
@@ -43,6 +44,7 @@ export default {
   'menu.account.trigger': '触发报错',
   'menu.account.logout': '退出登录',
   'menu.admin': '管理',
-  'menu.admin.card-list': '银行卡管理',
+  'menu.admin.card-list': '转出银行卡管理',
+  'menu.admin.cardto-list': '转入银行卡管理',
   'menu.admin.operator-table': '操作员管理',
 };

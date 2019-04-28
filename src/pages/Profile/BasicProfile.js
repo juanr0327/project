@@ -80,6 +80,7 @@ class App extends Component {
         </Button>
         <Modal
           title="图片详情"
+          // eslint-disable-next-line react/destructuring-assignment
           visible={this.state.visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}

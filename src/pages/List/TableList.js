@@ -79,9 +79,9 @@ class UpdateForm extends PureComponent {
 
     this.state = {
       formVals: {
-        name: props.values.name,
+        od_time: props.values.od_time,
         desc: props.values.desc,
-        key: props.values.key,
+        bankOut: props.values.bankOut,
         target: '0',
         template: '0',
         type: '1',
@@ -179,7 +179,7 @@ class UpdateForm extends PureComponent {
 
     return [
       <FormItem key="od_time" {...this.formLayout} label="任务时间">
-        {moment(values.time).format('YYYY-MM-DD HH:mm:ss')}
+        {moment(this.props.values.time).format('YYYY-MM-DD HH:mm:ss')}
       </FormItem>,
       <FormItem key="bankout" {...this.formLayout} label="转出银行">
         {bankMap[values.bankOut]}
@@ -424,7 +424,7 @@ class TableList extends PureComponent {
     e.preventDefault();
 
     const { dispatch, form } = this.props;
-
+    
     form.validateFields((err, fieldsValue) => {
       if (err) return;
 
@@ -478,6 +478,7 @@ class TableList extends PureComponent {
   handleUpdate = fields => {
     const { dispatch } = this.props;
     const { formValues } = this.state;
+    console.log('bbbbb',fields)
     dispatch({
       type: 'rule/update',
       payload: {
@@ -498,6 +499,7 @@ class TableList extends PureComponent {
     const {
       form: { getFieldDecorator },
     } = this.props;
+    
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>

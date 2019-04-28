@@ -106,6 +106,11 @@ export default [
             name: 'cardlist',
             component: './List/CardList',
           },
+          {
+            path: '/card/cardto-list',
+            name: 'cardtolist',
+            component: './List/CardtoList',
+          },
     
         ],
       },
@@ -148,6 +153,12 @@ export default [
             path: '/admin/card-list',
             name: 'card-list',
             component: './Admin/CardList',
+            hideChildrenInMenu: true,
+          },
+          {
+            path: '/admin/cardto-list',
+            name: 'cardto-list',
+            component: './Admin/CardtoList',
             hideChildrenInMenu: true,
           },
           {
