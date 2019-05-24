@@ -120,9 +120,18 @@ class Center extends PureComponent {
                   <div className={styles.detail}>
                     <p>
                       <i className={styles.title} />
-                      {curUser.idoperator}
+                      编号：{curUser.idoperator}
                     </p>
-                   
+                    <p>
+                      <i className={styles.group} />
+                      电话：{curUser.op_tel}
+                     
+                    </p>
+                    <p>
+                      <i className={styles.group} />
+                
+                      邮箱：{curUser.op_email}
+                    </p>
                     <p>
                       <i className={styles.address} />
                       {curUser.op_address}

@@ -102,50 +102,14 @@ const CreateForm = Form.create()(props => {
   );
 });
 
-const CreateForm2 = Form.create()(props => {
-  console.log(props)
-  const { modalVisible2, form, handleupdate, handleModalVisible2 ,item} = props;
-  const { getFieldDecorator } = form;
-  const okHandle = () => {
-    form.validateFields((err, fieldsValue) => {
-      if (err) return;
-      form.resetFields();
-      handleupdate(fieldsValue);
-    });
-  };
-  return (
-    <Modal
-      destroyOnClose
-      title="修改"
-      visible={modalVisible2}
-      onOk={okHandle}
-      onCancel={() => handleModalVisible2()}
-    >
-      <Form.Item            
-        label="操作员姓名"
-        hasFeedback
-      >
-        {getFieldDecorator('idoperator', {
-            rules: [
-            { required: true, message: '请分配操作员' },
-            ],
-            })(
-              <Select placeholder="请分配操作员" style={{ width: '100%' }}>
-                <Option value="0">曲丽丽</Option>
-                <Option value="1">王程程</Option>
-              </Select>
-          )}
-      </Form.Item>                                
-    </Modal>
-  );
-});
+
 const CreateForm3 = Form.create()(props => {
-  const { modalVisible3, form, handledelete, handleModalVisible3 } = props;
+  const { modalVisible3, form, handledelete, handleModalVisible3, cardId} = props;
   const okHandle = () => {
-    form.validateFields((err, fieldsValue) => {
+    form.validateFields((err) => {
       if (err) return;
       form.resetFields();
-      handledelete(fieldsValue);
+      handledelete(cardId);
     });
   };
   return (
@@ -156,12 +120,9 @@ const CreateForm3 = Form.create()(props => {
       onOk={okHandle}
       onCancel={() => handleModalVisible3()}
     >
-      <Form.Item            
-        label="你确定删除该银行卡吗？"
-        hasFeedback
-      >
-        
-      </Form.Item>                                
+      <div>卡号：{cardId}</div>
+      <div>你确定删除该银行卡吗？</div>
+                                  
     </Modal>
   );
 });
@@ -186,31 +147,18 @@ class CardList extends PureComponent {
         idoperator: fields.idoperator,
       },
     });
-
+   
     message.success('添加成功');
     this.handleModalVisible();
   };
 
-  handleupdate = fields => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'list/updatefetch',
-      payload: {
-        idoperator: fields.idoperator,
-        card_id: fields.card_id,
-      },
-    });
-
-    message.success('添加成功');
-    this.handleModalVisible2();
-  };
-
-  handledelete = fields => {
+  
+  handledelete = (cardId) => {
     const { dispatch } = this.props;
     dispatch({
       type: 'list/deletefetch',
       payload: {
-        card_id: fields.card_id,
+       
       },
     });
 
@@ -218,7 +166,7 @@ class CardList extends PureComponent {
     this.handleModalVisible2();
   };
 
-  state = { modalVisible: false,modalVisible2: false, modalVisible3: false}
+  state = { modalVisible: false, modalVisible3: false, }
   
  
 
@@ -230,6 +178,7 @@ class CardList extends PureComponent {
         count: 8,
       },
     });
+   
   }
 
   handleModalVisible = flag => {
@@ -238,18 +187,10 @@ class CardList extends PureComponent {
     });
   };
 
-  handleModalVisible2 = flag => {
-    this.setState({
-      modalVisible2: !!flag,
-    });
-  };
 
-  handleItem = (item)=>{
-    //在这里取得item
-    console.log(item.card_id)
-    }
 
   handleModalVisible3 = flag => {
+    
     this.setState({
       modalVisible3: !!flag,
     });
@@ -262,7 +203,7 @@ class CardList extends PureComponent {
      
     } = this.props;
    
-    const {  modalVisible,modalVisible2,modalVisible3 } = this.state;
+    const {  modalVisible,modalVisible3 } = this.state;
     const content = (
       <div className={styles.pageHeaderContent}>
         <p>
@@ -297,11 +238,9 @@ class CardList extends PureComponent {
       handleAdd: this.handleAdd,
       handleModalVisible: this.handleModalVisible,
     };
-    const parentMethods2 = {
-      handleupdate: this.handleupdate,
-      handleModalVisible2: this.handleModalVisible2,
-    };
+   
     const parentMethods3 = {
+      
       handledelate: this.handledelete,
       handleModalVisible3: this.handleModalVisible3,
     };
@@ -332,18 +271,15 @@ class CardList extends PureComponent {
                       type="primary"
                       className={styles.newButton2}
                       // eslint-disable-next-line no-shadow
-                      onClick={() =>{
-                      console.log(item.card_id)
-                      this.handleItem(item)
-                      this.handleModalVisible2(true);}}
+                      href='http://localhost:8000/admin/operator-card'
                     >
                       <Icon type="update" /> 管理
                     </Button>
-                    <CreateForm2 {...parentMethods2} modalVisible2={modalVisible2} />
+                   
                     <Button type="danger" className={styles.newButton2} onClick={() => this.handleModalVisible3(true)}>
                       <Icon type="delete" /> 删除
                     </Button>
-                    <CreateForm3 {...parentMethods3} modalVisible3={modalVisible3} />
+                    <CreateForm3 {...parentMethods3} modalVisible3={modalVisible3} cardId={item.card_id} />
                   </Card>
                 </List.Item>
               ) : (

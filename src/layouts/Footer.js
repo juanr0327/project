@@ -20,15 +20,15 @@ const FooterView = () => (
           blankTarget: true,
         },
         {
-          key: 'Ant Design',
-          title: 'Ant Design',
+          key: 'Design',
+          title: 'Design',
           href: 'https://ant.design',
           blankTarget: true,
         },
       ]}
       copyright={
         <Fragment>
-          Copyright <Icon type="copyright" /> 2018 蚂蚁金服体验技术部出品
+          Copyright <Icon type="copyright" /> 2019 LIU JUAN
         </Fragment>
       }
     />

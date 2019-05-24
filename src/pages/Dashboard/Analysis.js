@@ -112,8 +112,8 @@ class Analysis extends Component {
     }
     const menu = (
       <Menu>
-        <Menu.Item>操作一</Menu.Item>
-        <Menu.Item>操作二</Menu.Item>
+        <Menu.Item>转出银行卡</Menu.Item>
+        <Menu.Item>转入银行卡</Menu.Item>
       </Menu>
     );
 

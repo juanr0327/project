@@ -2,7 +2,7 @@ import fetch from 'dva/fetch';
 import { createLogger } from 'redux-logger'
 
 // log my own action only
-const reg = /(global\/*)|(user\/*)|(setting\/*)|(menu\/*)|(@@DVA_LOADING\/*)/
+const reg = /(global\/*)|(setting\/*)|(menu\/*)|(@@DVA_LOADING\/*)/
 const logger = createLogger({
   predicate: (getState, action) => !reg.test(action.type)
 })

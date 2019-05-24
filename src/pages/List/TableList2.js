@@ -81,7 +81,7 @@ class UpdateForm extends PureComponent {
       formVals: {
         od_time: props.values.od_time,
         desc: props.values.desc,
-        bankout: props.values.bankout,
+        bankOut: props.values.bankOut,
         target: '0',
         template: '0',
         type: '1',
@@ -90,8 +90,6 @@ class UpdateForm extends PureComponent {
       },
       currentStep: 0,
     };
-
-    console.log(props.values)
 
     this.formLayout = {
       labelCol: { span: 7 },
@@ -184,7 +182,7 @@ class UpdateForm extends PureComponent {
         {moment(values.time).format('YYYY-MM-DD HH:mm:ss')}
       </FormItem>,
       <FormItem key="bankout" {...this.formLayout} label="转出银行">
-        {bankMap[values.bankout]}
+        {bankMap[values.bankOut]}
       </FormItem>,
       <FormItem key="accountout" {...this.formLayout} label="转出账户">
         {values.accountOut}
@@ -268,7 +266,7 @@ class UpdateForm extends PureComponent {
   loading: loading.models.rule,
 }))
 @Form.create()
-class TableList extends PureComponent {
+class TableList2 extends PureComponent {
   state = {
     modalVisible: false,
     updateModalVisible: false,
@@ -329,8 +327,8 @@ class TableList extends PureComponent {
       title: '操作',
       render: (text, record) => (
         <Fragment>
-          <a onClick={() => this.handleUpdateModalVisible(true, record)}>配置/ </a>
-          <a href='http://localhost:8000/profile/basic'> 详情</a>
+          <a href='http://localhost:8000/profile/basic'>基本详情/ </a>
+          <a href='http://localhost:8000/profile/basic'> 高级详情</a>
         </Fragment> //**********页面跳转 */
       ),
     },
@@ -699,4 +697,4 @@ class TableList extends PureComponent {
   }
 }
 
-export default TableList;
+export default TableList2;

@@ -90,8 +90,14 @@ export default [
             path: '/list/table-list',
             name: 'searchtable',
             component: './List/TableList',
+            authority: ['user'],
           },
-         
+          {
+            path: '/list/table-list2',
+            name: 'searchtable2',
+            component: './List/TableList2',
+            authority: ['admin'],
+          }
         ],
       },
       // Card
@@ -167,6 +173,13 @@ export default [
             component: './Admin/Table',
             hideChildrenInMenu: true,
           },
+          {
+            path: '/admin/operator-card',
+            name: 'operator-card',
+            component: './Admin/opcard',
+            hideChildrenInMenu: true,
+            hideInMenu: true
+          },
         ],
       },
       {
@@ -178,6 +191,7 @@ export default [
             path: '/account/center',
             name: 'center',
             component: './Account/Center/Center',
+            authority: ['user'],
             routes: [
               {
                 path: '/account/center',
@@ -193,6 +207,30 @@ export default [
               },
               {
                 path: '/account/center/projects',
+                component: './Account/Center/Projects',
+              },
+            ],
+          },
+          {
+            path: '/account/macenter',
+            name: 'macenter',
+            component: './Account/Center/maCenter',
+            authority: ['admin'],
+            routes: [
+              {
+                path: '/account/macenter',
+                redirect: '/account/macenter/maarticles',
+              },
+              {
+                path: '/account/macenter/maarticles',
+                component: './Account/Center/MaArticles',
+              },
+              {
+                path: '/account/macenter/applications',
+                component: './Account/Center/Applications',
+              },
+              {
+                path: '/account/macenter/projects',
                 component: './Account/Center/Projects',
               },
             ],

@@ -1,4 +1,4 @@
-import { queryList,queryList2, removeList, addList, updateList, queryFakeList ,addcard,addcardto,updatecard,updatecardto} from '@/services/api';
+import {deletecard,getoperator,getoperatorjob, addop,rizhi,addWorklog,queryList,queryList2, removeList, addList, updateList, queryFakeList ,addcard,addcardto,updatecard,updatecardto} from '@/services/api';
 
 
 
@@ -19,8 +19,51 @@ export default {
   },
 
   effects: {
+   
+    *fetchrizhi({ payload }, { call, put }) {
+      const data = yield call(rizhi, payload);
+      yield put({
+        type: 'queryList',
+        payload: Array.isArray(data) ? data : [],
+      });
+    },
+    *addrizhi({ payload }, { call, put }) {
+      const data = yield call(addWorklog, payload);
+      yield put({
+        type: 'queryList',
+        payload: Array.isArray(data) ? data : [],
+      });
+    },
+    *fetchop({ payload }, { call, put }) {
+      const data = yield call(getoperator, payload);
+      yield put({
+        type: 'queryList',
+        payload: Array.isArray(data) ? data : [],
+      });
+    },
+    *fetchopjob({ payload }, { call, put }) {
+      const data = yield call(getoperatorjob, payload);
+      yield put({
+        type: 'queryList',
+        payload: Array.isArray(data) ? data : [],
+      });
+    },
+    *addop({ payload }, { call, put }) {
+      const data = yield call(addop, payload);
+      yield put({
+        type: 'queryList',
+        payload: Array.isArray(data) ? data : [],
+      });
+    },
     *fetch({ payload }, { call, put }) {
       const data = yield call(queryList, payload);
+      yield put({
+        type: 'queryList',
+        payload: Array.isArray(data) ? data : [],
+      });
+    },
+    *deletefetch({ payload }, { call, put }) {
+      const data = yield call(deletecard, payload);
       yield put({
         type: 'queryList',
         payload: Array.isArray(data) ? data : [],

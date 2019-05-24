@@ -1,4 +1,6 @@
 import { query as queryUsers, queryCurrent } from '@/services/user';
+import {gerenxinxi} from '@/services/api';
+
 
 export default {
   namespace: 'user',
@@ -14,6 +16,13 @@ export default {
       yield put({
         type: 'save',
         payload: response,
+      });
+    },
+    *gerenxinxi({ payload }, { call, put }) {
+      const data = yield call(gerenxinxi, payload);
+      yield put({
+        type: 'save',
+        payload: Array.isArray(data) ? data : [],
       });
     },
     *fetchCurrent(_, { call, put }) {

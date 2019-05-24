@@ -1,4 +1,6 @@
 import React, { PureComponent } from 'react';
+import { findDOMNode } from 'react-dom';
+import moment from 'moment';
 import Ellipsis from '@/components/Ellipsis';
 import { connect } from 'dva';
 import {
@@ -16,59 +18,22 @@ import {
   Avatar,
   Modal,
   Form,
-  message
+  DatePicker,
+  Select,message
 } from 'antd';
 
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import Result from '@/components/Result';
+
 import styles from './Table.less';
 
+const FormItem = Form.Item;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
-const { Search } = Input;
+const SelectOption = Select.Option;
+const { Search, TextArea } = Input;
 
-const CreateForm = Form.create()(props => {
-  const { modalVisible, form, handleAdd, handleModalVisible } = props;
-  const { getFieldDecorator } = form;
-  const okHandle = () => {
-    form.validateFields((err, fieldsValue) => {
-      if (err) return;
-      form.resetFields();
-      handleAdd(fieldsValue);
-    });
-  };
-  return (
-    <Modal
-      destroyOnClose
-      title="新建"
-      visible={modalVisible}
-      onOk={okHandle}
-      onCancel={() => handleModalVisible()}
-    >
-      <Form.Item label="姓名">
-        {getFieldDecorator('op_name', {
-          rules: [{ required: true, message: '请输入！' }],
-          })(
-            <Input prefix={<Icon type="op_name" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="请输入！" />
-                        )}
-      </Form.Item>
-      <Form.Item label="电话">
-        {getFieldDecorator('op_tel', {
-          rules: [{ required: true, message: '请输入！' }],
-          })(
-            <Input prefix={<Icon type="op_tel" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="请输入！" />
-                        )}
-      </Form.Item>
-      <Form.Item label="邮箱">
-        {getFieldDecorator('op_email', {
-          rules: [{ required: true, message: '请输入！' }],
-          })(
-            <Input prefix={<Icon type="op_email" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="请输入！" />
-                        )}
-      </Form.Item>
-                 
-    </Modal>
-  );
-});
+
 
 @connect(({ list, loading }) => ({
   list,
@@ -83,21 +48,6 @@ class BasicList extends PureComponent {
     wrapperCol: { span: 13 },
   };
 
- // eslint-disable-next-line react/sort-comp
- handleAdd = fields => {
-  const { dispatch } = this.props;
-  dispatch({
-    type: 'list/addop',
-    payload: {
-      op_name: fields.op_name,
-      op_tel:fields.op_tel,
-      op_email:fields.op_email,
-    },
-  });
-
-  message.success('添加成功');
-  this.handleModalVisible();
-};
 
 state = { modalVisible: false}
 
@@ -183,6 +133,10 @@ state = { modalVisible: false}
 
     const {modalVisible} = this.state;
 
+    const {
+form: { getFieldDecorator },
+} = this.props;
+const { visible, done, current = {} } = this.state;
 
     const parentMethods = {
       handleAdd: this.handleAdd,
@@ -193,8 +147,8 @@ state = { modalVisible: false}
       if (key === 'edit') this.showEditModal(currentItem);
       else if (key === 'delete') {
         Modal.confirm({
-          title: '删除操作员',
-          content: '确定删除该操作员吗？',
+          title: '选择操作员',
+          content: '确定选择该操作员吗？',
           okText: '确认',
           cancelText: '取消',
           onOk: () => this.deleteItem(currentItem.id),
@@ -202,6 +156,10 @@ state = { modalVisible: false}
       }
     };
     
+    const modalFooter = done
+    ? { footer: null, onCancel: this.handleDone }
+    : { okText: '保存', onOk: this.handleSubmit, onCancel: this.handleCancel };
+
     const Info = ({ title, value, bordered }) => (
       <div className={styles.headerInfo}>
         <span>{title}</span>
@@ -209,24 +167,6 @@ state = { modalVisible: false}
         {bordered && <em />}
       </div>
     );
-
-    const extraContent = (
-      <div className={styles.extraContent}>
-        <RadioGroup defaultValue="all">
-          <RadioButton value="all">全部</RadioButton>
-          <RadioButton value="progress">进行中</RadioButton>
-          <RadioButton value="waiting">等待中</RadioButton>
-        </RadioGroup>
-        <Search className={styles.extraContentSearch} placeholder="请输入" onSearch={() => ({})} />
-      </div>
-    );
-
-    const paginationProps = {
-      showSizeChanger: true,
-      showQuickJumper: true,
-      pageSize: 5,
-      total: 50,
-    };
 
     const ListContent = ({ data: { op_name, ordernum, percent, status } }) => (
       <div className={styles.listContent}>
@@ -248,36 +188,30 @@ state = { modalVisible: false}
     const MoreBtn = props => (
       <Dropdown
         overlay={
-          <Menu onClick={({ key }) => editAndDelete(key, props.current)}> 
-            <Menu.Item key="delete">删除</Menu.Item>
+          <Menu onClick={({ key }) => editAndDelete(key, props.current)}>
+           
+            <Menu.Item key="delete">选择</Menu.Item>
           </Menu>
         }
       >
         <a>
-          管理 <Icon type="down" />
+          分配 <Icon type="down" />
         </a>
       </Dropdown>
     );
     
     // eslint-disable-next-line no-unused-vars
+
+    const paginationProps = {
+      showQuickJumper: true,
+      pageSize: 5,
+      total: list.length,
+    };
    
 
     return (
       <PageHeaderWrapper>
         <div className={styles.standardList}>
-          <Card bordered={false}>
-            <Row>
-              <Col sm={8} xs={24}>
-                <Info title="待办" value="8个任务" bordered />
-              </Col>
-              <Col sm={8} xs={24}>
-                <Info title="本周任务平均处理时间" value="32分钟" bordered />
-              </Col>
-              <Col sm={8} xs={24}>
-                <Info title="本周完成任务数" value="24个任务" />
-              </Col>
-            </Row>
-          </Card>
 
           <Card
             className={styles.listCard}
@@ -285,18 +219,8 @@ state = { modalVisible: false}
             title="标准列表"
             style={{ marginTop: 24 }}
             bodyStyle={{ padding: '0 32px 40px 32px' }}
-            extra={extraContent}
+      
           >
-            <Button
-              type="dashed"
-              style={{ width: '100%', marginBottom: 8 }}
-              icon="plus"
-              onClick={() => this.handleModalVisible(true)}
-           
-            >
-              添加
-            </Button>
-            <CreateForm {...parentMethods} modalVisible={modalVisible} />
             <List
               size="large"
               rowKey="id"

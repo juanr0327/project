@@ -1,5 +1,6 @@
 import { stringify } from 'qs';
 import request from '@/utils/request';
+import { getUserID } from "@/utils/authority";
 
 // export const createorder = () => axios.get('/api/createorder')
 
@@ -18,6 +19,19 @@ export async function getMockListUsingPost(query, data) {
   });
 }
 
+// 查看个人信息
+export async function gerenxinxi() {
+  return request('/server/api/view_gerenxinxi');
+}
+
+// 查看操作员列表
+export async function getoperator(params) {
+  return request(`/server/api/view_op?${stringify(params)}`);
+}
+// 查看操作员任务
+export async function getoperatorjob(params) {
+  return request(`/server/api/view_op_job?${stringify(params)}`);
+}
 // 历史转账记录
 export async function getRecordHistory(params) {
   return request(`/server/api/recordHistory?${stringify(params)}`);
@@ -25,13 +39,33 @@ export async function getRecordHistory(params) {
 export async function removeRecordHistory() {
   return request('/server/api/recordHistory');
 }
-
 export async function updateRecordHistory() {
   return request('/server/api/recordHistory');
 }
+
 // 银行卡列表
 export async function getCard() {
   return request('/server/api/Cardlist');
+}
+// createoperator
+export async function addop(params) {
+  return request(`/server/api/createoperator`, {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'post',
+    },
+  });
+}
+// add worklog
+export async function addWorklog(params) {
+  return request(`/server/api/createWorklog`, {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'post',
+    },
+  });
 }
 // add card
 export async function addcard(params) {
@@ -77,6 +111,27 @@ export async function updatecardto(params) {
   });
 }
 
+// delete card
+export async function deletecard(params) {
+  return request(`/server/api/deletetecard`, {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'post',
+    },
+  });
+}
+
+// delete cardto
+export async function deletecardto(params) {
+  return request(`/server/api/deletecardto`, {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'post',
+    },
+  });
+}
 export async function queryProjectNotice() {
   return request('/api/project/notice');
 }
@@ -158,12 +213,13 @@ export async function queryAdvancedProfile() {
   return request('/api/profile/advanced');
 }
 
-export async function queryFakeList(params) {
-  return request(`/api/fake_list?${stringify(params)}`);
-}
+
 
 export async function queryList(params) {
   return request(`/server/api/recordCard`);
+}
+export async function rizhi(params) {
+  return request(`/server/api/recordrizhi`);
 }
 export async function queryList2(params) {
   return request(`/server/api/recordCardto`);
@@ -201,10 +257,15 @@ export async function updateList(params) {
   });
 }
 
+
 export async function AccountLogin(params) {
-  return request('/api/login/account', {
+  const uID = getUserID()
+  return request(`/server/api/login`, {
     method: 'POST',
-    body: params,
+    body: {
+      ...params,uID,
+      method: 'post',
+    },
   });
 }
 
