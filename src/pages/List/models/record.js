@@ -1,4 +1,4 @@
-import { getRecordHistory,addRecordHistory ,removeRecordHistory,updateRecordHistory} from '@/services/api';
+import {getRecordHistor2, getRecordHistory,addRecordHistory ,removeRecordHistory,updateRecordHistory,addRecordHistory2 ,removeRecordHistory2,updateRecordHistory2} from '@/services/api';
 import { parse } from 'url';
 
 export const bankMap = {
@@ -34,18 +34,22 @@ export default {
 
   effects: {
     // 无需payload的话，用_省略该参数
-    *fetchRecordHistory({ payload}, { call, put }) {
-      /**
-       * yeild call, 第一个参数为调用的函数，第二个参数为该函数的参数(如果有多个参数，则 call(func, arg1, arg2...) )
-       * response为后端的返回
-       *  */
-      const data = yield call(getRecordHistory,payload);
-      
+    *fetchRecordHistory({ payload }, {call, put }) {
+      const response = yield call(getRecordHistory,payload);
       yield put({
         type: 'saveHistoryRecord', // 这个名字和下面的reducers是一一对应的，你就看成拿到数据后会调用下面的函数
-        payload: data, // data就是你的数据，下面👇通过action.payload拿到
+        payload: response, // data就是你的数据，下面👇通过action.payload拿到
       });
     },
+
+    *fetchRecordHistory2({ payload}, { call, put }) {
+      const response = yield call(getRecordHistor2,payload);
+      yield put({
+        type: 'saveHistoryRecord', // 这个名字和下面的reducers是一一对应的，你就看成拿到数据后会调用下面的函数
+        payload: response, // data就是你的数据，下面👇通过action.payload拿到
+      });
+    },
+
     *add({ payload, callback }, { call, put }) {
       const data = yield call(addRecordHistory, payload);
       yield put({
@@ -54,6 +58,7 @@ export default {
       });
       if (callback) callback();
     },
+
     *remove({ payload, callback }, { call, put }) {
       const data = yield call(removeRecordHistory, payload);
       yield put({
@@ -62,8 +67,36 @@ export default {
       });
       if (callback) callback();
     },
+
     *update({ payload, callback }, { call, put }) {
       const data = yield call(updateRecordHistory, payload);
+      yield put({
+        type: 'saveHistoryRecord',
+        payload: data,
+      });
+      if (callback) callback();
+    },
+
+    *add2({ payload, callback }, { call, put }) {
+      const data = yield call(addRecordHistory2, payload);
+      yield put({
+        type: 'saveHistoryRecord',
+        payload: data,
+      });
+      if (callback) callback();
+    },
+
+    *remov2({ payload, callback }, { call, put }) {
+      const data = yield call(removeRecordHistory2, payload);
+      yield put({
+        type: 'saveHistoryRecord',
+        payload: data,
+      });
+      if (callback) callback();
+    },
+
+    *update2({ payload, callback }, { call, put }) {
+      const data = yield call(updateRecordHistory2, payload);
       yield put({
         type: 'saveHistoryRecord',
         payload: data,
@@ -75,19 +108,10 @@ export default {
   // 用来把数据合并到最上面的state里面
   reducers: {
     saveHistoryRecord(state, action) {
-      const pageSize = 10;
-
-      const result = {
-        list: action.payload,
-        pagination: {
-          total: action.payload.length,
-          pageSize,
-          current: 1,
-        },
-      };
+      const list = action.payload;
       return {
         ...state,
-        result,
+        list,
       };
     },
   },

@@ -5,6 +5,8 @@ import router from 'umi/router';
 import { Card, Row, Col, Icon, Avatar, Tag, Divider, Spin, Input } from 'antd';
 import GridContent from '@/components/PageHeaderWrapper/GridContent';
 import styles from './Center.less';
+import { getUserTel } from "@/utils/authority";
+import { avatarsMap } from '../../../models/list';
 
 @connect(({ loading, user, project }) => ({
   listLoading: loading.effects['user/gerenxinxi'],
@@ -25,13 +27,17 @@ class Center extends PureComponent {
 
   componentDidMount() {
     const { dispatch } = this.props;
-  
+    const tel = getUserTel()
+    const payload = {tel}
+    console.log(tel);
     dispatch({
       type: 'user/gerenxinxi',
+      payload
     
     });
     dispatch({
-      type: 'project/fetchNotice',
+      type: 'project/fetchcard',
+      payload
     });
   }
 
@@ -74,10 +80,6 @@ class Center extends PureComponent {
     
     const {
       listLoading,
-      currentUser,
-      currentUserLoading,
-      project: { notice },
-      projectLoading,
       match,
       location,
       children,
@@ -120,9 +122,16 @@ class Center extends PureComponent {
                   <div className={styles.detail}>
                     <p>
                       <i className={styles.title} />
-                      {curUser.idoperator}
+                      {curUser.idoperator}号操作员
                     </p>
-                   
+                    <p>
+                      <i className={styles.title} />
+                      电话：{curUser.op_tel}
+                    </p>
+                    <p>
+                      <i className={styles.title} />
+                      邮箱：{curUser.op_email}
+                    </p>
                     <p>
                       <i className={styles.address} />
                       {curUser.op_address}
@@ -131,21 +140,7 @@ class Center extends PureComponent {
                   <Divider dashed />
                
                   <Divider style={{ marginTop: 16 }} dashed />
-                  <div className={styles.team}>
-                    <div className={styles.teamTitle}>银行卡管理</div>
-                    <Spin spinning={projectLoading}>
-                      <Row gutter={36}>
-                        {notice.map(item => (
-                          <Col key={item.id} lg={80} xl={20}>
-                            <Link to={item.href}>
-                              <Avatar size="small" src={item.logo} />
-                              {item.member}
-                            </Link>
-                          </Col>
-                        ))}
-                      </Row>
-                    </Spin>
-                  </div>
+          
                 </div>
               ) : (
                 'loading...'

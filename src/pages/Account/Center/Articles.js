@@ -4,6 +4,7 @@ import { connect } from 'dva';
 import moment from 'moment';
 import styles from './Articles.less';
 import Ellipsis from '@/components/Ellipsis';
+import { getUserTel } from "@/utils/authority";
 
 const CreateForm = Form.create()(props => {
   const { modalVisible, form, handleAdd, handleModalVisible } = props;
@@ -63,11 +64,11 @@ class Center extends PureComponent {
 
   componentDidMount() {
     const { dispatch } = this.props;
+    const tel = getUserTel()
+    const payload = {tel}
     dispatch({
       type: 'list/fetchrizhi',
-      payload: {
-        count: 8,
-      },
+      payload
     });
   }
 

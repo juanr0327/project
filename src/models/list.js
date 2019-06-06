@@ -1,6 +1,10 @@
-import {deletecard,getoperator,getoperatorjob, addop,rizhi,addWorklog,queryList,queryList2, removeList, addList, updateList, queryFakeList ,addcard,addcardto,updatecard,updatecardto} from '@/services/api';
+import {check,deletecardto,checkrizhi,rizhi2,userqueryList2,userqueryList,addequipment,getequipment,deletecard,getoperator,getoperatorjob, addop,rizhi,addWorklog,queryList,queryList2, removeList, addList, updateList, queryFakeList ,addcard,addcardto,updatecard,updatecardto} from '@/services/api';
 
+export const duankouMap = {
+  0: '电脑端',
+  1: '手机端',
 
+};
 
 export const avatarsMap = {
   zsyh: 'https://raw.githubusercontent.com/cellier/bank-icon-cn/master/JPG/%E6%8B%9B%E5%95%86%E9%93%B6%E8%A1%8C.jpg', // 招商
@@ -19,9 +23,30 @@ export default {
   },
 
   effects: {
-   
+     
+    *check({ payload }, { call, put }) {
+      const data = yield call(check, payload);
+      yield put({
+        type: 'queryList',
+        payload: Array.isArray(data) ? data : [],
+      });
+    },
+    *checkrizhi({ payload }, { call, put }) {
+      const data = yield call(checkrizhi, payload);
+      yield put({
+        type: 'queryList',
+        payload: Array.isArray(data) ? data : [],
+      });
+    },
     *fetchrizhi({ payload }, { call, put }) {
       const data = yield call(rizhi, payload);
+      yield put({
+        type: 'queryList',
+        payload: Array.isArray(data) ? data : [],
+      });
+    },
+    *fetchrizhi2({ payload }, { call, put }) {
+      const data = yield call(rizhi2, payload);
       yield put({
         type: 'queryList',
         payload: Array.isArray(data) ? data : [],
@@ -41,6 +66,13 @@ export default {
         payload: Array.isArray(data) ? data : [],
       });
     },
+    *fetchequipment({ payload }, { call, put }) {
+      const data = yield call(getequipment, payload);
+      yield put({
+        type: 'queryList',
+        payload: Array.isArray(data) ? data : [],
+      });
+    },
     *fetchopjob({ payload }, { call, put }) {
       const data = yield call(getoperatorjob, payload);
       yield put({
@@ -55,6 +87,14 @@ export default {
         payload: Array.isArray(data) ? data : [],
       });
     },
+    *addequipment({ payload }, { call, put }) {
+      const data = yield call(addequipment, payload);
+      yield put({
+        type: 'queryList',
+        payload: Array.isArray(data) ? data : [],
+      });
+    },
+    //admin
     *fetch({ payload }, { call, put }) {
       const data = yield call(queryList, payload);
       yield put({
@@ -62,19 +102,33 @@ export default {
         payload: Array.isArray(data) ? data : [],
       });
     },
-    *deletefetch({ payload }, { call, put }) {
-      const data = yield call(deletecard, payload);
-      yield put({
-        type: 'queryList',
-        payload: Array.isArray(data) ? data : [],
-      });
-    },
-    *fetch2({ payload }, { call, put }) {
+     *fetch2({ payload }, { call, put }) {
       const data = yield call(queryList2, payload);
       yield put({
         type: 'queryList',
         payload: Array.isArray(data) ? data : [],
       });
+    },
+     //user 
+    *userfetch({ payload }, { call, put }) {
+      const data = yield call(userqueryList, payload);
+      yield put({
+        type: 'queryList',
+        payload: Array.isArray(data) ? data : [],
+      });
+    },
+     *userfetch2({ payload }, { call, put }) {
+      const data = yield call(userqueryList2, payload);
+      yield put({
+        type: 'queryList',
+        payload: Array.isArray(data) ? data : [],
+      });
+    },
+    *deletefetch({ payload }, { call, put }) {
+      yield call(deletecard, payload);
+    },
+    *deletefetch2({ payload }, { call, put }) {
+      yield call(deletecardto, payload);
     },
     *addfetch({ payload }, { call, put }) {
       const data = yield call(addcard, payload);

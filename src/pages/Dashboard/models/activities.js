@@ -1,4 +1,4 @@
-import { queryActivities } from '@/services/api';
+import { queryActivities,rizhi2 } from '@/services/api';
 
 export default {
   namespace: 'activities',
@@ -13,6 +13,14 @@ export default {
       yield put({
         type: 'saveList',
         payload: Array.isArray(response) ? response : [],
+      });
+    },
+    *fetchrizhi({ payload }, { call, put }) {
+      const data = yield call(rizhi2, payload);
+      console.log(data)
+      yield put({
+        type: 'saveList',
+        payload: Array.isArray(data) ? data : [],
       });
     },
   },

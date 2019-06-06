@@ -203,7 +203,6 @@ const { visible, done, current = {} } = this.state;
     // eslint-disable-next-line no-unused-vars
 
     const paginationProps = {
-      showQuickJumper: true,
       pageSize: 5,
       total: list.length,
     };

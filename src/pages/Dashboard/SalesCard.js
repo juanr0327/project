@@ -9,12 +9,35 @@ const { RangePicker } = DatePicker;
 const { TabPane } = Tabs;
 
 const rankingListData = [];
-for (let i = 0; i < 7; i += 1) {
-  rankingListData.push({
-    title: formatMessage({ id: 'app.analysis.test' }, { no: i }),
-    total: 323234,
-  });
-}
+rankingListData.push({
+  title: '2019-02',
+  total: 560000,
+});
+rankingListData.push({
+  title: '2019-01',
+  total: 550000,
+});
+rankingListData.push({
+  title: '2018-11',
+  total: 440000,
+});
+rankingListData.push({
+  title: '2018-06',
+  total: 400000,
+});
+rankingListData.push({
+  title: '2018-12',
+  total: 380000,
+});
+rankingListData.push({
+  title: '2018-07',
+  total: 350000,
+});
+rankingListData.push({
+  title: '2018-08',
+  total: 320000,
+});
+
 
 const SalesCard = memo(
   ({ rangePickerValue, salesData, isActive, handleRangePickerChange, loading, selectDate }) => (
@@ -32,9 +55,6 @@ const SalesCard = memo(
                 </a>
                 <a className={isActive('month')} onClick={() => selectDate('month')}>
                   <FormattedMessage id="app.analysis.all-month" defaultMessage="All Month" />
-                </a>
-                <a className={isActive('year')} onClick={() => selectDate('year')}>
-                  <FormattedMessage id="app.analysis.all-year" defaultMessage="All Year" />
                 </a>
               </div>
               <RangePicker

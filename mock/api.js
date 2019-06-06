@@ -185,9 +185,9 @@ const getNotice = [
     id: 'xxx1',
     title: titles[0],
     logo: avatars[0],
-    description: '描述',
+    description: '6212261614003383145',
     updatedAt: new Date(),
-    member: '6212261614003383145',
+    member: '已完成',
     href: '',
     memberLink: '',
   },
@@ -195,9 +195,9 @@ const getNotice = [
     id: 'xxx2',
     title: titles[1],
     logo: avatars[1],
-    description: '描述',
+    description: '6212261614003383145',
     updatedAt: new Date('2019-04-15'),
-    member: '8212261614003383145',
+    member: '已完成',
     href: '',
     memberLink: '',
   },
@@ -205,9 +205,9 @@ const getNotice = [
     id: 'xxx3',
     title: titles[2],
     logo: avatars[2],
-    description: '描述',
+    description: '6212261614003383145',
     updatedAt: new Date('2019-04-15'),
-    member: '7212261614003383145',
+    member: '已完成',
     href: '',
     memberLink: '',
   },
@@ -251,15 +251,12 @@ const getActivities = [
       name: '曲丽丽',
       avatar: avatars2[0],
     },
-    group: {
-      name: '工作日志',
-      link: 'http://github.com/',
-    },
+   
     project: {
-      name: '*****转账任务',
-      link: 'http://github.com/',
+      name: '工作日志',
+      link: 'http://localhost:8000/account/center/articles',
     },
-    template: '在 @{group} 新建项目 @{project}',
+    template: '新建 @{project}',
   },
   {
     id: 'trend-2',
@@ -268,80 +265,16 @@ const getActivities = [
       name: '曲丽丽',
       avatar: avatars2[1],
     },
-    group: {
-      name: '工作日志',
-      link: 'http://github.com/',
-    },
+  
     project: {
-      name: '*****转账任务',
-      link: 'http://github.com/',
+      name: '转账任务',
+      link: 'http://localhost:8000/list/table-list',
     },
-    template: '在 @{group} 新建项目 @{project}',
+    template: ' 新建 @{project}',
   },
-  {
-    id: 'trend-3',
-    updatedAt: new Date(),
-    user: {
-      name: '曲丽丽',
-      avatar: avatars2[2],
-    },
-    group: {
-      name: '工作日志',
-      link: 'http://github.com/',
-    },
-    project: {
-      name: '*****转账任务',
-      link: 'http://github.com/',
-    },
-    template: '在 @{group} 新建项目 @{project}',
-  },
-  {
-    id: 'trend-4',
-    updatedAt: new Date(),
-    user: {
-      name: '曲丽丽',
-      avatar: avatars2[4],
-    },
-    project: {
-      name: '工作日志',
-      link: 'http://github.com/',
-    },
-    template: '将 @{project} 更新至已发布状态',
-  },
-  {
-    id: 'trend-5',
-    updatedAt: new Date(),
-    user: {
-      name: '曲丽丽',
-      avatar: avatars2[3],
-    },
-    project: {
-      name: '工作日志',
-      link: 'http://github.com/',
-    },
-    comment: {
-      name: '*****转账任务',
-      link: 'http://github.com/',
-    },
-    template: '在 @{project} 发布了 @{comment}',
-  },
-  {
-    id: 'trend-6',
-    updatedAt: new Date(),
-    user: {
-      name: '曲丽丽',
-      avatar: avatars2[5],
-    },
-    group: {
-      name: '工作日志',
-      link: 'http://github.com/',
-    },
-    project: {
-      name: '*****转账任务',
-      link: 'http://github.com/',
-    },
-    template: '在 @{group} 新建项目 @{project}',
-  },
+
+
+
 ];
 
 function getFakeCaptcha(req, res) {

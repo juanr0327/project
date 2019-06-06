@@ -61,7 +61,7 @@ ReactDOM.render(
       <ChartCard
         title="线上购物转化率"
         action={<Tooltip title="指标说明"><Icon type="info-circle-o" /></Tooltip>}
-        total="78%"
+        total="89%"
         footer={
           <div>
             <span>

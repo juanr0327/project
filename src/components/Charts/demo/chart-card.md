@@ -25,7 +25,7 @@ ReactDOM.render(
           <span dangerouslySetInnerHTML={{ __html: yuan(126560) }} />
         )}
         footer={
-          <Field label="日均销售额" value={numeral(12423).format("0,0")} />
+          <Field label="日均销售额" value={numeral(0).format("0,0")} />
         }
         contentHeight={46}
       >

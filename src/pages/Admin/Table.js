@@ -222,10 +222,8 @@ state = { modalVisible: false}
     );
 
     const paginationProps = {
-      showSizeChanger: true,
-      showQuickJumper: true,
       pageSize: 5,
-      total: 50,
+      total: list.length,
     };
 
     const ListContent = ({ data: { op_name, ordernum, percent, status } }) => (

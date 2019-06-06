@@ -108,12 +108,12 @@ const salesTypeDataOffline = [
     y: 65,
   },
 ];
-
+//员工图
 const offlineData = [];
-for (let i = 0; i < 10; i += 1) {
+for (let i = 0; i < 1; i += 1) {
   offlineData.push({
-    name: `operator ${i}`,
-    cvr: Math.ceil(Math.random() * 9) / 10,
+    name: `刘艺`,
+    cvr: 0.75,
   });
 }
 const offlineChartData = [];

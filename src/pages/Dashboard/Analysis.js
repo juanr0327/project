@@ -6,6 +6,7 @@ import { getTimeDistance } from '@/utils/utils';
 import styles from './Analysis.less';
 import PageLoading from '@/components/PageLoading';
 import { AsyncLoadBizCharts } from '@/components/Charts/AsyncLoadBizCharts';
+import { bankMap, statusMap } from '../../models/project';
 
 const IntroduceRow = React.lazy(() => import('./IntroduceRow'));
 const SalesCard = React.lazy(() => import('./SalesCard'));
@@ -29,6 +30,11 @@ class Analysis extends Component {
     this.reqRef = requestAnimationFrame(() => {
       dispatch({
         type: 'chart/fetch',
+      });
+
+      // request
+      dispatch({
+        type: 'chart/fetchData2',
       });
     });
   }
@@ -60,18 +66,39 @@ class Analysis extends Component {
     });
 
     dispatch({
-      type: 'chart/fetchSalesData',
+      type: 'chart/fetchSalesData2',
+      payload: {
+        range: rangePickerValue
+      }
+    });
+  };
+
+  // 切换转出转入银行卡
+  handleBankChange = value => {
+    const { dispatch } = this.props;
+
+    console.log(value)
+
+    dispatch({
+      type: 'chart/xxx',
+      payload: {
+        value
+      }
     });
   };
 
   selectDate = type => {
     const { dispatch } = this.props;
+    const range = getTimeDistance(type)
     this.setState({
-      rangePickerValue: getTimeDistance(type),
+      rangePickerValue: range,
     });
 
     dispatch({
-      type: 'chart/fetchSalesData',
+      type: 'chart/fetchSalesData2',
+      payload: {
+        range
+      }
     });
   };
 
@@ -112,8 +139,8 @@ class Analysis extends Component {
     }
     const menu = (
       <Menu>
-        <Menu.Item>转出银行卡</Menu.Item>
-        <Menu.Item>转入银行卡</Menu.Item>
+        <Menu.Item onClick={() => this.handleBankChange('accountout')}>转出银行卡</Menu.Item>
+        <Menu.Item onClick={() => this.handleBankChange('accountto')}>转入银行卡</Menu.Item>
       </Menu>
     );
 
@@ -168,15 +195,7 @@ class Analysis extends Component {
             </Col>
           </Row>
         </div>
-        <Suspense fallback={null}>
-          <OfflineData
-            activeKey={activeKey}
-            loading={loading}
-            offlineData={offlineData}
-            offlineChartData={offlineChartData}
-            handleTabChange={this.handleTabChange}
-          />
-        </Suspense>
+        
       </GridContent>
     );
   }

@@ -6,12 +6,14 @@ import numeral from 'numeral';
 import styles from './Analysis.less';
 import NumberInfo from '@/components/NumberInfo';
 import { MiniArea } from '@/components/Charts';
+import { bankMap, statusMap } from '../../models/project';
 
 const columns = [
   {
     title: <FormattedMessage id="app.analysis.table.rank" defaultMessage="Rank" />,
     dataIndex: 'index',
     key: 'index',
+    render: val => bankMap[val],
   },
   {
     title: (
@@ -19,23 +21,21 @@ const columns = [
     ),
     dataIndex: 'keyword',
     key: 'keyword',
-    render: text => <a href="/">{text}</a>,
+    render: text => <a href="/list/table-list2">{text}</a>,
   },
   {
     title: <FormattedMessage id="app.analysis.table.users" defaultMessage="Users" />,
     dataIndex: 'count',
     key: 'count',
-    sorter: (a, b) => a.count - b.count,
     className: styles.alignRight,
   },
   {
     title: <FormattedMessage id="app.analysis.table.weekly-range" defaultMessage="Weekly Range" />,
     dataIndex: 'range',
     key: 'range',
-    sorter: (a, b) => a.range - b.range,
     render: (text, record) => (
       <Trend flag={record.status === 1 ? 'down' : 'up'}>
-        <span style={{ marginRight: 4 }}>{text}%</span>
+        <span style={{ marginRight: 4 }}>{text}</span>
       </Trend>
     ),
     align: 'right',
@@ -72,28 +72,7 @@ const TopSearch = memo(({ loading, visitData2, searchData, dropdownGroup }) => (
         />
         <MiniArea line height={45} data={visitData2} />
       </Col>
-      <Col sm={12} xs={24} style={{ marginBottom: 24 }}>
-        <NumberInfo
-          subTitle={
-            <span>
-              <FormattedMessage
-                id="app.analysis.per-capita-search"
-                defaultMessage="Per Capita Search"
-              />
-              <Tooltip
-                title={<FormattedMessage id="app.analysis.introduce" defaultMessage="introduce" />}
-              >
-                <Icon style={{ marginLeft: 8 }} type="info-circle-o" />
-              </Tooltip>
-            </span>
-          }
-          total={27}
-          status="down"
-          subTotal={2}
-          gap={8}
-        />
-        <MiniArea line height={45} data={visitData2} />
-      </Col>
+     
     </Row>
     <Table
       rowKey={record => record.index}

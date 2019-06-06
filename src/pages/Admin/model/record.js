@@ -16,7 +16,11 @@ export const statusMap = {
   error: '异常',
 };
 
+export const duankouMap = {
+  0: '电脑端',
+  1: '手机端',
 
+};
 export default {
   namespace: 'record',
 

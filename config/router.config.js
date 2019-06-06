@@ -20,7 +20,6 @@ export default [
     component: '../layouts/BasicLayout',
     Routes: ['src/pages/Authorized'],
     routes: [
-      // dashboard
       { path: '/', redirect: '/dashboard/analysis' },
       {
         path: '/dashboard',
@@ -31,19 +30,29 @@ export default [
             path: '/dashboard/analysis',
             name: 'analysis',
             component: './Dashboard/Analysis',
+            authority: [ 'user'],
           },
-         // {
-           // path: '/dashboard/monitor',
-          //  name: 'monitor',
-         //   component: './Dashboard/Monitor',
-         // },
           {
             path: '/dashboard/workplace',
             name: 'workplace',
             component: './Dashboard/Workplace',
+            authority: ['user'],
+          },
+          {
+            path: '/dashboard/analysis2',
+            name: 'analysis2',
+            component: './Dashboard/Analysis2',
+            authority: ['admin'],
+          },
+          {
+            path: '/dashboard/workplace2',
+            name: 'workplace2',
+            component: './Dashboard/Workplace2',
+            authority: ['admin'],
           },
         ],
       },
+ 
       // forms
       {
         path: '/form',
@@ -124,6 +133,7 @@ export default [
         path: '/profile',
         name: 'profile',
         icon: 'profile',
+        
         routes: [
           // profile
           {
@@ -180,6 +190,13 @@ export default [
             hideChildrenInMenu: true,
             hideInMenu: true
           },
+          {
+            path: '/admin/equipment',
+            name: 'equipment',
+            component: './Admin/equipment',
+            hideChildrenInMenu: true,
+            
+          },
         ],
       },
       {
@@ -212,25 +229,25 @@ export default [
             ],
           },
           {
-            path: '/account/macenter',
-            name: 'macenter',
-            component: './Account/Center/maCenter',
+            path: '/account/center2',
+            name: 'center2',
+            component: './Account/Center/Center2',
             authority: ['admin'],
             routes: [
               {
-                path: '/account/macenter',
-                redirect: '/account/macenter/maarticles',
+                path: '/account/center2',
+                redirect: '/account/center2/articles',
               },
               {
-                path: '/account/macenter/maarticles',
-                component: './Account/Center/MaArticles',
+                path: '/account/center2/articles',
+                component: './Account/Center/Articles2',
               },
               {
-                path: '/account/macenter/applications',
+                path: '/account/center2/applications',
                 component: './Account/Center/Applications',
               },
               {
-                path: '/account/macenter/projects',
+                path: '/account/center2/projects',
                 component: './Account/Center/Projects',
               },
             ],
@@ -239,6 +256,7 @@ export default [
             path: '/account/settings',
             name: 'settings',
             component: './Account/Settings/Info',
+            authority: ['user'],
             routes: [
               {
                 path: '/account/settings',
@@ -258,6 +276,34 @@ export default [
               },
               {
                 path: '/account/settings/notification',
+                component: './Account/Settings/NotificationView',
+              },
+            ],
+          },
+          {
+            path: '/account/settings2',
+            name: 'settings2',
+            component: './Account/Settings/Info2',
+            authority: ['admin'],
+            routes: [
+              {
+                path: '/account/settings2',
+                redirect: '/account/settings2/base2',
+              },
+              {
+                path: '/account/settings2/base2',
+                component: './Account/Settings/BaseView2',
+              },
+              {
+                path: '/account/settings2/security2',
+                component: './Account/Settings/SecurityView2',
+              },
+              {
+                path: '/account/settings2/binding',
+                component: './Account/Settings/BindingView',
+              },
+              {
+                path: '/account/settings2/notification',
                 component: './Account/Settings/NotificationView',
               },
             ],

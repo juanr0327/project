@@ -38,8 +38,7 @@ const CreateForm = Form.create()(props => {
       onCancel={() => handleModalVisible()}
     >
       <Form.Item label="卡号">
-      
-        {getFieldDecorator('cardto_id', {
+        {getFieldDecorator('card_id', {
           rules: [{ required: true, message: '请输入银行卡号！' }],
           })(
             <Input prefix={<Icon type="card_id" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="请输入银行卡号！" />
@@ -49,7 +48,7 @@ const CreateForm = Form.create()(props => {
         label="银行名称"
         hasFeedback
       >
-        {getFieldDecorator('银行名称', {
+        {getFieldDecorator('bank', {
             rules: [
             { required: true, message: '请选择银行' },
             ],
@@ -63,15 +62,27 @@ const CreateForm = Form.create()(props => {
               </Select>
           )}
       </Form.Item>   
-      
-      <Form.Item label="姓名">
+      <Form.Item label="余额">
+        {getFieldDecorator('money', {
+          rules: [{ required: true, message: '请输入银行卡余额！' }],
+          })(
+            <Input prefix={<Icon type="money" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="请输入银行卡余额！" />
+                        )}
+      </Form.Item>
+      <Form.Item label="姓名"> 
         {getFieldDecorator('name', {
           rules: [{ required: true, message: '请输入持卡人姓名！' }],
         })(
           <Input prefix={<Icon type="name" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="请输入持卡人姓名！" />
           )}
       </Form.Item>
-  
+      <Form.Item label="电话">
+        {getFieldDecorator('tel', {
+          rules: [{ required: true, message: '请输入持卡人电话！' }],
+        })(
+          <Input prefix={<Icon type="tel" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="请输入持卡人电话！" />
+          )}
+      </Form.Item>
       <Form.Item            
         label="操作员姓名"
         hasFeedback
@@ -90,6 +101,43 @@ const CreateForm = Form.create()(props => {
     </Modal>
   );
 });
+const CreateForm2 = Form.create()(props => {
+  const { modalVisible2, handleModalVisible2, activeCardId,activename,activemoney,activetel} = props;
+ // console.log(cardId)
+  return (
+    <Modal
+      destroyOnClose
+      title="详情"
+      visible={modalVisible2}
+      onOk={() => handleModalVisible2()}
+      onCancel={() => handleModalVisible2()}
+    >
+      <div>卡号：{activeCardId}</div>
+      <div>持卡人：{activename}</div>
+      <div>余额：{activemoney}</div>
+      <div>持卡人电话：{activetel}</div>               
+    </Modal>
+  );
+});
+
+
+const CreateForm3 = Form.create()(props => {
+  const { modalVisible3, handledelete, handleModalVisible3, activeCardId} = props;
+  return (
+    <Modal
+      destroyOnClose
+      // title="删除"
+      visible={modalVisible3}
+      onOk={() => handledelete(activeCardId)}
+      onCancel={() => handleModalVisible3()}
+      title={activeCardId}
+    >
+      <div>卡号：{activeCardId}</div>
+      <div>你确定删除该银行卡吗？</div>
+                                  
+    </Modal>
+  );
+});
 @connect(({ list, loading }) => ({
   list,
   loading: loading.models.list,
@@ -103,20 +151,38 @@ class CardList extends PureComponent {
     dispatch({
       type: 'list/addfetch2',
       payload: {
-        cardto_id: fields.cardto_id,
+        card_id: fields.card_id,
         bank: fields.bank,
+        money: fields.money,
         name: fields.name,
+        tel: fields.tel,
         idoperator: fields.idoperator,
       },
     });
-
+   
     message.success('添加成功');
     this.handleModalVisible();
   };
 
-  state = { modalVisible: false}
   
- 
+  handledelete = (cardId) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'list/deletefetch2',
+      payload: {
+       cardId
+      },
+    });
+
+    message.success('删除成功');
+    this.handleModalVisible3();
+
+    setTimeout(() => {
+      location.reload()
+    }, 1000);    
+  };
+
+  state = { modalVisible: false,  modalVisible2: false,modalVisible3: false, activeCardId: '',activename:'',activetel:'',activemoney:'' }
 
   componentDidMount() {
     const { dispatch } = this.props;
@@ -126,11 +192,30 @@ class CardList extends PureComponent {
         count: 8,
       },
     });
+   
   }
 
   handleModalVisible = flag => {
     this.setState({
       modalVisible: !!flag,
+    });
+  };
+
+  handleModalVisible2 = (flag, cardId,money,name,tel) => {
+    this.setState({
+      modalVisible2: !!flag,
+      activeCardId: cardId,
+      activemoney: money,
+      activename:name,
+      activetel:tel,
+
+    });
+  };
+
+  handleModalVisible3 = (flag, cardId) => {
+    this.setState({
+      modalVisible3: !!flag,
+      activeCardId: cardId
     });
   };
 
@@ -141,7 +226,7 @@ class CardList extends PureComponent {
      
     } = this.props;
    
-    const {  modalVisible } = this.state;
+    const {  modalVisible,modalVisible2,modalVisible3, activeCardId,activemoney,activename,activetel } = this.state;
     const content = (
       <div className={styles.pageHeaderContent}>
         <p>
@@ -164,6 +249,11 @@ class CardList extends PureComponent {
       </div>
     );
 
+    const paginationProps = {
+      pageSize: 6,
+      total: list.length,
+    };
+
     const extraContent = (
       <div className={styles.extraImg}>
         <img
@@ -176,21 +266,30 @@ class CardList extends PureComponent {
       handleAdd: this.handleAdd,
       handleModalVisible: this.handleModalVisible,
     };
+    const parentMethods2 = {
+      
+      handleModalVisible2: this.handleModalVisible2,
+    };
+    const parentMethods3 = {
+      
+      handledelete: this.handledelete,
+      handleModalVisible3: this.handleModalVisible3,
+    };
     return (
       <PageHeaderWrapper title="银行卡列表" content={content} extraContent={extraContent}>
         <div className={styles.cardList}>
           <List
             rowKey="id"
             loading={loading}
+            pagination={paginationProps}
             grid={{ gutter: 24, lg: 3, md: 2, sm: 1, xs: 1 }}
             dataSource={['', ...list]}
             renderItem={item =>
               item ? (
-                <List.Item key={item.id}>
-                  <Card hoverable className={styles.card} actions={[<a>管理</a>, <a>删除</a>]} >
+                <List.Item key={item.cardto_id}>
+                  <Card hoverable className={styles.card}>
                     <Card.Meta
                       avatar={<img alt="" className={styles.cardAvatar} src={avatarsMap[item.bank]} />}
-                   
                       title={<a>{item.title}</a>}
                       description={
                         <Ellipsis className={styles.item} lines={3}>
@@ -200,13 +299,26 @@ class CardList extends PureComponent {
                         </Ellipsis>
                       }
                     />
+                    <Button
+                      type="primary"
+                      className={styles.newButton2}
+                      // eslint-disable-next-line no-shadow
+                      href='http://localhost:8000/admin/operator-card'
+                    >
+                      <Icon type="update" /> 管理
+                    </Button>
+                    <Button type="primary" className={styles.newButton2} onClick={() => this.handleModalVisible2(true, item.card_id,item.money,item.name,item.tel)}>
+                      <Icon type="detail" /> 详情
+                    </Button>
+                    <Button type="danger" className={styles.newButton2} onClick={() => this.handleModalVisible3(true, item.card_id)}>
+                      <Icon type="delete" /> 删除
+                    </Button>
                   </Card>
                 </List.Item>
               ) : (
                 <List.Item>
-                 
                   <Button type="dashed" className={styles.newButton} onClick={() => this.handleModalVisible(true)}>
-                    <Icon type="plus" /> 新建产品
+                    <Icon type="plus" /> 新建
                   </Button>
                   <CreateForm {...parentMethods} modalVisible={modalVisible} />
                 </List.Item>
@@ -214,6 +326,8 @@ class CardList extends PureComponent {
             }
           />
         </div>
+        <CreateForm2 {...parentMethods2} modalVisible2={modalVisible2} activeCardId={activeCardId} activemoney={activemoney} activename={activename} activetel={activetel} />
+        <CreateForm3 {...parentMethods3} modalVisible3={modalVisible3} activeCardId={activeCardId} />
       </PageHeaderWrapper>
     );
   }

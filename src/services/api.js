@@ -18,23 +18,41 @@ export async function getMockListUsingPost(query, data) {
     },
   });
 }
-
-// 查看个人信息
-export async function gerenxinxi() {
-  return request('/server/api/view_gerenxinxi');
+// workplace(user)
+export async function fetchuser(params) {
+  return request(`/server/api/feachuser?${stringify(params)}`);
 }
-
+// workplace(admin)
+export async function fetchuser2() {
+  return request('/server/api/feachuser2');
+}
+// 查看个人信息(user)
+export async function gerenxinxi(params) {
+  return request(`/server/api/view_gerenxinxi?${stringify(params)}`);
+}
+// 查看个人信息(admin)
+export async function gerenxinxi2() {
+  return request(`/server/api/view_gerenxinxi2`);
+}
 // 查看操作员列表
 export async function getoperator(params) {
   return request(`/server/api/view_op?${stringify(params)}`);
+}
+// 查看操作员列表
+export async function getequipment(params) {
+  return request(`/server/api/view_equipment?${stringify(params)}`);
 }
 // 查看操作员任务
 export async function getoperatorjob(params) {
   return request(`/server/api/view_op_job?${stringify(params)}`);
 }
-// 历史转账记录
+// 历史转账记录(user)
 export async function getRecordHistory(params) {
   return request(`/server/api/recordHistory?${stringify(params)}`);
+}
+// 历史转账记录(admin)
+export async function getRecordHistor2(params) {
+  return request(`/server/api/recordHistory2?${stringify(params)}`);
 }
 export async function removeRecordHistory() {
   return request('/server/api/recordHistory');
@@ -57,7 +75,17 @@ export async function addop(params) {
     },
   });
 }
-// add worklog
+// addequipment
+export async function addequipment(params) {
+  return request(`/server/api/addequipment`, {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'post',
+    },
+  });
+}
+// add worklog  
 export async function addWorklog(params) {
   return request(`/server/api/createWorklog`, {
     method: 'POST',
@@ -113,10 +141,9 @@ export async function updatecardto(params) {
 
 // delete card
 export async function deletecard(params) {
-  return request(`/server/api/deletetecard`, {
+  return request(`/server/api/deletecard?${stringify(params)}`, {
     method: 'POST',
     body: {
-      ...params,
       method: 'post',
     },
   });
@@ -124,7 +151,7 @@ export async function deletecard(params) {
 
 // delete cardto
 export async function deletecardto(params) {
-  return request(`/server/api/deletecardto`, {
+  return request(`/server/api/deletecardto${stringify(params)}`, {
     method: 'POST',
     body: {
       ...params,
@@ -132,8 +159,12 @@ export async function deletecardto(params) {
     },
   });
 }
-export async function queryProjectNotice() {
-  return request('/api/project/notice');
+// 
+export async function queryProjectNotice(params) {
+  return request(`/server/api/fetchNotice?${stringify(params)}`);
+}
+export async function queryProjectNotice2() {
+  return request(`/server/api/fetchNotice2`);
 }
 
 export async function queryActivities() {
@@ -200,29 +231,62 @@ export async function fakeSubmitFormsever(params) {
 export async function fakeChartData() {
   return request('/api/fake_chart_data');
 }
-
+export async function fakeChartData1(params) {
+  return request(`/server/api/fake_chart_data?${stringify(params)}`);
+}
+export async function fakeChartData2(params) {
+  return request(`/server/api/fake_chart_data2?${stringify(params)}`);
+}
+export async function ChartData() {
+  return request('/server/api/chart_data');
+}
+export async function ChartData2() {
+  return request('/server/api/chart_data2');
+}
 export async function queryTags() {
   return request('/api/tags');
 }
 
 export async function queryBasicProfile(id) {
-  return request(`/api/profile/basic?id=${id}`);
+  return request(`/server/api/basic?id=${id}`);
 }
 
-export async function queryAdvancedProfile() {
+export async function AdvancedProfile() {
   return request('/api/profile/advanced');
 }
 
 
-
+//查看银行卡列表（admin）
 export async function queryList(params) {
   return request(`/server/api/recordCard`);
 }
-export async function rizhi(params) {
-  return request(`/server/api/recordrizhi`);
-}
 export async function queryList2(params) {
   return request(`/server/api/recordCardto`);
+}
+
+//查看银行卡列表（user）
+export async function userqueryList(params) {
+  return request(`/server/api/recordCard2?${stringify(params)}`);
+}
+export async function userqueryList2(params) {
+  return request(`/server/api/recordCardto2?${stringify(params)}`);
+}
+
+export async function queryAdvancedProfile(id) {
+  return request(`/server/api/advanced?id=${id}`);
+}
+
+export async function rizhi(params) {
+  return request(`/server/api/recordrizhi?${stringify(params)}`);
+}
+export async function rizhi2() {
+  return request(`/server/api/recordrizhi2`);
+}
+export async function checkrizhi(params) {
+  return request(`/server/api/checkrizhi?${stringify(params)}`);
+}
+export async function check(params) {
+  return request(`/server/api/check?${stringify(params)}`);
 }
 export async function removeList(params) {
   const { count = 5, ...restParams } = params;
@@ -257,17 +321,16 @@ export async function updateList(params) {
   });
 }
 
-
 export async function AccountLogin(params) {
-  const uID = getUserID()
   return request(`/server/api/login`, {
     method: 'POST',
     body: {
-      ...params,uID,
-      method: 'post',
+      ...params,
+     method: 'post',
     },
   });
 }
+
 
 export async function Register() {
   return request('/server/api/register', {
@@ -280,4 +343,45 @@ export async function queryNotices(params = {}) {
 
 export async function getFakeCaptcha(mobile) {
   return request(`/api/captcha?mobile=${mobile}`);
+}
+
+// 修改个人资料(user)
+export async function updategerenxinxi(params) {
+  return request(`/server/api/updategerenxinxi`, {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'post',
+    },
+  });
+}
+// 修改个人资料(admin)
+export async function updategerenxinxi2(params) {
+  return request(`/server/api/updategerenxinxi2`, {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'post',
+    },
+  });
+}
+// 修改密码(user)
+export async function updatepassword(params) {
+  return request(`/server/api/updatepassword`, {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'post',
+    },
+  });
+}
+// 修改密码(admin)
+export async function updatepassword2(params) {
+  return request(`/server/api/updatepassword2`, {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'post',
+    },
+  });
 }

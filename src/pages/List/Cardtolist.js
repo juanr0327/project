@@ -6,6 +6,7 @@ import Ellipsis from '@/components/Ellipsis';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import { avatarsMap } from '../../models/list';
 import styles from './CardList.less';
+import { getUserTel } from "@/utils/authority";
 
 @connect(({ list, loading }) => ({
   list,
@@ -14,11 +15,11 @@ import styles from './CardList.less';
 class CardtoList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
+    const tel = getUserTel()
+    const payload = {tel}
     dispatch({
-      type: 'list/fetch2',
-      payload: {
-        count: 8,
-      },
+      type: 'list/userfetch2',
+      payload
     });
   }
 
@@ -87,7 +88,7 @@ class CardtoList extends PureComponent {
               ) : (
                 <List.Item>
                   <Button type="dashed" className={styles.newButton}>
-                    <Icon type="plus" /> 新建产品
+                    <Icon type="plus" /> 新建
                   </Button>
                 </List.Item>
               )

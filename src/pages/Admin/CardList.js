@@ -101,26 +101,38 @@ const CreateForm = Form.create()(props => {
     </Modal>
   );
 });
-
-
-const CreateForm3 = Form.create()(props => {
-  const { modalVisible3, form, handledelete, handleModalVisible3, cardId} = props;
-  const okHandle = () => {
-    form.validateFields((err) => {
-      if (err) return;
-      form.resetFields();
-      handledelete(cardId);
-    });
-  };
+const CreateForm2 = Form.create()(props => {
+  const { modalVisible2, handleModalVisible2, activeCardId,activename,activemoney,activetel} = props;
+ // console.log(cardId)
   return (
     <Modal
       destroyOnClose
-      title="删除"
-      visible={modalVisible3}
-      onOk={okHandle}
-      onCancel={() => handleModalVisible3()}
+      title="详情"
+      visible={modalVisible2}
+      onOk={() => handleModalVisible2()}
+      onCancel={() => handleModalVisible2()}
     >
-      <div>卡号：{cardId}</div>
+      <div>卡号：{activeCardId}</div>
+      <div>持卡人：{activename}</div>
+      <div>余额：{activemoney}</div>
+      <div>持卡人电话：{activetel}</div>               
+    </Modal>
+  );
+});
+
+
+const CreateForm3 = Form.create()(props => {
+  const { modalVisible3, handledelete, handleModalVisible3, activeCardId} = props;
+  return (
+    <Modal
+      destroyOnClose
+      // title="删除"
+      visible={modalVisible3}
+      onOk={() => handledelete(activeCardId)}
+      onCancel={() => handleModalVisible3()}
+      title={activeCardId}
+    >
+      <div>卡号：{activeCardId}</div>
       <div>你确定删除该银行卡吗？</div>
                                   
     </Modal>
@@ -158,17 +170,19 @@ class CardList extends PureComponent {
     dispatch({
       type: 'list/deletefetch',
       payload: {
-       
+       cardId
       },
     });
 
-    message.success('添加成功');
-    this.handleModalVisible2();
+    message.success('删除成功');
+    this.handleModalVisible3();
+
+    setTimeout(() => {
+      location.reload()
+    }, 1000);    
   };
 
-  state = { modalVisible: false, modalVisible3: false, }
-  
- 
+  state = { modalVisible: false,  modalVisible2: false,modalVisible3: false, activeCardId: '',activename:'',activetel:'',activemoney:'' }
 
   componentDidMount() {
     const { dispatch } = this.props;
@@ -187,12 +201,21 @@ class CardList extends PureComponent {
     });
   };
 
+  handleModalVisible2 = (flag, cardId,money,name,tel) => {
+    this.setState({
+      modalVisible2: !!flag,
+      activeCardId: cardId,
+      activemoney: money,
+      activename:name,
+      activetel:tel,
 
+    });
+  };
 
-  handleModalVisible3 = flag => {
-    
+  handleModalVisible3 = (flag, cardId) => {
     this.setState({
       modalVisible3: !!flag,
+      activeCardId: cardId
     });
   };
 
@@ -203,7 +226,7 @@ class CardList extends PureComponent {
      
     } = this.props;
    
-    const {  modalVisible,modalVisible3 } = this.state;
+    const {  modalVisible,modalVisible2,modalVisible3, activeCardId,activemoney,activename,activetel } = this.state;
     const content = (
       <div className={styles.pageHeaderContent}>
         <p>
@@ -225,7 +248,10 @@ class CardList extends PureComponent {
         </div>
       </div>
     );
-
+    const paginationProps = {
+      pageSize: 6,
+      total: list.length,
+    };
     const extraContent = (
       <div className={styles.extraImg}>
         <img
@@ -238,10 +264,13 @@ class CardList extends PureComponent {
       handleAdd: this.handleAdd,
       handleModalVisible: this.handleModalVisible,
     };
-   
+    const parentMethods2 = {
+      
+      handleModalVisible2: this.handleModalVisible2,
+    };
     const parentMethods3 = {
       
-      handledelate: this.handledelete,
+      handledelete: this.handledelete,
       handleModalVisible3: this.handleModalVisible3,
     };
     return (
@@ -250,6 +279,7 @@ class CardList extends PureComponent {
           <List
             rowKey="id"
             loading={loading}
+            pagination={paginationProps}
             grid={{ gutter: 24, lg: 3, md: 2, sm: 1, xs: 1 }}
             dataSource={['', ...list]}
             renderItem={item =>
@@ -275,18 +305,18 @@ class CardList extends PureComponent {
                     >
                       <Icon type="update" /> 管理
                     </Button>
-                   
-                    <Button type="danger" className={styles.newButton2} onClick={() => this.handleModalVisible3(true)}>
+                    <Button type="primary" className={styles.newButton2} onClick={() => this.handleModalVisible2(true, item.card_id,item.money,item.name,item.tel)}>
+                      <Icon type="detail" /> 详情
+                    </Button>
+                    <Button type="danger" className={styles.newButton2} onClick={() => this.handleModalVisible3(true, item.card_id)}>
                       <Icon type="delete" /> 删除
                     </Button>
-                    <CreateForm3 {...parentMethods3} modalVisible3={modalVisible3} cardId={item.card_id} />
                   </Card>
                 </List.Item>
               ) : (
                 <List.Item>
-                 
                   <Button type="dashed" className={styles.newButton} onClick={() => this.handleModalVisible(true)}>
-                    <Icon type="plus" /> 新建产品
+                    <Icon type="plus" /> 新建
                   </Button>
                   <CreateForm {...parentMethods} modalVisible={modalVisible} />
                 </List.Item>
@@ -294,6 +324,8 @@ class CardList extends PureComponent {
             }
           />
         </div>
+        <CreateForm2 {...parentMethods2} modalVisible2={modalVisible2} activeCardId={activeCardId} activemoney={activemoney} activename={activename} activetel={activetel} />
+        <CreateForm3 {...parentMethods3} modalVisible3={modalVisible3} activeCardId={activeCardId} />
       </PageHeaderWrapper>
     );
   }

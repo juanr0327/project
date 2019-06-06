@@ -4,23 +4,30 @@ import { AccountLogin, getFakeCaptcha } from '@/services/api';
 import { setAuthority } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
 import { reloadAuthorized } from '@/utils/Authorized';
+import { isArray } from 'util';
 
 export default {
   namespace: 'login',
 
   state: {
     status: undefined,
+    //authority:undefined,
+    //tel:undefined,
+   
   },
 
   effects: {
     *login({ payload }, { call, put }) {
       const response = yield call(AccountLogin, payload);
+      const loginSuccess = isArray(response)
+     
+      const resp = { status: loginSuccess ? 'ok' : 'error', response: loginSuccess ? response[0] : null, type: 'account', currentAuthority: loginSuccess ? response[0].authority : "guest",  }
       yield put({
         type: 'changeLoginStatus',
-        payload: response,
+        payload: resp
       });
       // Login successfully
-      if (response.status === 'ok') {
+      if (loginSuccess) {
         reloadAuthorized();
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
@@ -37,7 +44,8 @@ export default {
             return;
           }
         }
-        yield put(routerRedux.replace(redirect || '/'));
+
+        yield put(routerRedux.replace(redirect || '/'));        
       }
     },
 
@@ -51,6 +59,9 @@ export default {
         payload: {
           status: false,
           currentAuthority: 'guest',
+          response: {
+            tel: ''
+          }
         },
       });
       reloadAuthorized();
@@ -67,11 +78,15 @@ export default {
 
   reducers: {
     changeLoginStatus(state, { payload }) {
-      setAuthority(payload.currentAuthority);
+      const { response, status, type } = payload
+      const { currentAuthority } = payload
+      const { tel } = response
+      setAuthority(currentAuthority, tel);
       return {
         ...state,
-        status: payload.status,
-        type: payload.type,
+        status,
+        type,
+        user: response
       };
     },
   },

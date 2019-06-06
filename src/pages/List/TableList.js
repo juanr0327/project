@@ -20,13 +20,14 @@ import {
   message,
   Steps,
   Radio,
-  Progress,
+  Progress, Divider,
 } from 'antd';
 import StandardTable from '@/components/StandardTable';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-
+import Link from 'umi/link';
 import styles from './TableList.less';
 import { bankMap, statusMap } from './models/record';
+import { getUserTel } from "@/utils/authority";
 
 const FormItem = Form.Item;
 const { Step } = Steps;
@@ -59,7 +60,7 @@ const CreateForm = Form.create()(props => {
     >
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="描述">
         {form.getFieldDecorator('desc', {
-          rules: [{ required: true, message: '请输入至少五个字符的规则描述！', min: 5 }],
+          rules: [{ required: true, message: '请输入描述！' }],
         })(<Input placeholder="请输入" />)}
       </FormItem>
     </Modal>
@@ -69,8 +70,8 @@ const CreateForm = Form.create()(props => {
 @Form.create()
 class UpdateForm extends PureComponent {
   static defaultProps = {
-    handleUpdate: () => {},
-    handleUpdateModalVisible: () => {},
+    handleUpdate: () => { },
+    handleUpdateModalVisible: () => { },
     values: {},
   };
 
@@ -110,7 +111,7 @@ class UpdateForm extends PureComponent {
           formVals,
         },
         () => {
-          if (currentStep < 2) {
+          if (currentStep < 1) {
             this.forward();
           } else {
             handleUpdate(formVals);
@@ -162,22 +163,7 @@ class UpdateForm extends PureComponent {
         </FormItem>,
       ];
     }
-    if (currentStep === 2) {
-      return [
-        <FormItem key="od_time" {...this.formLayout} label="开始时间">
-          {form.getFieldDecorator('od_time', {
-            rules: [{ required: true, message: '请选择开始时间！' }],
-          })(
-            <DatePicker
-              style={{ width: '100%' }}
-              showTime
-              format="YYYY-MM-DD HH:mm:ss"
-              placeholder="选择开始时间"
-            />
-          )}
-        </FormItem>,
-      ];
-    }
+  
 
     return [
       <FormItem key="od_time" {...this.formLayout} label="任务时间">
@@ -187,11 +173,11 @@ class UpdateForm extends PureComponent {
         {bankMap[values.bankout]}
       </FormItem>,
       <FormItem key="accountout" {...this.formLayout} label="转出账户">
-        {values.accountOut}
+        {values.accountout}
       </FormItem>,
       <FormItem key="desc" {...this.formLayout} label="描述">
         {form.getFieldDecorator('desc', {
-          rules: [{ required: true, message: '请输入至少五个字符的规则描述！', min: 5 }],
+          rules: [{ message: '请输入至少五个字符的规则描述！'}],
           initialValue: formVals.desc,
         })(<TextArea rows={4} placeholder="请输入至少五个字符" />)}
       </FormItem>,
@@ -200,20 +186,8 @@ class UpdateForm extends PureComponent {
 
   renderFooter = currentStep => {
     const { handleUpdateModalVisible, values } = this.props;
+
     if (currentStep === 1) {
-      return [
-        <Button key="back" style={{ float: 'left' }} onClick={this.backward}>
-          上一步
-        </Button>,
-        <Button key="cancel" onClick={() => handleUpdateModalVisible(false, values)}>
-          取消
-        </Button>,
-        <Button key="forward" type="primary" onClick={() => this.handleNext(currentStep)}>
-          下一步
-        </Button>,
-      ];
-    }
-    if (currentStep === 2) {
       return [
         <Button key="back" style={{ float: 'left' }} onClick={this.backward}>
           上一步
@@ -254,7 +228,6 @@ class UpdateForm extends PureComponent {
         <Steps style={{ marginBottom: 28 }} size="small" current={currentStep}>
           <Step title="基本信息" />
           <Step title="配置" />
-          <Step title="设定任务开始时间" />
         </Steps>
         {this.renderContent(currentStep, formVals)}
       </Modal>
@@ -280,6 +253,7 @@ class TableList extends PureComponent {
 
   // 还需要修改这里，dataIndex和你后端接口的字段名一致
   columns = [
+  
     {
       title: '转入账户',
       dataIndex: 'accountto',
@@ -303,10 +277,8 @@ class TableList extends PureComponent {
     {
       title: '金额',
       dataIndex: 'od_money',
-      sorter: true,
+      sorter: (a, b) => parseInt(a.od_money, 10) - parseInt(b.od_money, 10),
       render: val => `¥ ${val}`.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-      // mark to display a total number
-      needTotal: true,
     },
     {
       title: '转账进度',
@@ -317,7 +289,7 @@ class TableList extends PureComponent {
     {
       title: '时间',
       dataIndex: 'od_time',
-      sorter: true,
+      sorter: (a, b) => moment(a.od_time).valueOf() - moment(b.od_time).valueOf(),
       render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
     },
     {
@@ -327,19 +299,44 @@ class TableList extends PureComponent {
     },
     {
       title: '操作',
-      render: (text, record) => (
-        <Fragment>
-          <a onClick={() => this.handleUpdateModalVisible(true, record)}>配置/ </a>
-          <a href='http://localhost:8000/profile/basic'> 详情</a>
-        </Fragment> //**********页面跳转 */
-      ),
+      render: (text, record) => {
+        const id = record.idorder
+        const routeState1 = {
+          pathname: "/profile/basic",
+          state: {
+            idorder: id
+          }
+        }
+        const disable = record.od_state === 'notstart' || record.od_state === 'ongoing'
+        return (
+          <Fragment>
+            {
+              disable ? (
+                <React.Fragment>
+                  <a onClick={() => this.handleUpdateModalVisible(true, record)}>配置/ </a>
+                  <span>暂无操作</span>
+                </React.Fragment>
+              ) : (
+                  <React.Fragment>
+                    <a onClick={() => this.handleUpdateModalVisible(true, record)}>配置</a>
+                    <Divider type='vertical' />
+                    <Link to={routeState1}>基本详情</Link>
+                  </React.Fragment>
+                )
+            }
+          </Fragment > //**********页面跳转 */
+        )
+      },
     },
   ];
 
   componentDidMount() {
     const { dispatch } = this.props;
+    const tel = getUserTel()
+    const payload = { tel }
     dispatch({
       type: 'record/fetchRecordHistory', // 对应models/record.js下的 namespace + effects函数
+      payload
     });
   }
 
@@ -359,13 +356,16 @@ class TableList extends PureComponent {
       ...formValues,
       ...filters,
     };
+
     if (sorter.field) {
-      params.sorter = `${sorter.field}_${sorter.order}`;
+      return
     }
 
+    const tel = getUserTel()
+    const payload = { ...params, tel }
     dispatch({
       type: 'record/fetchRecordHistory',
-      payload: params,
+      payload,
     });
   };
 
@@ -379,9 +379,11 @@ class TableList extends PureComponent {
     this.setState({
       formValues: {},
     });
+    const tel = getUserTel()
+    const payload = { tel }
     dispatch({
       type: 'record/fetchRecordHistory',
-      payload: {},
+      payload,
     });
   };
 
@@ -426,7 +428,7 @@ class TableList extends PureComponent {
     e.preventDefault();
 
     const { dispatch, form } = this.props;
-    
+
     form.validateFields((err, fieldsValue) => {
       if (err) return;
 
@@ -443,10 +445,12 @@ class TableList extends PureComponent {
       values['od_endtime'] = values['od_endtime']
         ? values['od_endtime'].endOf('day').format('YYYY-MM-DD HH:mm:ss')
         : '';
-      console.log('aaaaaaaaaa', values);
+
+      const tel = getUserTel()
+      const payload = { ...values, tel }
       dispatch({
         type: 'record/fetchRecordHistory',
-        payload: values,
+        payload,
       });
     });
   };
@@ -480,7 +484,7 @@ class TableList extends PureComponent {
   handleUpdate = fields => {
     const { dispatch } = this.props;
     const { formValues } = this.state;
-    console.log('bbbbb',fields)
+    console.log('bbbbb', fields)
     dispatch({
       type: 'rule/update',
       payload: {
@@ -501,7 +505,7 @@ class TableList extends PureComponent {
     const {
       form: { getFieldDecorator },
     } = this.props;
-    
+
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
@@ -636,7 +640,7 @@ class TableList extends PureComponent {
 
   render() {
     const {
-      record: { result },
+      record: { list },
       loading,
     } = this.props;
 
@@ -679,7 +683,7 @@ class TableList extends PureComponent {
             <StandardTable
               selectedRows={selectedRows}
               loading={loading}
-              data={result}
+              data={list}
               columns={this.columns}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}

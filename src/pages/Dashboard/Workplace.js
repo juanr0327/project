@@ -5,58 +5,42 @@ import Link from 'umi/link';
 import { Row, Col, Card, List, Avatar } from 'antd';
 import { AsyncLoadBizCharts } from '@/components/Charts/AsyncLoadBizCharts';
 import { Radar } from '@/components/Charts';
-import EditableLinkGroup from '@/components/EditableLinkGroup';
+
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-
+import { avatarsMap } from '../../models/list';
+import { bankMap, statusMap } from '../../models/project';
 import styles from './Workplace.less';
-
-const links = [
-  {
-    title: '操作一',
-    href: '',
-  },
-  {
-    title: '操作二',
-    href: '',
-  },
-  {
-    title: '操作三',
-    href: '',
-  },
-  {
-    title: '操作四',
-    href: '',
-  },
-  {
-    title: '操作五',
-    href: '',
-  },
-  {
-    title: '操作六',
-    href: '',
-  },
-];
+import { getUserTel } from "@/utils/authority";
 
 @connect(({ user, project, activities, chart, loading }) => ({
-  currentUser: user.currentUser,
+  loading: loading.models.user,
+  user,
   project,
   activities,
   chart,
-  currentUserLoading: loading.effects['user/fetchCurrent'],
-  projectLoading: loading.effects['project/fetchNotice'],
-  activitiesLoading: loading.effects['activities/fetchList'],
+  currentUser: loading.effects['user/fetchuser2'],
+  projectLoading: loading.models.project,
+  activitiesLoading: loading.models.activities,
 }))
+
+
 class Workplace extends PureComponent {
+ 
   componentDidMount() {
+    const tel = getUserTel()
+    const payload = { tel }
     const { dispatch } = this.props;
     dispatch({
-      type: 'user/fetchCurrent',
+      type: 'user/fetchuser',
+      payload
     });
     dispatch({
       type: 'project/fetchNotice',
+      payload
     });
     dispatch({
-      type: 'activities/fetchList',
+      type: 'activities/fetchrizhi',
+      payload
     });
     dispatch({
       type: 'chart/fetch',
@@ -75,30 +59,24 @@ class Workplace extends PureComponent {
       activities: { list },
     } = this.props;
     return list.map(item => {
-      const events = item.template.split(/@\{([^{}]*)\}/gi).map(key => {
-        if (item[key]) {
-          return (
-            <a href={item[key].link} key={item[key].name}>
-              {item[key].name}
-            </a>
-          );
-        }
-        return key;
-      });
+      const events = (
+        <div>
+          {item.op_name} 新建了
+          <a href="/account/center2/articles">
+            转账日志
+          </a>
+        </div>
+      )
       return (
-        <List.Item key={item.id}>
+        <List.Item key={item.idworklog}>
           <List.Item.Meta
-            avatar={<Avatar src={item.user.avatar} />}
+            avatar={<Avatar src={item.photos} />}
             title={
-              <span>
-                <a className={styles.username}>{item.user.name}</a>
-                &nbsp;
-                <span className={styles.event}>{events}</span>
-              </span>
+              <span className={styles.event}>{events}</span>
             }
             description={
-              <span className={styles.datetime} title={item.updatedAt}>
-                {moment(item.updatedAt).fromNow()}
+              <span className={styles.datetime} title={item.wk_time}>
+                {moment(item.wk_time).fromNow()}
               </span>
             }
           />
@@ -109,55 +87,65 @@ class Workplace extends PureComponent {
 
   render() {
     const {
-      currentUser,
-      currentUserLoading,
+      user,
+      loading,
       project: { notice },
       projectLoading,
       activitiesLoading,
       chart: { radarData },
     } = this.props;
+    const currentUser = user.list[0];
 
     const pageHeaderContent =
       currentUser && Object.keys(currentUser).length ? (
         <div className={styles.pageHeaderContent}>
           <div className={styles.avatar}>
-            <Avatar size="large" src={currentUser.avatar} />
+            <Avatar size="large" src={currentUser.photos} />
           </div>
           <div className={styles.content}>
             <div className={styles.contentTitle}>
               早安，
-              {currentUser.name}
+            {currentUser.op_name}
               ，祝你开心每一天！
-            </div>
+      </div>
             <div>
-              {currentUser.title} |{currentUser.group}
-            </div>
+              {currentUser.idoperator} 号操作员
+      </div>
           </div>
         </div>
       ) : null;
 
-    const extraContent = (
-      <div className={styles.extraContent}>
-        <div className={styles.statItem}>
-          <p>项目数</p>
-          <p>56</p>
+    const extraContent =
+      currentUser && Object.keys(currentUser).length ? (
+        <div className={styles.extraContent}>
+          <div className={styles.statItem}>
+            <p>任务数</p>
+            <p>{currentUser.ordernum}</p>
+          </div>
+          <div className={styles.statItem}>
+            <p>完成率</p>
+            <p>{currentUser.percent}%</p>
+          </div>
+          <div className={styles.statItem}>
+            <p>转账额</p>
+            <p>{currentUser.money}</p>
+          </div>
         </div>
-        <div className={styles.statItem}>
-          <p>团队内排名</p>
-          <p>
-            8<span> / 24</span>
-          </p>
-        </div>
-        <div className={styles.statItem}>
-          <p>项目访问</p>
-          <p>2,223</p>
-        </div>
-      </div>
-    );
+      ) : null;
+
+
+    // const id = item.description;
+    // const routeState1 = {
+    //   pathname: "/profile/basic",
+    //   state: {
+    //     idorder: id
+    //   }
+    // };
 
     return (
+
       <PageHeaderWrapper
-        loading={currentUserLoading}
+        loading={loading}
         content={pageHeaderContent}
         extraContent={extraContent}
       >
@@ -166,35 +154,40 @@ class Workplace extends PureComponent {
             <Card
               className={styles.projectList}
               style={{ marginBottom: 24 }}
-              title="进行中的项目"
+              title="已完成的项目"
               bordered={false}
-              extra={<Link to="/">全部项目</Link>}
+              extra={<Link to="/list/table-list">全部项目</Link>}
               loading={projectLoading}
               bodyStyle={{ padding: 0 }}
             >
-              {notice.map(item => (
-                <Card.Grid className={styles.projectGrid} key={item.id}>
-                  <Card bodyStyle={{ padding: 0 }} bordered={false}>
-                    <Card.Meta
-                      title={
-                        <div className={styles.cardTitle}>
-                          <Avatar size="small" src={item.logo} />
-                          <Link to={item.href}>{item.title}</Link>
-                        </div>
-                      }
-                      description={item.description}
-                    />
-                    <div className={styles.projectItemContent}>
-                      <Link to={item.memberLink}>{item.member || ''}</Link>
-                      {item.updatedAt && (
-                        <span className={styles.datetime} title={item.updatedAt}>
-                          {moment(item.updatedAt).fromNow()}
-                        </span>
-                      )}
-                    </div>
-                  </Card>
-                </Card.Grid>
-              ))}
+              <List
+                rowKey="id"
+                dataSource={notice}
+                renderItem={item => (
+                  <Card.Grid className={styles.projectGrid} key={item.idorder}>
+                    <Card bodyStyle={{ padding: 0 }} bordered={false}>
+                      <Card.Meta
+                        title={
+                          <div className={styles.cardTitle}>
+                            <Avatar size="small" src={avatarsMap[item.bankout]} />
+                            <Link to="/list/table-list"> {bankMap[item.bankout]}</Link>
+                          </div>
+                        }
+                        description={item.accountto}
+                      />
+                      <div className={styles.projectItemContent}>
+
+                        <Link to="/list/table-list">{item.accountout || ''}</Link>
+                        {item.od_time && (
+                          <span className={styles.datetime} title={item.od_time}>
+                            {moment(item.od_time).fromNow()}
+                          </span>
+                        )}
+                      </div>
+                    </Card>
+                  </Card.Grid>
+                )}
+              />
             </Card>
             <Card
               bodyStyle={{ padding: 0 }}
@@ -209,43 +202,18 @@ class Workplace extends PureComponent {
             </Card>
           </Col>
           <Col xl={8} lg={24} md={24} sm={24} xs={24}>
-            <Card
-              style={{ marginBottom: 24 }}
-              title="快速开始 / 便捷导航"
-              bordered={false}
-              bodyStyle={{ padding: 0 }}
-            >
-              <EditableLinkGroup onAdd={() => {}} links={links} linkElement={Link} />
-            </Card>
+
             <Card
               style={{ marginBottom: 24 }}
               bordered={false}
-              title="XX 指数"
+              title="指数"
               loading={radarData.length === 0}
             >
               <div className={styles.chart}>
                 <Radar hasLegend height={343} data={radarData} />
               </div>
             </Card>
-            <Card
-              bodyStyle={{ paddingTop: 12, paddingBottom: 12 }}
-              bordered={false}
-              title="团队"
-              loading={projectLoading}
-            >
-              <div className={styles.members}>
-                <Row gutter={48}>
-                  {notice.map(item => (
-                    <Col span={12} key={`members-item-${item.id}`}>
-                      <Link to={item.href}>
-                        <Avatar src={item.logo} size="small" />
-                        <span className={styles.member}>{item.member}</span>
-                      </Link>
-                    </Col>
-                  ))}
-                </Row>
-              </div>
-            </Card>
+
           </Col>
         </Row>
       </PageHeaderWrapper>

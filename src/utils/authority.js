@@ -16,11 +16,23 @@ export function getAuthority(str) {
   return authority || ['admin'];
 }
 
-export function getUserID() {
-  return localStorage.getItem('userID')
+export function getUserTel() {
+  return localStorage.getItem('tel')
 }
 
-export function setAuthority(authority) {
-  const proAuthority = typeof authority === 'string' ? [authority] : authority;
+export function setAuthority(authority, tel) {
+  console.log(authority)
+  let proAuthority = typeof authority === 'string' ? [authority] : authority;
+
+  if (authority === 1) {
+    proAuthority = ['user']
+  } else if (authority === 2) {
+    proAuthority = ['admin']
+  } else {
+    proAuthority = ['guest']
+  }
+
+  localStorage.setItem("tel", tel)
+
   return localStorage.setItem('antd-pro-authority', JSON.stringify(proAuthority));
 }

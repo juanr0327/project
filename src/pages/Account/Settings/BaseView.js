@@ -5,6 +5,7 @@ import { connect } from 'dva';
 import styles from './BaseView.less';
 import GeographicView from './GeographicView';
 import PhoneView from './PhoneView';
+import { getUserTel } from "@/utils/authority";
 // import { getTimeDistance } from '@/utils/utils';
 
 const FormItem = Form.Item;
@@ -29,35 +30,39 @@ const AvatarView = ({ avatar }) => (
   </Fragment>
 );
 
-const validatorGeographic = (rule, value, callback) => {
-  const { province, city } = value;
-  if (!province.key) {
-    callback('Please input your province!');
-  }
-  if (!city.key) {
-    callback('Please input your city!');
-  }
-  callback();
-};
 
-const validatorPhone = (rule, value, callback) => {
-  const values = value.split('-');
-  if (!values[0]) {
-    callback('Please input your area code!');
-  }
-  if (!values[1]) {
-    callback('Please input your phone number!');
-  }
-  callback();
-};
+
 
 @connect(({ user }) => ({
   currentUser: user.currentUser,
 }))
+
 @Form.create()
 class BaseView extends Component {
+
+  // eslint-disable-next-line react/sort-comp
+  handleUpdate = fields => {
+    const { dispatch } = this.props;
+    const tel = getUserTel()
+
+    dispatch({
+      type: 'user/updategerenxinxi',
+      payload: {
+        op_address: fields.op_address,
+        signature: fields.signature,
+        op_email: fields.op_email,
+        tel,
+      },
+    });
+
+    // eslint-disable-next-line no-undef
+    message.success('添加成功');
+    this.handleModalVisible();
+  };
+
   componentDidMount() {
     this.setBaseInfo();
+
   }
 
   setBaseInfo = () => {
@@ -82,39 +87,44 @@ class BaseView extends Component {
     this.view = ref;
   };
 
+  handleSubmit = () => {
+    const {
+      form,
+    } = this.props;
+
+    form.validateFields((err, fieldsValue) => {
+      if (err) return;
+      form.resetFields();
+      this.handleUpdate(fieldsValue);
+    });
+  };
+
   render() {
     const {
-      form: { getFieldDecorator },
+      form,
     } = this.props;
+    
+    const { getFieldDecorator } = form
     return (
       <div className={styles.baseView} ref={this.getViewDom}>
         <div className={styles.left}>
           <Form layout="vertical" onSubmit={this.handleSubmit} hideRequiredMark>
             <FormItem label={formatMessage({ id: 'app.settings.basic.email' })}>
-              {getFieldDecorator('email', {
+              {getFieldDecorator('op_email', {
                 rules: [
                   {
-                    required: true,
+                    // required: true,
                     message: formatMessage({ id: 'app.settings.basic.email-message' }, {}),
                   },
                 ],
               })(<Input />)}
             </FormItem>
-            <FormItem label={formatMessage({ id: 'app.settings.basic.nickname' })}>
-              {getFieldDecorator('name', {
-                rules: [
-                  {
-                    required: true,
-                    message: formatMessage({ id: 'app.settings.basic.nickname-message' }, {}),
-                  },
-                ],
-              })(<Input />)}
-            </FormItem>
+
             <FormItem label={formatMessage({ id: 'app.settings.basic.profile' })}>
-              {getFieldDecorator('profile', {
+              {getFieldDecorator('signature', {
                 rules: [
                   {
-                    required: true,
+                    // required: true,
                     message: formatMessage({ id: 'app.settings.basic.profile-message' }, {}),
                   },
                 ],
@@ -125,55 +135,20 @@ class BaseView extends Component {
                 />
               )}
             </FormItem>
-            <FormItem label={formatMessage({ id: 'app.settings.basic.country' })}>
-              {getFieldDecorator('country', {
-                rules: [
-                  {
-                    required: true,
-                    message: formatMessage({ id: 'app.settings.basic.country-message' }, {}),
-                  },
-                ],
-              })(
-                <Select style={{ maxWidth: 220 }}>
-                  <Option value="China">中国</Option>
-                </Select>
-              )}
-            </FormItem>
-            <FormItem label={formatMessage({ id: 'app.settings.basic.geographic' })}>
-              {getFieldDecorator('geographic', {
-                rules: [
-                  {
-                    required: true,
-                    message: formatMessage({ id: 'app.settings.basic.geographic-message' }, {}),
-                  },
-                  {
-                    validator: validatorGeographic,
-                  },
-                ],
-              })(<GeographicView />)}
-            </FormItem>
+          
+            
             <FormItem label={formatMessage({ id: 'app.settings.basic.address' })}>
-              {getFieldDecorator('address', {
+              {getFieldDecorator('op_address', {
                 rules: [
                   {
-                    required: true,
+                    // required: true,
                     message: formatMessage({ id: 'app.settings.basic.address-message' }, {}),
                   },
                 ],
               })(<Input />)}
             </FormItem>
-            <FormItem label={formatMessage({ id: 'app.settings.basic.phone' })}>
-              {getFieldDecorator('phone', {
-                rules: [
-                  {
-                    required: true,
-                    message: formatMessage({ id: 'app.settings.basic.phone-message' }, {}),
-                  },
-                  { validator: validatorPhone },
-                ],
-              })(<PhoneView />)}
-            </FormItem>
-            <Button type="primary">
+
+            <Button type="primary" htmlType='submit'>
               <FormattedMessage
                 id="app.settings.basic.update"
                 defaultMessage="Update Information"
@@ -181,9 +156,7 @@ class BaseView extends Component {
             </Button>
           </Form>
         </div>
-        <div className={styles.right}>
-          <AvatarView avatar={this.getAvatarURL()} />
-        </div>
+     
       </div>
     );
   }
